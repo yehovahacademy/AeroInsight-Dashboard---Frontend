@@ -128,4 +128,204 @@
   border-color: #3D9BF0;
 }
 
+.features-section {
+  background: #ffffff;
+  padding: 80px 48px;
+  font-family: 'Inter', sans-serif;
+}
 
+/* Header */
+.features-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.features-header p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2D7DD2;
+  margin-bottom: 12px;
+}
+
+.features-header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #0A0F1E;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.features-header h1::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: #2D7DD2;
+  border-radius: 2px;
+  margin: 14px auto 0;
+}
+
+/* Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Base card */
+.feature-card {
+  background: #ffffff;
+  border: 1px solid #E8EDF5;
+  border-radius: 16px;
+  padding: 36px 32px;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  cursor: default;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Icon box */
+.card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.feature-card h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0A0F1E;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feature-card p,
+.feature-card span:not(.card-tag) {
+  font-size: 14px;
+  color: #6B7B9A;
+  line-height: 1.7;
+}
+
+/* Pill tag */
+.card-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 16px;
+}
+
+/* Real-Time — full width hero card */
+.card-realtime {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: start;
+  border-color: #DBEAFE;
+}
+
+.card-realtime:hover {
+  box-shadow: 0 12px 40px rgba(45, 125, 210, 0.1);
+  border-color: #93C5FD;
+}
+
+.card-realtime .card-icon {
+  background: #EFF6FF;
+  color: #2D7DD2;
+  width: 64px;
+  height: 64px;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.card-realtime h2 {
+  font-size: 24px;
+}
+
+.card-realtime .card-tag {
+  background: #EFF6FF;
+  color: #1D6DB0;
+}
+
+/* Flight Delays */
+.card-delays {
+  border-color: #FEF3C7;
+}
+
+.card-delays:hover {
+  box-shadow: 0 12px 40px rgba(239, 159, 39, 0.1);
+  border-color: #FCD34D;
+}
+
+.card-delays .card-icon {
+  background: #FFFBEB;
+  color: #D97706;
+}
+
+.card-delays h2 {
+  color: #92400E;
+}
+
+.card-delays .card-tag {
+  background: #FFFBEB;
+  color: #B45309;
+}
+
+/* Weather Forecast */
+.card-weather {
+  border-color: #D1FAE5;
+}
+
+.card-weather:hover {
+  box-shadow: 0 12px 40px rgba(29, 158, 117, 0.1);
+  border-color: #6EE7B7;
+}
+
+.card-weather .card-icon {
+  background: #ECFDF5;
+  color: #059669;
+}
+
+.card-weather h2 {
+  color: #065F46;
+}
+
+.card-weather .card-tag {
+  background: #ECFDF5;
+  color: #047857;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .features-section {
+    padding: 56px 24px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-realtime {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+  }
+}
