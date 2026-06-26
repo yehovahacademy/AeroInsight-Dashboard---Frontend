@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap');
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 11, 23, 0.6) 0%,
+    rgba(6, 11, 23, 0.35) 40%,
+    rgba(6, 11, 23, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Thin glowing line above the heading */
+.heading::before {
+  content: '';
+  width: 48px;
+  height: 2px;
+  background: #2D7DD2;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.heading h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: #F0F4FF;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.heading h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #8A9BC0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.buttons button {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 12px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Login — ghost */
+.buttons button:first-child {
+  background: rgba(255, 255, 255, 0.06);
+  color: #F0F4FF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.buttons button:first-child:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #2D7DD2;
+  color: #2D7DD2;
+}
+
+/* SignUp — filled */
+.buttons button:last-child {
+  background: #2D7DD2;
+  color: #F0F4FF;
+  border: 1px solid #2D7DD2;
+}
+
+.buttons button:last-child:hover {
+  background: #3D9BF0;
+  border-color: #3D9BF0;
+}
+
+
