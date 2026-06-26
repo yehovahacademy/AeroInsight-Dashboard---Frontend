@@ -1,13 +1,17 @@
 import "../styles/Dashboard.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faCloud } from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
 import {faPlane} from "@fortawesome/free-solid-svg-icons";
 import airportvideo from "../assets/airportvideo.mp4";
+import {useEffect} from "react";
 
 function Dashboard() {
+    useEffect(() => {
+    document.title = "Dashboard Page";
+  }, []);
+
   return (
     <>
-    <title>Dashboard Page</title>
     <div className="hero">
   <video
     className="background-video"
@@ -70,6 +74,52 @@ function Dashboard() {
       <h2>Weather Forecast</h2>
       <p>For a safe and peaceful journey.</p>
       <span className="card-tag">Safety First</span>
+    </div>
+
+  </div>
+</div>
+
+<br></br><br></br>
+<div className="title">
+  <h1>Accurate Statistics</h1>
+</div>
+<div className="stats-bar">
+  <div className="stats-inner">
+
+    <div className="stat-item">
+      <FontAwesomeIcon icon={faPlane} className="stat-icon" />
+      <div className="stat-number"><span id="s1">0</span>+</div>
+      <div className="stat-label">Flights Tracked</div>
+      <div className="stat-delta">
+        <FontAwesomeIcon icon={faArrowTrendUp} /> Live updates
+      </div>
+    </div>
+
+    <div className="stat-item">
+      <FontAwesomeIcon icon={faChartBar} className="stat-icon" />
+      <div className="stat-number"><span id="s2">0</span><span>%</span></div>
+      <div className="stat-label">Prediction Accuracy</div>
+      <div className="stat-delta">
+        <FontAwesomeIcon icon={faArrowTrendUp} /> This month
+      </div>
+    </div>
+
+    <div className="stat-item">
+      <FontAwesomeIcon icon={faBuilding} className="stat-icon" />
+      <div className="stat-number"><span id="s3">0</span><span>+</span></div>
+      <div className="stat-label">Airports Monitored</div>
+      <div className="stat-delta">
+        <FontAwesomeIcon icon={faArrowTrendUp} /> Worldwide
+      </div>
+    </div>
+
+    <div className="stat-item">
+      <FontAwesomeIcon icon={faClock} className="stat-icon" />
+      <div className="stat-number"><span id="s4">0</span><span>ms</span></div>
+      <div className="stat-label">Avg. Data Latency</div>
+      <div className="stat-delta">
+        <FontAwesomeIcon icon={faArrowTrendDown} /> Near real-time
+      </div>
     </div>
 
   </div>
