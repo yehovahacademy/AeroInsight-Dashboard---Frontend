@@ -1,5 +1,6 @@
 import "../styles/Navbar.css";
 import logo from "../assets/logo.png";
+import {Link} from "react-router-dom";
 
 
 function Navbar() {
@@ -13,11 +14,11 @@ function Navbar() {
 
       <div className="Navbar-divider" />
 
-      <a href="/Dashboard">Dashboard</a>
-      <a href="/Flights">Flights</a>
-      <a href="/Analytics">Analytics</a>
-      <a href="/Predictions">Predictions</a>
-      <a href="/Reports">Reports</a>
+      <Link to="/Dashboard">Dashboard</Link>
+      <Link to="/Flights">Flights</Link>
+      <Link to="/Analytics">Analytics</Link>
+      <Link to="/Predictions">Predictions</Link>
+      <Link to="/Reports">Reports</Link>
     </div>
     <br></br>
     </>

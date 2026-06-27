@@ -1,7 +1,9 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Dashboard from "./Pages/Dashboard";
-import "./styles/Dashboard.css";
+import { Route,Routes } from "react-router-dom";
+import Flights from "./Pages/Flights";
+
 
 
 
@@ -11,7 +13,15 @@ function App() {
   return (
     <>
 <Navbar />
-<Dashboard />
+
+
+
+<Routes>
+  <Route path="/Dashboard" element={<Dashboard />} />
+  <Route path="/Flights" element={<Flights/>}/>
+</Routes>
+
+
 <Footer />
 
     </>
