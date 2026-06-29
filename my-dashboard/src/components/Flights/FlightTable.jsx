@@ -1,4 +1,4 @@
-import FlightRow from "./FlightRow";
+import Home from "./Home";
 import "../styles/FlightTables.css"
 
 function FlightTable() {
