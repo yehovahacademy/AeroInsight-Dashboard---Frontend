@@ -1,9 +1,12 @@
 import "../../styles/FlightRow.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown, faCreditCard} from "@fortawesome/free-solid-svg-icons";
 import {faPlane} from "@fortawesome/free-solid-svg-icons";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
-
+import { faCcVisa } from "@fortawesome/free-brands-svg-icons";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import {faGem} from "@fortawesome/free-solid-svg-icons";
+import {faBell} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -72,6 +75,53 @@ import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 
     </div>
 
+    <br></br><br></br>
+
+     <div className="heading">
+      <h1>Do more with AeroInsight</h1>
+    </div>
+    <br></br>
+    <div className="hero-2">
+  <div className="flight-Tracker">
+    <FontAwesomeIcon icon={faPlane} />
+    <span>Flight Tracker</span>
+  </div>
+
+  <div className="divider" />
+
+  <div className="Credit-Card">
+    <FontAwesomeIcon icon={faCreditCard} />
+    <span>Credit Card</span>
+  </div>
+
+  <div className="divider" />
+
+  <div className="Book-visa">
+    <FontAwesomeIcon icon={faCcVisa} />
+    <span>Book Visa</span>
+  </div>
+
+  <div className="divider" />
+
+  <div className="group-booking">
+    <FontAwesomeIcon icon={faUsers} />
+    <span>Group Booking</span>
+  </div>
+
+  <div className="divider" />
+
+  <div className="plan">
+    <FontAwesomeIcon icon={faGem} />
+    <span>Plan</span>
+  </div>
+
+  <div className="divider" />
+
+  <div className="fare-alerts">
+    <FontAwesomeIcon icon={faBell} />
+    <span>Fare Alerts</span>
+  </div>
+</div>
 
     <br></br>
 

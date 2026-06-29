@@ -234,3 +234,81 @@
 }
 
 .search-cta:hover { background: #2570C0; }
+
+
+.heading {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+
+}
+
+.heading h1{
+  color: black;
+}
+
+.hero-2 {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e8e8e8;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.flight-Tracker,
+.Credit-Card,
+.Book-visa,
+.group-booking,
+.plan,
+.fare-alerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+
+.flight-Tracker svg,
+.Credit-Card svg,
+.Book-visa svg,
+.group-booking svg,
+.plan svg,
+.fare-alerts svg {
+  font-size: 28px;
+  color: #1a6fd4;
+}
+
+.flight-Tracker:hover,
+.Credit-Card:hover,
+.Book-visa:hover,
+.group-booking:hover,
+.plan:hover,
+.fare-alerts:hover {
+  color: #1a6fd4;
+}
+
+.flight-Tracker:hover svg,
+.Credit-Card:hover svg,
+.Book-visa:hover svg,
+.group-booking:hover svg,
+.plan:hover svg,
+.fare-alerts:hover svg {
+  color: #f97316;
+}
+
+.divider {
+  width: 1px;
+  height: 60px;
+  background-color: #e8e8e8;
+  flex-shrink: 0;
+}
