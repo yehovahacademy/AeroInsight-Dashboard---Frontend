@@ -374,3 +374,31 @@
   opacity: 1;
   transform: scale(1.05);
 }
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ff6b00;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0 36px;
+  height: 56px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s, transform 0.1s;
+  min-width: 140px;
+}
+
+.search-btn:hover {
+  background-color: #e55f00;
+}
+
+.search-btn:active {
+  transform: scale(0.97);
+  background-color: #cc5500;
+}

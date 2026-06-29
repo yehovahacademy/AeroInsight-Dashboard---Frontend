@@ -1,12 +1,13 @@
 import "../../styles/FlightRow.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown, faCreditCard} from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown, faCreditCard, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {faPlane} from "@fortawesome/free-solid-svg-icons";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { faCcVisa } from "@fortawesome/free-brands-svg-icons";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import {faGem} from "@fortawesome/free-solid-svg-icons";
 import {faBell} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 
 import indigo from "../../assets/indigo.png";
@@ -22,6 +23,7 @@ import express from "../../assets/express.png";
 
 
 
+
   function FlightRow() {
 
    const handleSwap = () => {
@@ -29,6 +31,12 @@ import express from "../../assets/express.png";
     const to = document.querySelector(".search-2 input");
     [from.value, to.value] = [to.value, from.value];
   };
+
+  const navigate = useNavigate();
+
+const handleSearch = () => {
+  navigate(`/flights?origin=${from}&destination=${to}&date=${date}&class=${cabinClass}`);
+};
 
   return (
     <>
@@ -81,7 +89,11 @@ import express from "../../assets/express.png";
           <label>Class</label>
           <input type="text" placeholder="Class"/>
         </div>
+        <button className="search-btn" onClick={handleSearch}>
+  Search <FontAwesomeIcon icon={faArrowRight} />
+</button>
       </div>
+     
 
     </div>
 
