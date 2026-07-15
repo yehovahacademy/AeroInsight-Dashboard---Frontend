@@ -1,4 +1,5 @@
 import AirLineCards from "../components/Flights/AirLineCards";
+import FlightDetails from "../components/Flights/FlightDetails";
 
 
 function Analytics() {
@@ -6,6 +7,7 @@ function Analytics() {
    <>
    
    <AirLineCards />
+   <FlightDetails />
    
    </>
   );
