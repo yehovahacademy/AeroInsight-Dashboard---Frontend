@@ -6,7 +6,7 @@ function FlightDetail() {
   const[flights, setFlights] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/flights")
+    fetch("https://aeroinsight-dashboard-backend.onrender.com/flights")
       .then((response) => response.json())
       .then((data) => setFlights(data))
       .catch((error) => console.error("Error fetching flights:", error));
