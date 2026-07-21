@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import "../../styles/FlightRow.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown, faCreditCard, faArrowRight} from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +16,9 @@ import AirLineCards from "./AirLineCards";
 
 
   function FlightRow() {
+
+    
+    const [selectedAirline, setSelectedAirline] = useState(null);
 
    const handleSwap = () => {
     const from = document.querySelector(".search-1 input");
@@ -138,7 +143,11 @@ const handleSearch = () => {
 
 <br></br> <br></br>
 
-<AirLineCards />
+<AirLineCards 
+selectedAirline={selectedAirline}
+setSelectedAirline={setSelectedAirline}
+
+/>
     <br></br>
 
 
