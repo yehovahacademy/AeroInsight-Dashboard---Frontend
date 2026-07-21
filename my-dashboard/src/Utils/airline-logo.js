@@ -10,16 +10,16 @@ import qatar from "../assets/qatar.png";
 import express from "../assets/express.png";
 
 const airlineLogos = {
-  "indigo.png": indigo,
-  "akasa.png": akasa,
-  "alaska.png": alaska,
-  "alliance.png": alliance,
-  "canada.png": canada,
-  "delta.png": delta,
-  "lufthansa.png": lufthansa,
-  "nippon.png": nippon,
-  "qatar.png": qatar,
-  "express.png": express,
+  "IndiGo": indigo,
+  "Akasa Air": akasa,
+  "Alaska Airlines": alaska,
+  "Alliance Airlines": alliance,
+  "Air Canada": canada,
+  "Delta Air Lines": delta,
+  "Lufthansa": lufthansa,
+  "All Nippon Airways": nippon,
+  "Qatar Airways": qatar,
+  "Air India Express": express,
 };
 
 export default airlineLogos;
