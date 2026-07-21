@@ -1,0 +1,149 @@
+.analytics-dashboard {
+  padding: 24px;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.dashboard-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin: 0 0 4px;
+}
+
+.dashboard-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #15803d;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.stat-icon--accent  { background: #dbeafe; color: #1d4ed8; }
+.stat-icon--success { background: #dcfce7; color: #15803d; }
+.stat-icon--warning { background: #fef9c3; color: #a16207; }
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1;
+}
+
+.stat-value--success { color: #15803d; }
+.stat-value--warning { color: #a16207; }
+
+.stat-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 6px 0 0;
+}
+
+/* Progress bar card */
+.performance-bar-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.performance-bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.performance-track {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.performance-fill {
+  height: 100%;
+  background: #16a34a;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+.performance-bar-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
