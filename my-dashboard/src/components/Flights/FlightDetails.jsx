@@ -6,17 +6,26 @@ import airlineLogos from "../../Utils/airline-logo";
 function FlightDetail({ selectedAirline }) {
   const[flights, setFlights] = useState([]);
 
-  useEffect(() => {
- const url = selectedAirline
-  ? `https://aeroinsight-dashboard-backend.onrender.com/flights?airline=${encodeURIComponent(selectedAirline)}`
-  : "https://aeroinsight-dashboard-backend.onrender.com/flights";
+ useEffect(() => {
+  const BASE_URL =
+    "https://aeroinsight-dashboard-backend.onrender.com/flights/";
+
+  const url = selectedAirline
+    ? `${BASE_URL}?airline=${encodeURIComponent(selectedAirline)}`
+    : BASE_URL;
+
+  console.log("Fetching:", url);
 
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => setFlights(data))
     .catch((error) => console.error("Error fetching flights:", error));
 }, [selectedAirline]);
-
   return (
     <>
    <div className="flight-detail-container">
