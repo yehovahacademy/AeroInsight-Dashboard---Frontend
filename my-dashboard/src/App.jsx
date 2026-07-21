@@ -4,6 +4,7 @@ import Dashboard from "./Pages/Dashboard";
 import { Route,Routes } from "react-router-dom";
 import Flights from "./Pages/Flights";
 import Analytics from "./Pages/Analytics";
+import Home from "./components/Flights/Home";
 
 
 
