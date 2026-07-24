@@ -15,10 +15,16 @@ function Predictions() {
       .then((data) => setWeather(data))
       .catch((error) => console.error("Error fetching weather data:", error));
   }, []);
-  
+
   return (
+    <>
+    <br></br><br></br>
     
     <WeatherForecastCard weather={weather} />  
+
+    <br></br><br></br>
+
+    </>
     
   );
 }
