@@ -6,10 +6,10 @@
 /* ── Panel ── */
 .wx-panel {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 1.5rem;
+  padding: 1.75rem;
   background: #ffffff;
   border-radius: 16px;
-  border: 1px solid #ebebeb;
+  border: 1px solid #e8e8e8;
   max-width: 760px;
 }
 
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .wx-icon-circle {
@@ -60,26 +60,27 @@
   font-size: 15px;
   font-weight: 600;
   color: #111;
+  letter-spacing: -0.01em;
 }
 
 .wx-sub {
   font-size: 12px;
-  color: #888;
+  color: #999;
   margin-top: 2px;
 }
 
 /* ── Section labels ── */
 .wx-section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #bbb;
+  color: #c0c0c0;
   margin-bottom: 10px;
 }
 
 .wx-section-label--gap {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 /* ── Current conditions block ── */
@@ -103,16 +104,16 @@
 }
 
 .wx-big-temp {
-  font-size: 44px;
-  font-weight: 300;
+  font-size: 46px;
+  font-weight: 200;
   color: #111;
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -2px;
 }
 
 .wx-feels {
   font-size: 12px;
-  color: #999;
+  color: #aaa;
   margin-top: 6px;
   white-space: nowrap;
 }
@@ -130,7 +131,7 @@
 .wx-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px 12px;
+  gap: 16px 12px;
   flex: 1;
   min-width: 0;
 }
@@ -138,26 +139,27 @@
 .wx-metric {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .wx-metric-label {
-  font-size: 11px;
-  color: #aaa;
+  font-size: 10.5px;
+  color: #bbb;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .wx-metric-val {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
-  color: #111;
+  color: #1A6BFF;
   line-height: 1;
 }
 
 .wx-metric-unit {
   font-size: 11px;
   font-weight: 400;
-  color: #999;
+  color: #aaa;
   margin-left: 1px;
 }
 
@@ -185,10 +187,9 @@
 
 .wx-card:hover {
   border-color: #FF6B1A;
-  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.07);
 }
 
-/* Orange top bar on hover */
 .wx-card::before {
   content: "";
   position: absolute;
@@ -206,10 +207,10 @@
 
 /* Date */
 .wx-day {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #aaa;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #bbb;
   text-align: center;
   text-transform: uppercase;
 }
@@ -232,13 +233,13 @@
 
 .wx-temp-sep {
   font-size: 16px;
-  color: #ddd;
+  color: #e0e0e0;
 }
 
 .wx-temp-min {
   font-size: 18px;
   font-weight: 400;
-  color: #aaa;
+  color: #bbb;
   line-height: 1;
 }
 
@@ -249,7 +250,7 @@
   margin: 2px 0;
 }
 
-/* Data rows inside forecast card */
+/* Data rows */
 .wx-card-row {
   display: flex;
   justify-content: space-between;
@@ -259,40 +260,29 @@
 }
 
 .wx-card-label {
-  color: #aaa;
+  color: #bbb;
 }
 
 .wx-card-val {
   font-weight: 500;
-  color: #333;
+  color: #1A6BFF;
 }
 
 /* ── Rain badge ── */
 .wx-badge {
   display: block;
   text-align: center;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   padding: 4px 0;
   border-radius: 6px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   margin: 2px 0;
 }
 
-.wx-badge.ok {
-  background: #edf7ed;
-  color: #1b6b1b;
-}
-
-.wx-badge.warn {
-  background: #fff5e0;
-  color: #a85500;
-}
-
-.wx-badge.risk {
-  background: #fdecea;
-  color: #b71c1c;
-}
+.wx-badge.ok   { background: #edf7ed; color: #1b6b1b; }
+.wx-badge.warn { background: #fff5e0; color: #a85500; }
+.wx-badge.risk { background: #fdecea; color: #b71c1c; }
 
 /* ── Sunrise / Sunset row ── */
 .wx-sun-row {
@@ -312,9 +302,9 @@
 
 .wx-sun-label {
   font-size: 10px;
-  color: #bbb;
+  color: #ccc;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 .wx-sun-val {
@@ -331,19 +321,8 @@
 
 /* ── Responsive ── */
 @media (max-width: 560px) {
-  .wx-current {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
+  .wx-current { flex-direction: column; align-items: flex-start; }
   .wx-divider-v { display: none; }
-
-  .wx-metrics {
-    grid-template-columns: repeat(2, 1fr);
-    width: 100%;
-  }
-
-  .wx-grid {
-    grid-template-columns: 1fr;
-  }
+  .wx-metrics { grid-template-columns: repeat(2, 1fr); width: 100%; }
+  .wx-grid { grid-template-columns: 1fr; }
 }

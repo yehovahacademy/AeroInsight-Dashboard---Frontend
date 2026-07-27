@@ -1,0 +1,99 @@
+/* ── AviationRiskCard ───────────────────────────────────────────────────────
+   Unified with AeroInsight light theme: white bg, #ebebeb borders, orange/blue
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.aviation-risk-card {
+  --card-accent:  #FF6B1A;
+  --card-bg:      #ffffff;
+  --card-border:  #ebebeb;
+  --card-radius:  12px;
+  --text-primary: #111111;
+  --text-muted:   #999999;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--card-accent);
+  border-radius: var(--card-radius);
+  padding: 1.25rem 1.5rem;
+  width: 100%;
+  max-width: 360px;
+  transition: box-shadow 0.15s ease;
+}
+
+.aviation-risk-card:hover {
+  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.07);
+}
+
+/* ── Color variants ── */
+.aviation-risk-card.low    { --card-accent: #16a34a; }
+.aviation-risk-card.medium { --card-accent: #FF6B1A; }
+.aviation-risk-card.high   { --card-accent: #dc2626; }
+
+/* ── Header ── */
+.risk-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.risk-icon {
+  font-size: 0.875rem;
+  color: var(--card-accent);
+}
+
+.risk-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c0c0c0;
+}
+
+/* ── Body ── */
+.risk-body {
+  margin-bottom: 1rem;
+}
+
+.risk-level {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+/* ── Score bar ── */
+.risk-score-bar {
+  width: 100%;
+  height: 3px;
+  background: #f0f0f0;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.risk-score-fill {
+  height: 100%;
+  background: var(--card-accent);
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.risk-score-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Message ── */
+.risk-message {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border);
+}
