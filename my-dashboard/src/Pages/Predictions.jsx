@@ -4,6 +4,7 @@ import AviationRiskCard from "../components/Predictions/AviationRiskCard";
 import DelayPredictionCard from "../components/Predictions/DelayPredictionCard";
 import "../styles/Predictions.css";
 import AviationAlerts from "../components/Predictions/AviationAlerts";
+import VisibilityForecastCard from "../components/Predictions/VisibilityForecastCard";
 
 
 
@@ -25,6 +26,8 @@ function Predictions() {
         {/* Weather takes the full left column */}
         <div className="predictions-col-main">
           <WeatherForecastCard weather={predictionData} />
+          <br></br><br></br>
+          <VisibilityForecastCard visibility={predictionData?.visibility_forecast} />
         </div>
 
         {/* Delay + Aviation stack in the right column */}
@@ -33,6 +36,7 @@ function Predictions() {
           <AviationRiskCard risk={predictionData?.aviation_risk} />
           <AviationAlerts alerts={predictionData?.aviation_alerts} />
         </div>
+
 
       </div>
 
