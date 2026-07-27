@@ -3,6 +3,9 @@ import WeatherForecastCard from "../components/Predictions/WeatherForecastCard";
 import AviationRiskCard from "../components/Predictions/AviationRiskCard";
 import DelayPredictionCard from "../components/Predictions/DelayPredictionCard";
 import "../styles/Predictions.css";
+import AviationAlerts from "../components/Predictions/AviationAlerts";
+
+
 
 function Predictions() {
   const [predictionData, setPredictionData] = useState(null);
@@ -28,6 +31,7 @@ function Predictions() {
         <div className="predictions-col-side">
           <DelayPredictionCard prediction={predictionData?.delay_prediction} />
           <AviationRiskCard risk={predictionData?.aviation_risk} />
+          <AviationAlerts alerts={predictionData?.aviation_alerts} />
         </div>
 
       </div>

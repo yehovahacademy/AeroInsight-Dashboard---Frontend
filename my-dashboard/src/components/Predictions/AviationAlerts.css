@@ -1,0 +1,149 @@
+/* ── AviationAlerts ─────────────────────────────────────────────────────────
+   Unified with AeroInsight light theme: white bg, #ebebeb borders, orange/blue
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.alerts-card {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Header ── */
+.alerts-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.alerts-icon {
+  font-size: 0.875rem;
+}
+
+.alerts-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c0c0c0;
+  flex: 1;
+}
+
+/* Alert count bubble */
+.alerts-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #dc2626;
+  border-radius: 99px;
+  padding: 1px 7px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* ── Empty state ── */
+.alerts-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.alerts-empty-dot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.alerts-empty-text {
+  font-size: 0.8125rem;
+  color: #999;
+}
+
+/* ── Alerts list ── */
+.alerts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+/* ── Alert item ── */
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ebebeb;
+  border-left: 4px solid #c0c0c0;
+  background: #fafafa;
+  transition: box-shadow 0.15s ease;
+}
+
+.alert-item:hover {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Severity variants ── */
+.alert-item.low {
+  border-left-color: #16a34a;
+}
+
+.alert-item.medium {
+  border-left-color: #FF6B1A;
+}
+
+.alert-item.high {
+  border-left-color: #dc2626;
+}
+
+/* ── Item parts ── */
+.alert-item-icon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.alert-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-item-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.3;
+}
+
+.alert-item-severity {
+  font-size: 11px;
+  color: #bbb;
+  letter-spacing: 0.02em;
+}
+
+/* ── Severity badge ── */
+.alert-item-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+.alert-item.low    .alert-item-badge { background: #edf7ed; color: #15803d; }
+.alert-item.medium .alert-item-badge { background: #fff5e0; color: #a85500; }
+.alert-item.high   .alert-item-badge { background: #fdecea; color: #b91c1c; }
