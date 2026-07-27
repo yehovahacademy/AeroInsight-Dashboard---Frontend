@@ -1,0 +1,157 @@
+/* ── DelayPredictionCard ────────────────────────────────────────────────────
+   Unified with AeroInsight light theme: white bg, #ebebeb borders, orange/blue
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.delay-card {
+  --card-accent:  #FF6B1A;
+  --card-bg:      #ffffff;
+  --card-border:  #ebebeb;
+  --card-radius:  12px;
+  --text-primary: #111111;
+  --text-muted:   #999999;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--card-accent);
+  border-radius: var(--card-radius);
+  padding: 1.25rem 1.5rem;
+  width: 100%;
+  max-width: 360px;
+  transition: box-shadow 0.15s ease;
+}
+
+.delay-card:hover {
+  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.07);
+}
+
+/* ── Risk variants ── */
+.delay-card.low    { --card-accent: #16a34a; }
+.delay-card.medium { --card-accent: #FF6B1A; }
+.delay-card.high   { --card-accent: #dc2626; }
+
+/* ── Header ── */
+.delay-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.delay-icon {
+  font-size: 0.875rem;
+}
+
+.delay-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c0c0c0;
+}
+
+/* ── Body ── */
+.delay-body {
+  margin-bottom: 1rem;
+}
+
+.delay-risk {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+/* ── Score bar ── */
+.delay-score-bar {
+  width: 100%;
+  height: 3px;
+  background: #f0f0f0;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.delay-score-fill {
+  height: 100%;
+  background: var(--card-accent);
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Meta row ── */
+.delay-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.delay-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.delay-meta-label {
+  font-size: 10.5px;
+  color: #c0c0c0;
+  letter-spacing: 0.04em;
+}
+
+.delay-meta-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.delay-meta-divider {
+  width: 1px;
+  height: 28px;
+  background: #ebebeb;
+  flex-shrink: 0;
+}
+
+/* ── Reasons ── */
+.delay-reasons {
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.delay-reasons-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c0c0c0;
+  display: block;
+  margin-bottom: 0.625rem;
+}
+
+.delay-reasons-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.delay-reason-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.delay-reason-dot {
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--card-accent);
+}

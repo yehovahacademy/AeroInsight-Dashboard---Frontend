@@ -1,36 +1,38 @@
-
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import WeatherForecastCard from "../components/Predictions/WeatherForecastCard";
 import AviationRiskCard from "../components/Predictions/AviationRiskCard";
-
-
-
+import DelayPredictionCard from "../components/Predictions/DelayPredictionCard";
+import "../styles/Predictions.css";
 
 function Predictions() {
-
   const [predictionData, setPredictionData] = useState(null);
 
   useEffect(() => {
-    fetch( "https://aeroinsight-dashboard-backend.onrender.com/weather/?airport=BOM")
-      .then((response) => response.json())
+    fetch("https://aeroinsight-dashboard-backend.onrender.com/weather/?airport=BOM")
+      .then((res) => res.json())
       .then((data) => setPredictionData(data))
-      .catch((error) => console.error("Error fetching weather data:", error));
+      .catch((err) => console.error("Error fetching weather data:", err));
   }, []);
 
   return (
-    <>
-    <br></br><br></br>
-    
-    <WeatherForecastCard weather= {predictionData} />  
-    <br></br><br></br>
-    <AviationRiskCard
-    risk={predictionData?.aviation_risk}
-/>
+    <div className="predictions-page">
 
-    <br></br><br></br>
+      <div className="predictions-grid">
 
-    </>
-    
+        {/* Weather takes the full left column */}
+        <div className="predictions-col-main">
+          <WeatherForecastCard weather={predictionData} />
+        </div>
+
+        {/* Delay + Aviation stack in the right column */}
+        <div className="predictions-col-side">
+          <DelayPredictionCard prediction={predictionData?.delay_prediction} />
+          <AviationRiskCard risk={predictionData?.aviation_risk} />
+        </div>
+
+      </div>
+
+    </div>
   );
 }
 

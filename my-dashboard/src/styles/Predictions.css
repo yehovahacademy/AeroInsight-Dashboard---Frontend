@@ -1,0 +1,73 @@
+/* ── Predictions page layout ────────────────────────────────────────────────
+   Left col  → WeatherForecastCard  (wider, more data)
+   Right col → DelayPredictionCard + AviationRiskCard stacked
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.predictions-page {
+  padding: 2rem;
+  min-height: 100vh;
+  background: #f5f5f7;
+  box-sizing: border-box;
+}
+
+.predictions-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* ── Left column ── */
+.predictions-col-main {
+  min-width: 0;
+}
+
+/* wx-panel already has max-width: 760px — override it here
+   so it fills the column properly */
+.predictions-col-main .wx-panel {
+  max-width: 100%;
+}
+
+/* ── Right column ── */
+.predictions-col-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Both side cards should fill the column width */
+.predictions-col-side .delay-card,
+.predictions-col-side .aviation-risk-card {
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .predictions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .predictions-col-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .predictions-col-side .delay-card,
+  .predictions-col-side .aviation-risk-card {
+    flex: 1 1 280px;
+  }
+}
+
+@media (max-width: 560px) {
+  .predictions-page {
+    padding: 1rem;
+  }
+
+  .predictions-col-side {
+    flex-direction: column;
+  }
+}
