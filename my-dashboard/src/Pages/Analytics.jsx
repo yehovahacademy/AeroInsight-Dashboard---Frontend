@@ -1,5 +1,5 @@
-import AirLineCards from "../components/Network/RouteCards";
-import FlightDetails from "../components/Network/RouteDetails";
+import RouteCards from "../components/Network/RouteCards";
+import RouteDetails from "../components/Network/RouteDetails";
 import "../styles/Analytics.css";
 import { useState, useEffect } from "react";
 
@@ -18,7 +18,7 @@ function Analytics() {
         });
 
 
-   const [selectedAirline, setSelectedAirline] = useState(null);
+   const [selectedRoute, setSelectedRoute] = useState(null);
   return (
    <>
    <div className="analytics-dashboard">
@@ -95,10 +95,14 @@ function Analytics() {
 </div>
     
    
-   <Cards selectedAirline={selectedAirline}
-    setSelectedAirline={setSelectedAirline} />
+ <RouteCards
+    selectedRoute={selectedRoute}
+    setSelectedRoute={setSelectedRoute}
+/>
 
-   <RouteDetails selectedAirline={selectedAirline} />
+<RouteDetails
+    selectedRoute={selectedRoute}
+/>
    
    </>
   );
