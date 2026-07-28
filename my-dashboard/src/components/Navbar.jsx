@@ -15,7 +15,7 @@ function Navbar() {
       <div className="Navbar-divider" />
 
       <Link to="/Dashboard">Dashboard</Link>
-      <Link to="/Flights">Flights</Link>
+      <Link to="/RoutePlanner">Route Planner</Link>
       <Link to="/Analytics">Analytics</Link>
       <Link to="/Predictions">Predictions</Link>
       <Link to="/Reports">Reports</Link>

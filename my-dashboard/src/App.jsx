@@ -2,9 +2,9 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Dashboard from "./Pages/Dashboard";
 import { Route,Routes } from "react-router-dom";
-import Flights from "./Pages/Flights";
+import RoutePlanner from "./Pages/RoutePlanner";
 import Analytics from "./Pages/Analytics";
-import Home from "./components/Flights/Home";
+import Home from "./components/Network/NetworkPlanner";
 import Predictions from "./Pages/Predictions";
 
 
@@ -22,7 +22,7 @@ function App() {
 <Routes>
    <Route path="/" element={<Home />} />
   <Route path="/dashboard" element={<Dashboard />} />
-  <Route path="/flights" element={<Flights/>}/>
+  <Route path="/routeplanner" element={<RoutePlanner/>}/>
   <Route path ="/analytics" element={<Analytics/>}/>
   <Route path="/predictions" element={<Predictions/>}/>
 </Routes>

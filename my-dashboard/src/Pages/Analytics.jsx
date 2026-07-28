@@ -1,5 +1,5 @@
-import AirLineCards from "../components/Flights/AirLineCards";
-import FlightDetails from "../components/Flights/FlightDetails";
+import AirLineCards from "../components/Network/RouteCards";
+import FlightDetails from "../components/Network/RouteDetails";
 import "../styles/Analytics.css";
 import { useState, useEffect } from "react";
 
@@ -95,10 +95,10 @@ function Analytics() {
 </div>
     
    
-   <AirLineCards selectedAirline={selectedAirline}
+   <Cards selectedAirline={selectedAirline}
     setSelectedAirline={setSelectedAirline} />
 
-   <FlightDetails selectedAirline={selectedAirline} />
+   <RouteDetails selectedAirline={selectedAirline} />
    
    </>
   );
