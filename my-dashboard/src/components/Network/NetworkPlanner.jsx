@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/NetworkPlanner.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
-  faCloudSun,
   faChartBar,
   faBuilding,
-  faArrowTrendUp,
   faBrain,
   faPlaneCircleCheck,
   faRoute,
+  faArrowRight,
+  faRightLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight, faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import RouteCards from "./RouteCards";
 
@@ -22,43 +21,77 @@ const AIRPORTS = [
   "Goa (GOI)", "Pune (PNQ)", "Ahmedabad (AMD)", "Kochi (COK)",
 ];
 
-const AIRCRAFT_TYPES = ["A320", "A321neo", "B737 MAX", "B777", "ATR 72"];
-const SEASONS       = ["Winter (Nov–Feb)", "Summer (Mar–Jun)", "Monsoon (Jul–Oct)"];
+const AIRCRAFT_TYPES  = ["A320", "A321neo", "B737 MAX", "B777", "ATR 72"];
+const SEASONS         = ["Winter (Nov–Feb)", "Summer (Mar–Jun)", "Monsoon (Jul–Oct)"];
 const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6+"];
 
 const PLANNER_TOOLS = [
-  { icon: faRoute,           label: "Route Optimisation" },
-  { icon: faChartLine,       label: "Demand Forecast"    },
-  { icon: faBuilding,        label: "Airport Intelligence"},
-  { icon: faPlaneCircleCheck,label: "Fleet Allocation"   },
-  { icon: faChartBar,        label: "Competition Analysis"},
-  { icon: faBrain,           label: "AI Recommendation"  },
+  { icon: faRoute,            label: "Route Optimisation"  },
+  { icon: faChartLine,        label: "Demand Forecast"     },
+  { icon: faBuilding,         label: "Airport Intelligence" },
+  { icon: faPlaneCircleCheck, label: "Fleet Allocation"    },
+  { icon: faChartBar,         label: "Competition Analysis" },
+  { icon: faBrain,            label: "AI Recommendation"   },
 ];
 
 // ── Component ────────────────────────────────────────────────
 function NetworkPlanner() {
   const navigate = useNavigate();
 
-  const [origin,      setOrigin     ] = useState("");
-  const [destination, setDestination] = useState("");
-  const [aircraft,    setAircraft   ] = useState("");
-  const [season,      setSeason     ] = useState("");
-  const [flightsDay,  setFlightsDay ] = useState("");
+  const [origin,        setOrigin       ] = useState("");
+  const [destination,   setDestination  ] = useState("");
+  const [aircraft,      setAircraft     ] = useState("");
+  const [season,        setSeason       ] = useState("");
+  const [flightsDay,    setFlightsDay   ] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const [routes,        setRoutes       ] = useState(null);
+  const [loading,       setLoading      ] = useState(false);
+  const [error,         setError        ] = useState(null);
+
+  const formReady = origin && destination && origin !== destination;
 
   const handleSwap = () => {
     setOrigin(destination);
     setDestination(origin);
   };
 
-  const handleAnalyze = () => {
-    if (!origin || !destination) return;
-    navigate(
-      `/network?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&aircraft=${encodeURIComponent(aircraft)}&season=${encodeURIComponent(season)}&fpd=${flightsDay}`
-    );
-  };
+  const handleAnalyze = async () => {
+    if (!formReady) return;
 
-  const formReady = origin && destination && origin !== destination;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        "https://aeroinsight-dashboard-backend.onrender.com/network/analyze_route",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            origin,
+            destination,
+            aircraft,
+            season,
+            flights_per_day: flightsDay,
+          }),
+        }
+      );
+
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+      const data = await response.json();
+      setRoutes(data);
+
+      navigate(
+        `/network?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&aircraft=${encodeURIComponent(aircraft)}&season=${encodeURIComponent(season)}&fpd=${flightsDay}`
+      );
+    } catch (err) {
+      console.error("Route analysis failed:", err);
+      setError("Failed to analyse route. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -72,11 +105,10 @@ function NetworkPlanner() {
 
         {/* ── Planner Form ── */}
         <div className="card-1" style={{ flexDirection: "column", gap: "0" }}>
-
-          {/* Row 1 — Origin / Swap / Destination */}
           <div className="search-bar" style={{ flexWrap: "wrap", gap: "12px" }}>
-            <div className="search-group">
 
+            {/* Origin / Swap / Destination */}
+            <div className="search-group">
               <div className="search-1 input-box">
                 <label style={{ fontSize: "11px", color: "#888", marginBottom: "2px", display: "block" }}>
                   Origin Airport
@@ -112,14 +144,12 @@ function NetworkPlanner() {
                   ))}
                 </select>
               </div>
-
             </div>
 
             <div className="divider" />
 
-            {/* Row 2 — Aircraft / Season / Flights per day */}
+            {/* Aircraft / Season */}
             <div className="date-group" style={{ gap: "12px" }}>
-
               <div className="date-1 input-box">
                 <span className="date-label">Aircraft Type</span>
                 <select
@@ -143,9 +173,9 @@ function NetworkPlanner() {
                   {SEASONS.map(s => <option key={s}>{s}</option>)}
                 </select>
               </div>
-
             </div>
 
+            {/* Flights / Day + Analyse button */}
             <div className="Traveller&Class">
               <div className="Traveller">
                 <label>Flights / Day</label>
@@ -162,10 +192,10 @@ function NetworkPlanner() {
               <button
                 className="search-btn"
                 onClick={handleAnalyze}
-                disabled={!formReady}
-                style={{ opacity: formReady ? 1 : 0.45, cursor: formReady ? "pointer" : "not-allowed" }}
+                disabled={!formReady || loading}
+                style={{ opacity: formReady && !loading ? 1 : 0.45, cursor: formReady && !loading ? "pointer" : "not-allowed" }}
               >
-                Analyse Route <FontAwesomeIcon icon={faArrowRight} />
+                {loading ? "Analysing..." : "Analyse Route"} <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
 
@@ -195,7 +225,12 @@ function NetworkPlanner() {
       <br /><br />
 
       {/* ── Route Cards ── */}
+      {error && (
+        <p style={{ color: "red", textAlign: "center" }}>{error}</p>
+      )}
+
       <RouteCards
+        data={routes}
         selectedRoute={selectedRoute}
         setSelectedRoute={setSelectedRoute}
       />
