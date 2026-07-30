@@ -1,157 +1,179 @@
 import "../../styles/NetworkPlanner.css";
 
-// UI-only colors
 const RECOMMENDATION_COLORS = {
-  Maintain: { bg: "#e8f5e9", text: "#2e7d32" },
-  Expand: { bg: "#e3f2fd", text: "#1565c0" },
-  "Increase Frequency": { bg: "#e8f5e9", text: "#2e7d32" },
-  Monitor: { bg: "#fff8e1", text: "#f57f17" },
-  "Reduce Frequency": { bg: "#fce4ec", text: "#c62828" },
-  Review: { bg: "#fce4ec", text: "#c62828" },
+  "Increase flight frequency": {
+    bg: "#e8f5e9",
+    text: "#2e7d32",
+  },
+
+  "Maintain": {
+    bg: "#e8f5e9",
+    text: "#2e7d32",
+  },
+
+  "Reduce Frequency": {
+    bg: "#fce4ec",
+    text: "#c62828",
+  },
+
+  "Monitor": {
+    bg: "#fff8e1",
+    text: "#f57f17",
+  },
+
+  "Review": {
+    bg: "#fce4ec",
+    text: "#c62828",
+  },
 };
 
-function LoadBar({ value }) {
-  const color =
-    value >= 85
-      ? "#2e7d32"
-      : value >= 70
-      ? "#f57f17"
-      : "#c62828";
 
-  return (
-    <div style={{ marginTop: "6px" }}>
-      <div
-        style={{
-          background: "#e0e0e0",
-          borderRadius: "4px",
-          height: "6px",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            width: `${value}%`,
-            height: "100%",
-            background: color,
-            borderRadius: "4px",
-            transition: "width 0.4s ease",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
 
-function RouteCards({
-  routes = [],
-  selectedRoute,
-  setSelectedRoute,
-}) {
-  const handleRouteClick = (routeId) => {
-    setSelectedRoute((prev) => (prev === routeId ? null : routeId));
-  };
+function RouteCards({ data }) {
 
-  return (
-    <div className="hero-3">
-      <div className="airlines">
-        <div className="heading-airlines">
-          Top Routes — Performance Overview
+
+  if (!data) {
+    return (
+      <div className="hero-3">
+        <div className="airlines">
+          <div className="heading-airlines">
+            Route Analysis
+          </div>
+
+          <p>
+            Select a route and click Analyse Route to see insights.
+          </p>
+
         </div>
+      </div>
+    );
+  }
+
+
+
+  const badge =
+    RECOMMENDATION_COLORS[data.recommendation] ||
+    RECOMMENDATION_COLORS["Monitor"];
+
+
+
+  return (
+
+    <div className="hero-3">
+
+      <div className="airlines">
+
+
+        <div className="heading-airlines">
+          Route Performance Overview
+        </div>
+
+
 
         <div className="airlines-grid">
-          {routes.length === 0 ? (
-            <p>No routes available.</p>
-          ) : (
-            routes.map((route) => {
-              const isSelected = selectedRoute === route.id;
 
-              const badge =
-                RECOMMENDATION_COLORS[route.recommendation] ||
-                RECOMMENDATION_COLORS["Monitor"];
 
-              return (
-                <div
-                  key={route.id}
-                  className="airline-item"
-                  onClick={() => handleRouteClick(route.id)}
-                  style={{
-                    cursor: "pointer",
-                    outline: isSelected
-                      ? "2px solid #1565c0"
-                      : "none",
-                    borderRadius: "8px",
-                    padding: "12px",
-                    transition: "outline 0.2s ease",
-                  }}
-                >
-                  <h2
-                    style={{
-                      fontSize: "15px",
-                      fontWeight: 700,
-                      margin: "0 0 6px",
-                    }}
-                  >
-                    {route.origin} → {route.destination}
-                  </h2>
+          <div
+            className="airline-item"
+            style={{
+              cursor:"pointer",
+              padding:"16px",
+              borderRadius:"8px"
+            }}
+          >
 
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      color: "#888",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    {route.originCode} → {route.destinationCode}
-                  </div>
 
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      marginBottom: "2px",
-                    }}
-                  >
-                    <span style={{ color: "#555" }}>
-                      Load Factor:
-                    </span>{" "}
-                    <strong>{route.loadFactor}%</strong>
-                  </div>
+            <h2
+              style={{
+                fontSize:"18px",
+                fontWeight:700
+              }}
+            >
+              {data.origin} → {data.destination}
+            </h2>
 
-                  <LoadBar value={route.loadFactor} />
 
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      marginTop: "8px",
-                    }}
-                  >
-                    <span style={{ color: "#555" }}>
-                      Revenue:
-                    </span>{" "}
-                    <strong>{route.revenue}</strong>
-                  </div>
 
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      display: "inline-block",
-                      padding: "3px 10px",
-                      borderRadius: "12px",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      background: badge.bg,
-                      color: badge.text,
-                    }}
-                  >
-                    {route.recommendation}
-                  </div>
-                </div>
-              );
-            })
-          )}
+            <div style={{marginTop:"10px"}}>
+
+              <p>
+                <strong>Distance:</strong>{" "}
+                {data.distance_km} km
+              </p>
+
+
+              <p>
+                <strong>Estimated Duration:</strong>{" "}
+                {data.estimated_duration}
+              </p>
+
+
+              <p>
+                <strong>Demand Score:</strong>{" "}
+                {data.demand_score}%
+              </p>
+
+
+              <p>
+                <strong>Weather Risk:</strong>{" "}
+                {data.weather_risk}
+              </p>
+
+
+              <p>
+                <strong>Estimated Revenue:</strong>{" "}
+                ₹{data.estimated_revenue.toLocaleString()}
+              </p>
+
+
+              <p>
+                <strong>Estimated Cost:</strong>{" "}
+                ₹{data.estimated_cost.toLocaleString()}
+              </p>
+
+
+              <p>
+                <strong>Estimated Profit:</strong>{" "}
+                ₹{data.estimated_profit.toLocaleString()}
+              </p>
+
+
+            </div>
+
+
+
+            <div
+              style={{
+                marginTop:"12px",
+                display:"inline-block",
+                padding:"5px 12px",
+                borderRadius:"15px",
+                fontSize:"12px",
+                fontWeight:600,
+                background:badge.bg,
+                color:badge.text
+              }}
+            >
+
+              {data.recommendation}
+
+            </div>
+
+
+
+          </div>
+
+
         </div>
+
+
       </div>
+
     </div>
+
   );
+
 }
+
 
 export default RouteCards;

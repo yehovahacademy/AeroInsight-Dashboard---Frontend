@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/NetworkPlanner.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +11,6 @@ import {
   faArrowRight,
   faRightLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 import RouteCards from "./RouteCards";
 
 // ── Static data ──────────────────────────────────────────────
@@ -26,17 +25,16 @@ const SEASONS         = ["Winter (Nov–Feb)", "Summer (Mar–Jun)", "Monsoon (J
 const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6+"];
 
 const PLANNER_TOOLS = [
-  { icon: faRoute,            label: "Route Optimisation"  },
-  { icon: faChartLine,        label: "Demand Forecast"     },
+  { icon: faRoute,            label: "Route Optimisation"   },
+  { icon: faChartLine,        label: "Demand Forecast"      },
   { icon: faBuilding,         label: "Airport Intelligence" },
-  { icon: faPlaneCircleCheck, label: "Fleet Allocation"    },
+  { icon: faPlaneCircleCheck, label: "Fleet Allocation"     },
   { icon: faChartBar,         label: "Competition Analysis" },
-  { icon: faBrain,            label: "AI Recommendation"   },
+  { icon: faBrain,            label: "AI Recommendation"    },
 ];
 
 // ── Component ────────────────────────────────────────────────
 function NetworkPlanner() {
-  const navigate = useNavigate();
 
   const [origin,        setOrigin       ] = useState("");
   const [destination,   setDestination  ] = useState("");
@@ -44,7 +42,7 @@ function NetworkPlanner() {
   const [season,        setSeason       ] = useState("");
   const [flightsDay,    setFlightsDay   ] = useState("");
   const [selectedRoute, setSelectedRoute] = useState(null);
-  const [routes,        setRoutes       ] = useState(null);
+  const [routeData,     setRouteData    ] = useState(null);
   const [loading,       setLoading      ] = useState(false);
   const [error,         setError        ] = useState(null);
 
@@ -55,11 +53,15 @@ function NetworkPlanner() {
     setDestination(origin);
   };
 
+  // Extract IATA code from "Mumbai (BOM)" → "BOM"
+  const extractIATA = (value) => value.match(/\(([^)]+)\)/)?.[1] ?? value;
+
   const handleAnalyze = async () => {
     if (!formReady) return;
 
     setLoading(true);
     setError(null);
+    setRouteData(null);
 
     try {
       const response = await fetch(
@@ -68,11 +70,11 @@ function NetworkPlanner() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            origin,
-            destination,
-            aircraft,
-            season,
-            flights_per_day: flightsDay,
+            origin:          extractIATA(origin),
+            destination:     extractIATA(destination),
+            aircraft:        aircraft || null,
+            season:          season || null,
+            flights_per_day: flightsDay || null,
           }),
         }
       );
@@ -80,11 +82,8 @@ function NetworkPlanner() {
       if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
       const data = await response.json();
-      setRoutes(data);
+      setRouteData(data);
 
-      navigate(
-        `/network?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&aircraft=${encodeURIComponent(aircraft)}&season=${encodeURIComponent(season)}&fpd=${flightsDay}`
-      );
     } catch (err) {
       console.error("Route analysis failed:", err);
       setError("Failed to analyse route. Please try again.");
@@ -224,16 +223,37 @@ function NetworkPlanner() {
 
       <br /><br />
 
-      {/* ── Route Cards ── */}
+      {/* ── Route Analysis Results ── */}
+      <div className="heading-hero">
+        <h1>Route Analysis</h1>
+      </div>
+      <br />
+
+      {/* Error */}
       {error && (
         <p style={{ color: "red", textAlign: "center" }}>{error}</p>
       )}
 
-      <RouteCards
-        data={routes}
-        selectedRoute={selectedRoute}
-        setSelectedRoute={setSelectedRoute}
-      />
+      {/* Empty state */}
+      {!routeData && !loading && !error && (
+        <p style={{ textAlign: "center", color: "#888" }}>
+          Select a route and click Analyse Route to see insights.
+        </p>
+      )}
+
+      {/* Loading state */}
+      {loading && (
+        <p style={{ textAlign: "center", color: "#888" }}>Analysing route...</p>
+      )}
+
+      {/* Results */}
+      {routeData && (
+        <RouteCards
+          data={routeData}
+          selectedRoute={selectedRoute}
+          setSelectedRoute={setSelectedRoute}
+        />
+      )}
 
       <br />
     </>
