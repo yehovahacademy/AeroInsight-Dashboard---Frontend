@@ -1,9 +1,10 @@
 import "../styles/Analytics.css";
 import { useState, useEffect } from "react";
 import AirportSearch from "../components/Airport/AirportSearch";
+import AirportOverview from "../components/Airport/AirportOverview";
 
 function Analytics() {
-    const[airportData, setAirportData] = useState(null);
+    const [airportData, setAirportData] = useState(null);
     const [stats, setStats] = useState(null);
 
     useEffect(() => {
@@ -15,16 +16,12 @@ function Analytics() {
 
     const handleAirportSearch = (iataCode) => {
         fetch(
-    `https://aeroinsight-dashboard-backend.onrender.com/airport-intelligence/analytics/airport/${iataCode}`
-)
+            `https://aeroinsight-dashboard-backend.onrender.com/airport-intelligence/analytics/airport/${iataCode}`
+        )
             .then((res) => res.json())
-            .then((data) =>  setAirportData(data))
+            .then((data) => setAirportData(data))
             .catch((err) => console.error(err));
-
-            
     };
-
-
 
     return (
         <div className="analytics-dashboard">
@@ -136,6 +133,11 @@ function Analytics() {
             <div className="airport-search-section">
                 <AirportSearch onSearch={handleAirportSearch} />
             </div>
+
+            {/* ── Airport Overview ── */}
+            {airportData && (
+                <AirportOverview airport={airportData.airport} />
+            )}
 
         </div>
     );
