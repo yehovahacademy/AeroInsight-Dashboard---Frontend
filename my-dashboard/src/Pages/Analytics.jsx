@@ -95,10 +95,7 @@ function Analytics() {
 </div>
     
    
- <RouteCards
-    selectedRoute={selectedRoute}
-    setSelectedRoute={setSelectedRoute}
-/>
+
 
 <RouteDetails
     selectedRoute={selectedRoute}
