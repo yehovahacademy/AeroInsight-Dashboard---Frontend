@@ -2,6 +2,7 @@ import "../styles/Analytics.css";
 import { useState, useEffect } from "react";
 import AirportSearch from "../components/Airport/AirportSearch";
 import AirportOverview from "../components/Airport/AirportOverview";
+import AirportWeather from "../components/Airport/AirportWeather";
 
 function Analytics() {
     const [airportData, setAirportData] = useState(null);
@@ -134,9 +135,15 @@ function Analytics() {
                 <AirportSearch onSearch={handleAirportSearch} />
             </div>
 
-            {/* ── Airport Overview ── */}
+            {/* ── Airport Overview + Weather ── */}
             {airportData && (
-                <AirportOverview airport={airportData.airport} />
+                <>
+                    <AirportOverview airport={airportData.airport} />
+
+                    <div className="airport-details-row">
+                        <AirportWeather weather={airportData.weather} />
+                    </div>
+                </>
             )}
 
         </div>

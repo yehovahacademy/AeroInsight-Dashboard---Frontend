@@ -251,3 +251,11 @@
     color: #9ca3af;
     font-size: 13px;
 }
+
+/* ── Airport details row ── */
+.airport-details-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}

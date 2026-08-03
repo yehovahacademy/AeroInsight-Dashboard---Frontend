@@ -1,0 +1,169 @@
+/* ── Card ── */
+.aw-card {
+    background: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: inherit;
+}
+
+/* ── Header ── */
+.aw-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.aw-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+    margin: 0 0 4px 0;
+}
+
+.aw-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+/* ── Condition badge ── */
+.aw-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.aw-badge-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.aw-badge--clear {
+    background: #fffbeb;
+    color: #92400e;
+    border-color: #fde68a;
+}
+
+.aw-badge--neutral {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+}
+
+.aw-badge--warning {
+    background: #fff7ed;
+    color: #c2410c;
+    border-color: #fed7aa;
+}
+
+.aw-badge--danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+/* ── Temperature hero ── */
+.aw-temp-hero {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem 1.5rem 1.25rem 1.5rem;
+    border-bottom: 1px solid #ebebeb;
+    gap: 2px;
+}
+
+.aw-temp-value {
+    font-size: 56px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.aw-temp-unit {
+    font-size: 22px;
+    font-weight: 500;
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+/* ── Stats grid ── */
+.aw-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.aw-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 1rem 1.25rem;
+    border-right: 1px solid #ebebeb;
+}
+
+.aw-item:last-child {
+    border-right: none;
+}
+
+.aw-item-icon {
+    font-size: 18px;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.aw-item-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+}
+
+.aw-item-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.aw-item-unit {
+    font-size: 12px;
+    font-weight: 400;
+    color: #6b7280;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .aw-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aw-item {
+        border-right: none;
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    .aw-item:last-child {
+        border-bottom: none;
+    }
+
+    .aw-temp-value {
+        font-size: 44px;
+    }
+}
