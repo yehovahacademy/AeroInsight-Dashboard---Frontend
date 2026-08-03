@@ -1,0 +1,131 @@
+.airport-search-card {
+    background: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    font-family: inherit;
+}
+
+/* Header */
+.airport-search-card__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.airport-search-card__icon {
+    font-size: 18px;
+    color: #FF6B1A;
+    line-height: 1;
+}
+
+.airport-search-card__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.airport-search-card__subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+}
+
+/* Form */
+.airport-search-card__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Input row */
+.airport-search-card__input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #ebebeb;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+    background: #fff;
+}
+
+.airport-search-card__input-wrapper:focus-within {
+    border-color: #1A6BFF;
+    box-shadow: 0 0 0 3px rgba(26, 107, 255, 0.08);
+}
+
+.airport-search-card__input-badge {
+    padding: 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: #9ca3af;
+    background: #f9fafb;
+    border-right: 1.5px solid #ebebeb;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.airport-search-card__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 12px;
+    height: 44px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    letter-spacing: 2px;
+    background: transparent;
+}
+
+.airport-search-card__input::placeholder {
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: #d1d5db;
+    font-size: 13px;
+}
+
+.airport-search-card__input-check {
+    padding: 0 12px;
+    color: #22c55e;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Button */
+.airport-search-card__btn {
+    height: 44px;
+    background: #FF6B1A;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+    letter-spacing: 0.2px;
+}
+
+.airport-search-card__btn:hover:not(:disabled) {
+    background: #e05a10;
+}
+
+.airport-search-card__btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.airport-search-card__btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
