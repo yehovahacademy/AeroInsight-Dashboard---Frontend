@@ -16,15 +16,18 @@ function Analytics() {
     }, []);
 
     const handleAirportSearch = (iataCode) => {
-    const API_BASE =
-    "https://aeroinsight-dashboard-backend.onrender.com/airports";
+    console.log("Searching:", iataCode);
 
-    fetch(`${API_BASE}/api/airports/${iataCode}`)
-    
-            .then((res) => res.json())
-            .then((data) => setAirportData(data))
-            .catch((err) => console.error(err));
-    };
+    fetch(
+        `https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/${iataCode}`
+    )
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("Received:", data);
+            setAirportData(data);
+        })
+        .catch((err) => console.error(err));
+};
 
     return (
         <div className="analytics-dashboard">
@@ -140,7 +143,7 @@ function Analytics() {
             {/* ── Airport Overview + Weather ── */}
             {airportData && (
                 <>
-                    <AirportOverview airport={airportData.airport} />
+                    <AirportOverview airport={airportData} />
 
                     <div className="airport-details-row">
                         <AirportWeather weather={airportData.weather} />
