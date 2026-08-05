@@ -16,9 +16,11 @@ function Analytics() {
     }, []);
 
     const handleAirportSearch = (iataCode) => {
-        fetch(
-            `https://aeroinsight-dashboard-backend.onrender.com/airport-intelligence/analytics/airport/${iataCode}`
-        )
+    const API_BASE =
+    "https://aeroinsight-dashboard-backend.onrender.com/airports";
+
+    fetch(`${API_BASE}/api/airports/${iataCode}`)
+    
             .then((res) => res.json())
             .then((data) => setAirportData(data))
             .catch((err) => console.error(err));
