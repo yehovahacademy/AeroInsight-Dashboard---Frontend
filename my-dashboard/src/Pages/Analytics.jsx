@@ -4,10 +4,12 @@ import AirportSearch from "../components/Airport/AirportSearch";
 import AirportOverview from "../components/Airport/AirportOverview";
 import AirportWeather from "../components/Airport/AirportWeather";
 import FleetOverview from "../components/Fleet/FleetOverview";
+import FleetStats from "../components/Fleet/FleetStats";
 
 function Analytics() {
     const [airportData, setAirportData] = useState(null);
-    const [stats, setStats] = useState(null);
+    const [stats, setStats]             = useState(null);
+    const [fleet, setFleet]             = useState(null);
 
     useEffect(() => {
         fetch("https://aeroinsight-dashboard-backend.onrender.com/analytics/")
@@ -16,26 +18,31 @@ function Analytics() {
             .catch((err) => console.error(err));
     }, []);
 
-    const handleAirportSearch = (iataCode) => {
-        console.log("Searching:", iataCode);
+    useEffect(() => {
+        fetch("https://aeroinsight-dashboard-backend.onrender.com/fleet/fleet/")
+            .then((res) => res.json())
+            .then((data) => setFleet(data))
+            .catch((err) => console.error(err));
+    }, []);
 
+    const handleAirportSearch = (iataCode) => {
         fetch(
             `https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/${iataCode}`
         )
             .then((res) => res.json())
-            .then((data) => {
-                console.log("Received:", data);
-                setAirportData(data);
-            })
+            .then((data) => setAirportData(data))
             .catch((err) => console.error(err));
     };
+
+    const onTimeRate  = stats ? Math.round((stats.on_time_flights / stats.total_flights) * 100) : 0;
+    const delayRate   = stats ? Math.round((stats.delayed_flights  / stats.total_flights) * 100) : 0;
 
     return (
         <div className="analytics-dashboard">
 
             {/* ── Header ── */}
-            <div className="dashboard-header">
-                <div>
+            <header className="dashboard-header">
+                <div className="dashboard-header__left">
                     <p className="dashboard-label">AeroInsight</p>
                     <h1 className="dashboard-title">Analytics</h1>
                 </div>
@@ -43,15 +50,17 @@ function Analytics() {
                     <span className="live-dot" />
                     Live data
                 </div>
-            </div>
+            </header>
 
-            {/* ── Stat cards ── */}
+            {/* ── Flight stats ── */}
             {stats && (
-                <>
+                <section className="analytics-section">
+                    <p className="section-eyebrow">Flight operations</p>
+
                     <div className="stats-grid">
                         <div className="stat-card stat-card--total">
-                            <div className="stat-card-header">
-                                <div className="stat-icon stat-icon--accent">✈</div>
+                            <div className="stat-card__header">
+                                <span className="stat-icon stat-icon--accent">✈</span>
                                 <span className="stat-label">Total flights</span>
                             </div>
                             <p className="stat-value">{stats.total_flights}</p>
@@ -59,44 +68,35 @@ function Analytics() {
                         </div>
 
                         <div className="stat-card stat-card--ontime">
-                            <div className="stat-card-header">
-                                <div className="stat-icon stat-icon--success">✓</div>
+                            <div className="stat-card__header">
+                                <span className="stat-icon stat-icon--success">✓</span>
                                 <span className="stat-label">On time</span>
                             </div>
                             <p className="stat-value stat-value--success">{stats.on_time_flights}</p>
-                            <p className="stat-sub">
-                                {Math.round((stats.on_time_flights / stats.total_flights) * 100)}% on-time rate
-                            </p>
+                            <p className="stat-sub">{onTimeRate}% on-time rate</p>
                         </div>
 
                         <div className="stat-card stat-card--delayed">
-                            <div className="stat-card-header">
-                                <div className="stat-icon stat-icon--warning">⚠</div>
+                            <div className="stat-card__header">
+                                <span className="stat-icon stat-icon--warning">⚠</span>
                                 <span className="stat-label">Delayed</span>
                             </div>
                             <p className="stat-value stat-value--warning">{stats.delayed_flights}</p>
-                            <p className="stat-sub">
-                                {Math.round((stats.delayed_flights / stats.total_flights) * 100)}% delay rate
-                            </p>
+                            <p className="stat-sub">{delayRate}% delay rate</p>
                         </div>
                     </div>
 
-                    {/* ── Performance + Breakdown row ── */}
+                    {/* ── Performance + Breakdown ── */}
                     <div className="section-row">
                         <div className="performance-bar-card">
-                            <div className="performance-bar-header">
-                                <span>On-time performance</span>
-                                <span>{Math.round((stats.on_time_flights / stats.total_flights) * 100)}%</span>
+                            <div className="performance-bar-card__header">
+                                <span className="performance-bar-card__label">On-time performance</span>
+                                <span className="performance-bar-card__pct">{onTimeRate}%</span>
                             </div>
                             <div className="performance-track">
-                                <div
-                                    className="performance-fill"
-                                    style={{
-                                        width: `${Math.round((stats.on_time_flights / stats.total_flights) * 100)}%`,
-                                    }}
-                                />
+                                <div className="performance-fill" style={{ width: `${onTimeRate}%` }} />
                             </div>
-                            <div className="performance-bar-footer">
+                            <div className="performance-bar-card__footer">
                                 <span>0%</span>
                                 <span>50%</span>
                                 <span>100%</span>
@@ -104,56 +104,53 @@ function Analytics() {
                         </div>
 
                         <div className="breakdown-card">
-                            <p className="breakdown-title">Flight breakdown</p>
+                            <p className="breakdown-card__title">Flight breakdown</p>
                             <div className="seg-bar">
-                                <div
-                                    className="seg-ontime"
-                                    style={{
-                                        width: `${Math.round((stats.on_time_flights / stats.total_flights) * 100)}%`,
-                                    }}
-                                />
-                                <div
-                                    className="seg-delayed"
-                                    style={{
-                                        width: `${Math.round((stats.delayed_flights / stats.total_flights) * 100)}%`,
-                                    }}
-                                />
+                                <div className="seg-ontime"  style={{ width: `${onTimeRate}%` }} />
+                                <div className="seg-delayed" style={{ width: `${delayRate}%` }} />
                             </div>
                             <div className="seg-legend">
                                 <div className="legend-item">
                                     <span className="legend-dot legend-dot--ontime" />
-                                    On time {Math.round((stats.on_time_flights / stats.total_flights) * 100)}%
+                                    On time — {onTimeRate}%
                                 </div>
                                 <div className="legend-item">
                                     <span className="legend-dot legend-dot--delayed" />
-                                    Delayed {Math.round((stats.delayed_flights / stats.total_flights) * 100)}%
+                                    Delayed — {delayRate}%
                                 </div>
                             </div>
                         </div>
                     </div>
-                </>
+                </section>
             )}
 
-            {/* ── Airport Search ── */}
-            <div className="analytics-divider" />
-            <p className="section-heading">Airport intelligence</p>
-            <div className="airport-search-section">
-                <AirportSearch onSearch={handleAirportSearch} />
-            </div>
+            {/* ── Airport intelligence ── */}
+            <section className="analytics-section">
+                <p className="section-eyebrow">Airport intelligence</p>
+                <div className="airport-search-section">
+                    <AirportSearch onSearch={handleAirportSearch} />
+                </div>
 
-            {/* ── Airport Overview + Weather + Fleet ── */}
-            {airportData && (
-                <>
-                    <AirportOverview airport={airportData} />
-
-                    <div className="airport-details-row">
-                        <AirportWeather weather={airportData.weather} />
+                {airportData && (
+                    <div className="airport-results">
+                        <AirportOverview airport={airportData} />
+                        <div className="airport-details-row">
+                            <AirportWeather weather={airportData.weather} />
+                        </div>
                     </div>
+                )}
+            </section>
 
-                    <div className="analytics-divider" />
-                    <FleetOverview />
-                </>
-            )}
+            {/* ── Fleet ── */}
+            <section className="analytics-section">
+                <p className="section-eyebrow">Fleet composition</p>
+                <FleetOverview />
+                {fleet && (
+                    <div className="fleet-stats-row">
+                        <FleetStats fleet={fleet} />
+                    </div>
+                )}
+            </section>
 
         </div>
     );

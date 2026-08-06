@@ -1,6 +1,37 @@
+/* ─────────────────────────────────────────────
+   Design tokens
+   Orange  #FF6B1A   Blue  #1A6BFF
+   Success #16a34a   Warning #d97706
+   Border  #ebebeb   Muted  #9ca3af
+────────────────────────────────────────────── */
+
 /* ── Page ── */
 .analytics-dashboard {
-    padding: 0 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 0 3rem;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Section wrapper ── */
+.analytics-section {
+    padding: 2rem 0 0;
+    border-top: 0.5px solid #ebebeb;
+}
+
+.analytics-section:first-of-type {
+    border-top: none;
+}
+
+/* ── Section eyebrow label ── */
+.section-eyebrow {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
+    margin: 0 0 1.25rem;
 }
 
 /* ── Header ── */
@@ -8,37 +39,39 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 1.5rem 0 1.25rem 0;
+    padding: 1.75rem 0 1.75rem;
+    margin-bottom: 0;
     border-bottom: 0.5px solid #ebebeb;
-    margin-bottom: 1.5rem;
 }
 
 .dashboard-label {
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #9ca3af;
-    margin-bottom: 6px;
+    font-weight: 600;
+    color: #FF6B1A;
+    margin: 0 0 5px;
 }
 
 .dashboard-title {
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
     color: #111827;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
+    margin: 0;
 }
 
 .live-badge {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
+    gap: 7px;
+    padding: 5px 13px;
     border: 0.5px solid #ebebeb;
     border-radius: 20px;
     font-size: 12px;
     color: #6b7280;
     background: #f9fafb;
-    margin-top: 4px;
+    margin-top: 6px;
     white-space: nowrap;
 }
 
@@ -53,7 +86,7 @@
 
 @keyframes livePulse {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.35; }
+    50%       { opacity: 0.3; }
 }
 
 /* ── Stat cards ── */
@@ -66,19 +99,23 @@
 
 .stat-card {
     background: #f9fafb;
+    border: 0.5px solid #ebebeb;
     border-radius: 12px;
-    padding: 1.1rem 1.25rem;
+    padding: 1.25rem;
     position: relative;
     overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
 .stat-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
+    top: 0; left: 0; right: 0;
+    height: 2.5px;
     border-radius: 12px 12px 0 0;
 }
 
@@ -86,27 +123,27 @@
 .stat-card--ontime::before  { background: #22c55e; }
 .stat-card--delayed::before { background: #f59e0b; }
 
-.stat-card-header {
+.stat-card__header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .stat-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
     flex-shrink: 0;
 }
 
-.stat-icon--accent  { background: rgba(255, 107, 26, 0.1); color: #FF6B1A; }
-.stat-icon--success { background: rgba(34, 197, 94, 0.1);  color: #22c55e; }
-.stat-icon--warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.stat-icon--accent  { background: rgba(255,107,26,0.1);  color: #FF6B1A; }
+.stat-icon--success { background: rgba(34,197,94,0.1);   color: #22c55e; }
+.stat-icon--warning { background: rgba(245,158,11,0.1);  color: #f59e0b; }
 
 .stat-label {
     font-size: 12px;
@@ -115,12 +152,12 @@
 }
 
 .stat-value {
-    font-size: 28px;
-    font-weight: 500;
+    font-size: 32px;
+    font-weight: 600;
     color: #111827;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.6px;
     line-height: 1;
-    margin-bottom: 6px;
+    margin: 0 0 6px;
 }
 
 .stat-value--success { color: #16a34a; }
@@ -129,6 +166,7 @@
 .stat-sub {
     font-size: 12px;
     color: #9ca3af;
+    margin: 0;
 }
 
 /* ── Performance + Breakdown row ── */
@@ -136,33 +174,37 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 1.5rem;
 }
 
 .performance-bar-card,
 .breakdown-card {
     background: #f9fafb;
+    border: 0.5px solid #ebebeb;
     border-radius: 12px;
     padding: 1.25rem;
 }
 
-.performance-bar-header {
+.performance-bar-card__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     margin-bottom: 14px;
-    font-size: 13px;
+}
+
+.performance-bar-card__label {
+    font-size: 12px;
     color: #6b7280;
 }
 
-.performance-bar-header span:last-child {
-    font-size: 20px;
-    font-weight: 500;
+.performance-bar-card__pct {
+    font-size: 22px;
+    font-weight: 600;
     color: #111827;
+    letter-spacing: -0.4px;
 }
 
 .performance-track {
-    height: 6px;
+    height: 5px;
     background: #ebebeb;
     border-radius: 3px;
     overflow: hidden;
@@ -173,43 +215,44 @@
     height: 100%;
     border-radius: 3px;
     background: linear-gradient(90deg, #1A6BFF, #FF6B1A);
-    transition: width 1s ease;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.performance-bar-footer {
+.performance-bar-card__footer {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: 10.5px;
     color: #9ca3af;
 }
 
 /* ── Breakdown card ── */
-.breakdown-title {
-    font-size: 13px;
+.breakdown-card__title {
+    font-size: 12px;
     color: #6b7280;
-    margin-bottom: 14px;
+    margin: 0 0 14px;
 }
 
 .seg-bar {
-    height: 10px;
-    border-radius: 5px;
+    height: 8px;
+    border-radius: 4px;
     overflow: hidden;
     display: flex;
-    margin-bottom: 10px;
+    background: #ebebeb;
+    margin-bottom: 12px;
 }
 
-.seg-ontime  { background: #22c55e; }
-.seg-delayed { background: #f59e0b; }
+.seg-ontime  { background: #22c55e; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.seg-delayed { background: #f59e0b; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
 
 .seg-legend {
     display: flex;
-    gap: 16px;
+    gap: 18px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     font-size: 12px;
     color: #6b7280;
 }
@@ -224,55 +267,38 @@
 .legend-dot--ontime  { background: #22c55e; }
 .legend-dot--delayed { background: #f59e0b; }
 
-/* ── Section divider ── */
-.analytics-divider {
-    height: 0.5px;
-    background: #ebebeb;
-    margin: 1.5rem 0 1.25rem 0;
-}
-
-.section-heading {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9ca3af;
-    margin-bottom: 1rem;
-}
-
-/* ── Airport search section ── */
+/* ── Airport search ── */
 .airport-search-section {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
-/* ── Route placeholder ── */
-.route-placeholder {
-    background: #f9fafb;
-    border-radius: 12px;
-    border: 0.5px solid #ebebeb;
-    padding: 2.5rem;
-    text-align: center;
-    color: #9ca3af;
-    font-size: 13px;
+.airport-results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-/* ── Airport details row ── */
 .airport-details-row {
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
+}
+
+/* ── Fleet section ── */
+.fleet-stats-row {
     margin-top: 12px;
 }
 
-/* ── Fleet Overview ── */
+/* ── Fleet Overview card ── */
 .fleet-overview {
     padding: 1.25rem;
     background: #f9fafb;
-    border-radius: 12px;
     border: 0.5px solid #ebebeb;
+    border-radius: 12px;
 }
 
 .fleet-overview__title {
-    font-size: 13px;
+    font-size: 12px;
     color: #6b7280;
     font-weight: 400;
     margin: 0 0 14px;
@@ -291,58 +317,122 @@
     border: 0.5px solid #ebebeb;
     border-radius: 10px;
     overflow: hidden;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .fleet-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 2px;
     border-radius: 10px 10px 0 0;
     background: #FF6B1A;
 }
 
-.fleet-card:nth-child(even)::before {
-    background: #1A6BFF;
-}
+.fleet-card:nth-child(even)::before { background: #1A6BFF; }
 
 .fleet-card:hover {
     border-color: #d1d5db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .fleet-card__label {
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 10.5px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.08em;
     color: #9ca3af;
     margin: 0 0 8px;
 }
 
 .fleet-card__value {
     font-size: 26px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
     letter-spacing: -0.5px;
     color: #FF6B1A;
     margin: 0;
 }
 
-.fleet-card:nth-child(even) .fleet-card__value {
-    color: #1A6BFF;
+.fleet-card:nth-child(even) .fleet-card__value { color: #1A6BFF; }
+
+/* ── Fleet Stats ── */
+.fleet-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
 }
 
-/* ── Fleet status messages ── */
+.fleet-stat-card {
+    position: relative;
+    padding: 14px 14px 12px;
+    background: #ffffff;
+    border: 0.5px solid #ebebeb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fleet-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: 10px 10px 0 0;
+    background: #FF6B1A;
+}
+
+.fleet-stat-card:nth-child(even)::before { background: #1A6BFF; }
+
+.fleet-stat-card:hover {
+    border-color: #d1d5db;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.fleet-stat-card__label {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin: 0 0 8px;
+}
+
+.fleet-stat-card__value {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: #FF6B1A;
+    margin: 0;
+}
+
+.fleet-stat-card:nth-child(even) .fleet-stat-card__value { color: #1A6BFF; }
+
+/* ── Status messages ── */
 .fleet-status {
     font-size: 12px;
     color: #9ca3af;
     text-align: center;
     padding: 12px 0;
+    margin: 0;
 }
 
-.fleet-status--error {
-    color: #ef4444;
+.fleet-status--error { color: #ef4444; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .stats-grid   { grid-template-columns: 1fr; }
+    .section-row  { grid-template-columns: 1fr; }
+    .fleet-cards,
+    .fleet-stats  { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+    .dashboard-title           { font-size: 20px; }
+    .stat-value                { font-size: 26px; }
+    .fleet-cards,
+    .fleet-stats               { grid-template-columns: 1fr 1fr; }
+    .fleet-card__value,
+    .fleet-stat-card__value    { font-size: 22px; }
 }
