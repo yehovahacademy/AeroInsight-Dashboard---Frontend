@@ -148,7 +148,7 @@ function Analytics() {
                 <FleetOverview />
                 {fleet && (
     <div className="fleet-stats-row">
-        <FleetStats fleet={fleet} />
+        
 
         <div className="fleet-table-row">
             <FleetTable aircraft={fleet.aircraft} />
