@@ -436,3 +436,10 @@
     .fleet-card__value,
     .fleet-stat-card__value    { font-size: 22px; }
 }
+/* ── Fleet Table Row ── */
+
+.fleet-table-row {
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+}

@@ -5,6 +5,7 @@ import AirportOverview from "../components/Airport/AirportOverview";
 import AirportWeather from "../components/Airport/AirportWeather";
 import FleetOverview from "../components/Fleet/FleetOverview";
 import FleetStats from "../components/Fleet/FleetStats";
+import FleetTable from "../components/Fleet/FleetTable";
 
 function Analytics() {
     const [airportData, setAirportData] = useState(null);
@@ -146,10 +147,14 @@ function Analytics() {
                 <p className="section-eyebrow">Fleet composition</p>
                 <FleetOverview />
                 {fleet && (
-                    <div className="fleet-stats-row">
-                        <FleetStats fleet={fleet} />
-                    </div>
-                )}
+    <div className="fleet-stats-row">
+        <FleetStats fleet={fleet} />
+
+        <div className="fleet-table-row">
+            <FleetTable aircraft={fleet.aircraft} />
+        </div>
+    </div>
+)}
             </section>
 
         </div>

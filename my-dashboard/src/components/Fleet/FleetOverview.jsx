@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./FleetOverview.css";
+import FleetStats from "./FleetStats";
+import FleetTable from "./FleetTable";
 
 function FleetOverview() {
   const [fleet, setFleet] = useState(null);
@@ -23,25 +25,20 @@ function FleetOverview() {
   if (loading) return <p className="fleet-status">Loading fleet data...</p>;
   if (error || !fleet) return <p className="fleet-status fleet-status--error">Unable to load fleet data.</p>;
 
-  const metrics = [
-    { label: "Total Aircraft Types", value: fleet.total_aircraft },
-    { label: "Manufacturers",        value: fleet.manufacturers  },
-  ];
-
   return (
-    <div className="fleet-overview">
-      <h2 className="fleet-overview__title">Fleet Analytics</h2>
+   <>
+  <div className="fleet-overview">
+    <h2 className="fleet-overview__title">
+      Fleet Analytics
+    </h2>
 
-      <div className="fleet-cards">
-        {metrics.map(({ label, value }) => (
-          <div key={label} className="fleet-card">
-            <h3 className="fleet-card__label">{label}</h3>
-            <p  className="fleet-card__value">{value ?? "—"}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    <FleetStats fleet={fleet} />
+
+    
+  </div>
+  </>
+);
+  
 }
 
 export default FleetOverview;
