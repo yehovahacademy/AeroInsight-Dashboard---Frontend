@@ -82,8 +82,8 @@
     border-radius: 12px 12px 0 0;
 }
 
-.stat-card--total::before  { background: #FF6B1A; }
-.stat-card--ontime::before { background: #22c55e; }
+.stat-card--total::before   { background: #FF6B1A; }
+.stat-card--ontime::before  { background: #22c55e; }
 .stat-card--delayed::before { background: #f59e0b; }
 
 .stat-card-header {
@@ -221,6 +221,9 @@
     flex-shrink: 0;
 }
 
+.legend-dot--ontime  { background: #22c55e; }
+.legend-dot--delayed { background: #f59e0b; }
+
 /* ── Section divider ── */
 .analytics-divider {
     height: 0.5px;
@@ -241,7 +244,7 @@
     margin-bottom: 12px;
 }
 
-/* ── Route placeholder / result area ── */
+/* ── Route placeholder ── */
 .route-placeholder {
     background: #f9fafb;
     border-radius: 12px;
@@ -258,4 +261,88 @@
     grid-template-columns: 1fr;
     gap: 12px;
     margin-top: 12px;
+}
+
+/* ── Fleet Overview ── */
+.fleet-overview {
+    padding: 1.25rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 0.5px solid #ebebeb;
+}
+
+.fleet-overview__title {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 400;
+    margin: 0 0 14px;
+}
+
+.fleet-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+}
+
+.fleet-card {
+    position: relative;
+    padding: 14px 14px 12px;
+    background: #ffffff;
+    border: 0.5px solid #ebebeb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.fleet-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 10px 10px 0 0;
+    background: #FF6B1A;
+}
+
+.fleet-card:nth-child(even)::before {
+    background: #1A6BFF;
+}
+
+.fleet-card:hover {
+    border-color: #d1d5db;
+}
+
+.fleet-card__label {
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+    margin: 0 0 8px;
+}
+
+.fleet-card__value {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: #FF6B1A;
+    margin: 0;
+}
+
+.fleet-card:nth-child(even) .fleet-card__value {
+    color: #1A6BFF;
+}
+
+/* ── Fleet status messages ── */
+.fleet-status {
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.fleet-status--error {
+    color: #ef4444;
 }

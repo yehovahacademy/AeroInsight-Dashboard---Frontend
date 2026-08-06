@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import AirportSearch from "../components/Airport/AirportSearch";
 import AirportOverview from "../components/Airport/AirportOverview";
 import AirportWeather from "../components/Airport/AirportWeather";
+import FleetOverview from "../components/Fleet/FleetOverview";
 
 function Analytics() {
     const [airportData, setAirportData] = useState(null);
@@ -16,18 +17,18 @@ function Analytics() {
     }, []);
 
     const handleAirportSearch = (iataCode) => {
-    console.log("Searching:", iataCode);
+        console.log("Searching:", iataCode);
 
-    fetch(
-        `https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/${iataCode}`
-    )
-        .then((res) => res.json())
-        .then((data) => {
-            console.log("Received:", data);
-            setAirportData(data);
-        })
-        .catch((err) => console.error(err));
-};
+        fetch(
+            `https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/${iataCode}`
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("Received:", data);
+                setAirportData(data);
+            })
+            .catch((err) => console.error(err));
+    };
 
     return (
         <div className="analytics-dashboard">
@@ -140,7 +141,7 @@ function Analytics() {
                 <AirportSearch onSearch={handleAirportSearch} />
             </div>
 
-            {/* ── Airport Overview + Weather ── */}
+            {/* ── Airport Overview + Weather + Fleet ── */}
             {airportData && (
                 <>
                     <AirportOverview airport={airportData} />
@@ -148,6 +149,9 @@ function Analytics() {
                     <div className="airport-details-row">
                         <AirportWeather weather={airportData.weather} />
                     </div>
+
+                    <div className="analytics-divider" />
+                    <FleetOverview />
                 </>
             )}
 
