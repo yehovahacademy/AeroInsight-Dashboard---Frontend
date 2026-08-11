@@ -34,7 +34,6 @@ function FleetOverview() {
 
     <FleetStats fleet={fleet} />
 
-    
   </div>
   </>
 );
