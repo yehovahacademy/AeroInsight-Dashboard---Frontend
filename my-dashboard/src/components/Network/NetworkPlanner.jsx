@@ -43,15 +43,29 @@ function NetworkPlanner() {
   const [airports,      setAirports     ] = useState([]);  // ← moved here, top-level
 
   // ── Fetch airports once on mount ──
+  // We fetch each IATA code individually and pick the exact match from results
   useEffect(() => {
-    fetch("https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/search/QUO")
-      .then(res => res.json())
-      .then(data => {
-        console.log("Airport data:", data);  
-        const airportNames = data.map(a => `${a.name} (${a.iata})`);
-        setAirports(airportNames);
-      })
-      .catch(err => console.error("Error fetching airports:", err));
+    const INDIAN_IATA_CODES = [
+      "BOM", "DEL", "BLR", "MAA", "CCU", "HYD", "GOI", "PNQ", "AMD", "JAI",
+      "COK", "TRV", "IXC", "PAT", "BHO", "NAG", "IXB", "GAU", "VNS", "IXR",
+      "SXR", "LKO", "IDR", "IXE", "IXM", "VTZ", "BDQ", "ATQ", "JDH", "UDR",
+      "IMF", "DIB", "IXA", "IXD", "RPR", "IXG", "IXU", "IXW", "IXJ", "PGH"
+    ];
+
+    Promise.all(
+      INDIAN_IATA_CODES.map(code =>
+        fetch(`https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/search/${code}`)
+          .then(res => res.json())
+          .then(results => results.find(a => a.iata === code) ?? null)
+          .catch(() => null)
+      )
+    ).then(results => {
+      const valid = results.filter(Boolean);
+      const airportNames = valid
+        .map(a => `${a.name} (${a.iata})`)
+        .sort();
+      setAirports(airportNames);
+    });
   }, []);
 
   const formReady = origin && destination && origin !== destination;
