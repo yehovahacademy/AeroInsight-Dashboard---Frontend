@@ -2,9 +2,9 @@
 .flight-detail-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
-  background: #f0f4f8;
+  gap: 12px;
+  padding: 28px 32px;
+  background: #f4f6f9;
   min-height: 100vh;
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
@@ -12,23 +12,19 @@
 /* ── Card ───────────────────────────────────────────── */
 .flight-card {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 8px;
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.06),
-    0 4px 16px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e0e4ea;
+  border-left: 4px solid #1a3a5c;
+  transition: box-shadow 0.2s ease;
 }
 
 .flight-card:hover {
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    0 12px 32px rgba(0, 0, 0, 0.07);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
 }
 
 /* ── Header row ─────────────────────────────────────── */
@@ -37,6 +33,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eaecf0;
 }
 
 /* ── Airline identity ───────────────────────────────── */
@@ -46,13 +44,13 @@
   gap: 14px;
 }
 
-/* Logo wrapper — fixed square, clean border */
+/* Logo wrapper */
 .airline-logo-wrapper {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  border: 1px solid #e8edf2;
-  background: #f7f9fb;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid #dde1e7;
+  background: #f7f8fa;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,54 +72,61 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: #1e40af;
-  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+  color: #ffffff;
+  background: #1a3a5c;
   letter-spacing: -0.5px;
 }
 
 .airline-meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .flight-airline {
   margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #0f172a;
-  letter-spacing: -0.2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f1923;
+  letter-spacing: -0.1px;
   line-height: 1.2;
 }
 
 .flight-number {
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  color: #64748b;
-  letter-spacing: 0.6px;
+  color: #6b7685;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 /* ── Status badge ───────────────────────────────────── */
 .flight-status {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: 4px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.9px;
   text-transform: uppercase;
   white-space: nowrap;
   align-self: flex-start;
+  border: 1px solid transparent;
 }
 
-.status-on-time    { background: #dcfce7; color: #15803d; }
-.status-delayed    { background: #fef9c3; color: #92400e; }
-.status-cancelled  { background: #fee2e2; color: #b91c1c; }
-.status-boarding   { background: #dbeafe; color: #1d4ed8; }
-.status-landed     { background: #f3f4f6; color: #374151; }
+/*
+  Status classes use flight.status?.toLowerCase().replace(/\s+/g, "-")
+  in JSX to handle multi-word statuses like "On Time" → "on-time"
+  Make sure your JSX uses:
+    status-${flight.status?.toLowerCase().replace(/\s+/g, "-")}
+*/
+.status-on-time   { background: #edfaf3; color: #166534; border-color: #bbf7d0; }
+.status-delayed   { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+.status-cancelled { background: #fff1f1; color: #991b1b; border-color: #fecaca; }
+.status-boarding  { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+.status-landed    { background: #f3f4f6; color: #374151; border-color: #d1d5db; }
 
 /* ── Route section ──────────────────────────────────── */
 .flight-route {
@@ -129,16 +134,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 16px 18px;
-  background: #f8fafc;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  padding: 18px 20px;
+  background: #f7f8fa;
+  border-radius: 6px;
+  border: 1px solid #e0e4ea;
 }
 
 .route-point {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .route-point--right {
@@ -146,19 +151,20 @@
 }
 
 .route-code {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.5px;
+  color: #0f1923;
+  letter-spacing: 1px;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .route-label {
   font-size: 10px;
-  font-weight: 500;
-  color: #94a3b8;
+  font-weight: 600;
+  color: #8c96a3;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
 }
 
 /* Middle connector */
@@ -168,7 +174,7 @@
   gap: 4px;
   flex: 1;
   justify-content: center;
-  color: #f97316; /* AeroInsight orange */
+  color: #1a3a5c;
 }
 
 .route-dot {
@@ -176,19 +182,20 @@
   height: 5px;
   border-radius: 50%;
   background: currentColor;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .route-dash {
   flex: 1;
   height: 1px;
   background: currentColor;
-  opacity: 0.25;
-  max-width: 32px;
+  opacity: 0.2;
+  max-width: 36px;
 }
 
 .route-plane {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  opacity: 0.85;
 }
