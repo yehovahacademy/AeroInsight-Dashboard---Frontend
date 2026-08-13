@@ -18,6 +18,27 @@ import RouteCards from "./RouteCards";
 const AIRCRAFT_TYPES  = ["A320", "A321neo", "B737 MAX", "B777", "ATR 72"];
 const SEASONS         = ["Winter (Nov–Feb)", "Summer (Mar–Jun)", "Monsoon (Jul–Oct)"];
 const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6+"];
+const BASE_URL        = "https://aeroinsight-dashboard-backend.onrender.com";
+
+// Major worldwide airports — IATA codes fetched individually on mount
+const AIRPORT_CODES = [
+  // India
+  "BOM","DEL","BLR","MAA","CCU","HYD","GOI","PNQ","AMD","JAI",
+  "COK","TRV","IXC","PAT","BHO","NAG","IXB","GAU","VNS","IXR",
+  "SXR","LKO","IDR","IXE","IXM","VTZ","BDQ","ATQ","JDH","UDR",
+  // Middle East
+  "DXB","AUH","DOH","KWI","BAH","MCT","RUH","JED","AMM","BEY",
+  // Europe
+  "LHR","CDG","AMS","FRA","IST","MAD","BCN","FCO","MUC","ZRH",
+  "VIE","BRU","ARN","CPH","HEL","OSL","WAW","PRG","BUD","ATH",
+  // Asia Pacific
+  "SIN","BKK","KUL","CGK","MNL","HKG","ICN","NRT","PVG","PEK",
+  "SYD","MEL","AKL","KIX","TPE","SGN","HAN","DAD","CMB","KTM",
+  // Americas
+  "JFK","LAX","ORD","MIA","SFO","YYZ","GRU","EZE","BOG","LIM",
+  // Africa
+  "JNB","NBO","CAI","CMN","ADD","LOS","ACC","DAR",
+];
 
 const PLANNER_TOOLS = [
   { icon: faRoute,            label: "Route Optimisation"   },
@@ -29,6 +50,7 @@ const PLANNER_TOOLS = [
 ];
 
 // ── Component ────────────────────────────────────────────────
+
 function NetworkPlanner() {
 
   const [origin,        setOrigin       ] = useState("");
@@ -40,31 +62,24 @@ function NetworkPlanner() {
   const [routeData,     setRouteData    ] = useState(null);
   const [loading,       setLoading      ] = useState(false);
   const [error,         setError        ] = useState(null);
-  const [airports,      setAirports     ] = useState([]);  // ← moved here, top-level
+  const [airports,      setAirports     ] = useState([]);
+  const [airportsLoading, setAirportsLoading] = useState(true);
 
-  // ── Fetch airports once on mount ──
-  // We fetch each IATA code individually and pick the exact match from results
+  // ── Fetch all airports in parallel on mount ──
   useEffect(() => {
-    const INDIAN_IATA_CODES = [
-      "BOM", "DEL", "BLR", "MAA", "CCU", "HYD", "GOI", "PNQ", "AMD", "JAI",
-      "COK", "TRV", "IXC", "PAT", "BHO", "NAG", "IXB", "GAU", "VNS", "IXR",
-      "SXR", "LKO", "IDR", "IXE", "IXM", "VTZ", "BDQ", "ATQ", "JDH", "UDR",
-      "IMF", "DIB", "IXA", "IXD", "RPR", "IXG", "IXU", "IXW", "IXJ", "PGH"
-    ];
-
     Promise.all(
-      INDIAN_IATA_CODES.map(code =>
-        fetch(`https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/search/${code}`)
-          .then(res => res.json())
+      AIRPORT_CODES.map(code =>
+        fetch(`${BASE_URL}/airports/api/airports/search/${code}`)
+          .then(res => res.ok ? res.json() : [])
           .then(results => results.find(a => a.iata === code) ?? null)
           .catch(() => null)
       )
     ).then(results => {
-      const valid = results.filter(Boolean);
-      const airportNames = valid
-        .map(a => `${a.name} (${a.iata})`)
-        .sort();
-      setAirports(airportNames);
+      const valid = results
+        .filter(Boolean)
+        .sort((a, b) => a.city.localeCompare(b.city));
+      setAirports(valid);
+      setAirportsLoading(false);
     });
   }, []);
 
@@ -75,9 +90,6 @@ function NetworkPlanner() {
     setDestination(origin);
   };
 
-  // Extract IATA code from "Mumbai (BOM)" → "BOM"
-  const extractIATA = (value) => value.match(/\(([^)]+)\)/)?.[1] ?? value;
-
   const handleAnalyze = async () => {
     if (!formReady) return;
 
@@ -87,23 +99,26 @@ function NetworkPlanner() {
 
     try {
       const response = await fetch(
-        "https://aeroinsight-dashboard-backend.onrender.com/network/analyze_route",
+        `${BASE_URL}/api/network/analyze_route`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            origin:          extractIATA(origin),
-            destination:     extractIATA(destination),
+            origin,
+            destination,
             aircraft:        aircraft || null,
-            season:          season || null,
+            season:          season   || null,
             flights_per_day: flightsDay || null,
           }),
         }
       );
 
+      const data = await response.json();
+      console.log("Status:", response.status);
+      console.log("Response:", data);
+
       if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
-      const data = await response.json();
       setRouteData(data);
 
     } catch (err) {
@@ -135,18 +150,27 @@ function NetworkPlanner() {
                   Origin Airport
                 </label>
                 <select
+                  className="airport-select"
                   value={origin}
                   onChange={e => setOrigin(e.target.value)}
-                  style={{ border: "none", background: "transparent", fontSize: "14px", width: "100%", outline: "none" }}
+                  disabled={airportsLoading}
                 >
-                  <option value="">Select origin</option>
+                  <option value="">
+                    {airportsLoading ? "Loading airports..." : "Select origin"}
+                  </option>
                   {airports.map(a => (
-                    <option key={a} value={a} disabled={a === destination}>{a}</option>
+                    <option key={a.iata} value={a.iata} disabled={a.iata === destination}>
+                      {a.city} ({a.iata})
+                    </option>
                   ))}
                 </select>
               </div>
 
-              <button className="swap-btn" onClick={handleSwap} aria-label="Swap origin and destination">
+              <button
+                className="swap-btn"
+                onClick={handleSwap}
+                aria-label="Swap origin and destination"
+              >
                 <FontAwesomeIcon icon={faRightLeft} />
               </button>
 
@@ -155,13 +179,18 @@ function NetworkPlanner() {
                   Destination Airport
                 </label>
                 <select
+                  className="airport-select"
                   value={destination}
                   onChange={e => setDestination(e.target.value)}
-                  style={{ border: "none", background: "transparent", fontSize: "14px", width: "100%", outline: "none" }}
+                  disabled={airportsLoading}
                 >
-                  <option value="">Select destination</option>
+                  <option value="">
+                    {airportsLoading ? "Loading airports..." : "Select destination"}
+                  </option>
                   {airports.map(a => (
-                    <option key={a} value={a} disabled={a === origin}>{a}</option>
+                    <option key={a.iata} value={a.iata} disabled={a.iata === origin}>
+                      {a.city} ({a.iata})
+                    </option>
                   ))}
                 </select>
               </div>

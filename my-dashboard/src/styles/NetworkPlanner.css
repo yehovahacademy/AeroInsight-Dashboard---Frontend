@@ -420,3 +420,24 @@
   .airlines-grid { grid-template-columns: 1fr 1fr; }
   .Hero h2 { font-size: 22px; }
 }
+
+/* ── Airport Select ───────────────────────────────────────── */
+/* Add this to the bottom of NetworkPlanner.css               */
+
+.airport-select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.airport-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
