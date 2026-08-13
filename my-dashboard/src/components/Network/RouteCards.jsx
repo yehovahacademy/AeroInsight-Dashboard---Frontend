@@ -1,179 +1,97 @@
-import "../../styles/NetworkPlanner.css";
+import "./RouteCards.css";
 
 const RECOMMENDATION_COLORS = {
-  "Increase flight frequency": {
-    bg: "#e8f5e9",
-    text: "#2e7d32",
-  },
-
-  "Maintain": {
-    bg: "#e8f5e9",
-    text: "#2e7d32",
-  },
-
-  "Reduce Frequency": {
-    bg: "#fce4ec",
-    text: "#c62828",
-  },
-
-  "Monitor": {
-    bg: "#fff8e1",
-    text: "#f57f17",
-  },
-
-  "Review": {
-    bg: "#fce4ec",
-    text: "#c62828",
-  },
+  "Increase flight frequency": { bg: "#e8f5e9", text: "#2e7d32" },
+  "Maintain":                  { bg: "#e8f5e9", text: "#2e7d32" },
+  "Reduce Frequency":          { bg: "#fce4ec", text: "#c62828" },
+  "Monitor":                   { bg: "#fff8e1", text: "#f57f17" },
+  "Review":                    { bg: "#fce4ec", text: "#c62828" },
 };
 
+// ── Sub-components ───────────────────────────────────────────
 
+function StatRow({ label, value }) {
+  return (
+    <div className="rc-stat-row">
+      <span className="rc-stat-label">{label}</span>
+      <span className="rc-stat-value">{value}</span>
+    </div>
+  );
+}
+
+function Divider() {
+  return <div className="rc-divider" />;
+}
+
+// ── Main component ───────────────────────────────────────────
 
 function RouteCards({ data }) {
-
-
-  if (!data) {
-    return (
-      <div className="hero-3">
-        <div className="airlines">
-          <div className="heading-airlines">
-            Route Analysis
-          </div>
-
-          <p>
-            Select a route and click Analyse Route to see insights.
-          </p>
-
-        </div>
-      </div>
-    );
-  }
-
-
+  if (!data) return null;
 
   const badge =
     RECOMMENDATION_COLORS[data.recommendation] ||
     RECOMMENDATION_COLORS["Monitor"];
 
-
+  const profitPositive = data.estimated_profit >= 0;
 
   return (
+    <div className="rc-wrapper">
 
-    <div className="hero-3">
+      {/* ── Card ── */}
+      <div className="rc-card">
 
-      <div className="airlines">
-
-
-        <div className="heading-airlines">
-          Route Performance Overview
+        {/* Header */}
+        <div className="rc-header">
+          <div className="rc-route">
+            <span className="rc-iata">{data.origin}</span>
+            <svg className="rc-plane-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
+            </svg>
+            <span className="rc-iata">{data.destination}</span>
+          </div>
+          <span
+            className="rc-badge"
+            style={{ background: badge.bg, color: badge.text }}
+          >
+            {data.recommendation}
+          </span>
         </div>
 
+        <Divider />
 
+        {/* ── Two-column grid ── */}
+        <div className="rc-grid">
 
-        <div className="airlines-grid">
-
-
-          <div
-            className="airline-item"
-            style={{
-              cursor:"pointer",
-              padding:"16px",
-              borderRadius:"8px"
-            }}
-          >
-
-
-            <h2
-              style={{
-                fontSize:"18px",
-                fontWeight:700
-              }}
-            >
-              {data.origin} → {data.destination}
-            </h2>
-
-
-
-            <div style={{marginTop:"10px"}}>
-
-              <p>
-                <strong>Distance:</strong>{" "}
-                {data.distance_km} km
-              </p>
-
-
-              <p>
-                <strong>Estimated Duration:</strong>{" "}
-                {data.estimated_duration}
-              </p>
-
-
-              <p>
-                <strong>Demand Score:</strong>{" "}
-                {data.demand_score}%
-              </p>
-
-
-              <p>
-                <strong>Weather Risk:</strong>{" "}
-                {data.weather_risk}
-              </p>
-
-
-              <p>
-                <strong>Estimated Revenue:</strong>{" "}
-                ₹{data.estimated_revenue.toLocaleString()}
-              </p>
-
-
-              <p>
-                <strong>Estimated Cost:</strong>{" "}
-                ₹{data.estimated_cost.toLocaleString()}
-              </p>
-
-
-              <p>
-                <strong>Estimated Profit:</strong>{" "}
-                ₹{data.estimated_profit.toLocaleString()}
-              </p>
-
-
-            </div>
-
-
-
-            <div
-              style={{
-                marginTop:"12px",
-                display:"inline-block",
-                padding:"5px 12px",
-                borderRadius:"15px",
-                fontSize:"12px",
-                fontWeight:600,
-                background:badge.bg,
-                color:badge.text
-              }}
-            >
-
-              {data.recommendation}
-
-            </div>
-
-
-
+          {/* Left: Route info */}
+          <div className="rc-section">
+            <p className="rc-section-title">Route Info</p>
+            <StatRow label="Distance"          value={`${data.distance_km} km`} />
+            <StatRow label="Est. Duration"     value={data.estimated_duration} />
+            <StatRow label="Demand Score"      value={`${data.demand_score}%`} />
+            <StatRow label="Weather Risk"      value={data.weather_risk} />
           </div>
 
+          {/* Right: Financials */}
+          <div className="rc-section">
+            <p className="rc-section-title">Financials</p>
+            <StatRow label="Est. Revenue" value={`₹${data.estimated_revenue.toLocaleString()}`} />
+            <StatRow label="Est. Cost"    value={`₹${data.estimated_cost.toLocaleString()}`} />
+            <div className="rc-stat-row">
+              <span className="rc-stat-label">Est. Profit</span>
+              <span
+                className="rc-stat-value"
+                style={{ color: profitPositive ? "#166534" : "#991b1b", fontWeight: 700 }}
+              >
+                {profitPositive ? "+" : ""}₹{data.estimated_profit.toLocaleString()}
+              </span>
+            </div>
+          </div>
 
         </div>
 
-
       </div>
-
     </div>
-
   );
-
 }
-
 
 export default RouteCards;

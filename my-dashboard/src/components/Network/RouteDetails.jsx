@@ -86,7 +86,7 @@ function SeasonPills({ seasons }) {
   );
 }
 
-export default function AirLineDetails({ airline }) {
+export default function RouteDetails({ airline }) {
   if (!airline) return null;
 
   // `airline` is now a route object from ROUTE_CARDS.
