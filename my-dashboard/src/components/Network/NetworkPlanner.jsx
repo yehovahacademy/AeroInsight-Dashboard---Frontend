@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/NetworkPlanner.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,11 +14,6 @@ import {
 import RouteCards from "./RouteCards";
 
 // ── Static data ──────────────────────────────────────────────
-const AIRPORTS = [
-  "Mumbai (BOM)", "Delhi (DEL)", "Bengaluru (BLR)",
-  "Chennai (MAA)", "Hyderabad (HYD)", "Kolkata (CCU)",
-  "Goa (GOI)", "Pune (PNQ)", "Ahmedabad (AMD)", "Kochi (COK)",
-];
 
 const AIRCRAFT_TYPES  = ["A320", "A321neo", "B737 MAX", "B777", "ATR 72"];
 const SEASONS         = ["Winter (Nov–Feb)", "Summer (Mar–Jun)", "Monsoon (Jul–Oct)"];
@@ -45,6 +40,19 @@ function NetworkPlanner() {
   const [routeData,     setRouteData    ] = useState(null);
   const [loading,       setLoading      ] = useState(false);
   const [error,         setError        ] = useState(null);
+  const [airports,      setAirports     ] = useState([]);  // ← moved here, top-level
+
+  // ── Fetch airports once on mount ──
+  useEffect(() => {
+    fetch("https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/search/QUO")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Airport data:", data);  
+        const airportNames = data.map(a => `${a.name} (${a.iata})`);
+        setAirports(airportNames);
+      })
+      .catch(err => console.error("Error fetching airports:", err));
+  }, []);
 
   const formReady = origin && destination && origin !== destination;
 
@@ -118,7 +126,7 @@ function NetworkPlanner() {
                   style={{ border: "none", background: "transparent", fontSize: "14px", width: "100%", outline: "none" }}
                 >
                   <option value="">Select origin</option>
-                  {AIRPORTS.map(a => (
+                  {airports.map(a => (
                     <option key={a} value={a} disabled={a === destination}>{a}</option>
                   ))}
                 </select>
@@ -138,7 +146,7 @@ function NetworkPlanner() {
                   style={{ border: "none", background: "transparent", fontSize: "14px", width: "100%", outline: "none" }}
                 >
                   <option value="">Select destination</option>
-                  {AIRPORTS.map(a => (
+                  {airports.map(a => (
                     <option key={a} value={a} disabled={a === origin}>{a}</option>
                   ))}
                 </select>
@@ -229,24 +237,20 @@ function NetworkPlanner() {
       </div>
       <br />
 
-      {/* Error */}
       {error && (
         <p style={{ color: "red", textAlign: "center" }}>{error}</p>
       )}
 
-      {/* Empty state */}
       {!routeData && !loading && !error && (
         <p style={{ textAlign: "center", color: "#888" }}>
           Select a route and click Analyse Route to see insights.
         </p>
       )}
 
-      {/* Loading state */}
       {loading && (
         <p style={{ textAlign: "center", color: "#888" }}>Analysing route...</p>
       )}
 
-      {/* Results */}
       {routeData && (
         <RouteCards
           data={routeData}

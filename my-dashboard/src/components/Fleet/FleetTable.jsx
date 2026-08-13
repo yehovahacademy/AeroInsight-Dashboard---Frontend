@@ -49,7 +49,7 @@ function FleetTable({ aircraft = [] }) {
                     <tbody>
                         {filtered.length > 0 ? (
                             filtered.map((plane, index) => (
-                                <tr key={plane.iata_code || index} className="fleet-table__row">
+                               <tr key={`${plane.iata_code}-${index}`} className="fleet-table__row">
                                     <td className="fleet-table__td">{plane.name}</td>
                                     <td className="fleet-table__td">
                                         <span className={`manufacturer-badge manufacturer-badge--${plane.manufacturer.toLowerCase()}`}>
