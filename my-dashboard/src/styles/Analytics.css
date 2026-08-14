@@ -1,445 +1,359 @@
-/* ─────────────────────────────────────────────
-   Design tokens
-   Orange  #FF6B1A   Blue  #1A6BFF
-   Success #16a34a   Warning #d97706
-   Border  #ebebeb   Muted  #9ca3af
-────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   Analytics.css  ·  AeroInsight
+   Consistent with DemandIntelligence token system:
+   navy base / amber accent / slate labels / JetBrains Mono data
+   ═══════════════════════════════════════════════════════════════ */
 
-/* ── Page ── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap");
+
+/* ── Page-level tokens ─────────────────────────────────────────── */
 .analytics-dashboard {
-    display: flex;
+    --bg:          #080F1E;
+    --surface:     #0B1629;
+    --surface-2:   #112240;
+    --surface-3:   #1B3358;
+    --border:      rgba(255,255,255,0.07);
+    --accent:      #F97316;
+    --accent-dim:  rgba(249,115,22,0.10);
+    --accent-glow: rgba(249,115,22,0.25);
+    --success:     #22C55E;
+    --success-dim: rgba(34,197,94,0.10);
+    --warning:     #FACC15;
+    --warning-dim: rgba(250,204,21,0.10);
+    --danger:      #EF4444;
+    --text:        #E2E8F0;
+    --muted:       #64748B;
+    --label:       #94A3B8;
+    --radius:      10px;
+    --radius-sm:   6px;
+    --font-ui:     "Inter", system-ui, sans-serif;
+    --font-mono:   "JetBrains Mono", monospace;
+
+    font-family: var(--font-ui);
+    background:  var(--bg);
+    color:       var(--text);
+    min-height:  100vh;
+    padding:     2rem 2.5rem;
+    display:     flex;
     flex-direction: column;
-    gap: 0;
-    padding: 0 0 3rem;
-    font-family: 'Inter', system-ui, sans-serif;
+    gap:         2rem;
 }
 
-/* ── Section wrapper ── */
-.analytics-section {
-    padding: 2rem 0 0;
-    border-top: 0.5px solid #ebebeb;
+@media (max-width: 768px) {
+    .analytics-dashboard { padding: 1.25rem 1rem; }
 }
 
-.analytics-section:first-of-type {
-    border-top: none;
-}
-
-/* ── Section eyebrow label ── */
-.section-eyebrow {
-    font-size: 10.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #9ca3af;
-    margin: 0 0 1.25rem;
-}
-
-/* ── Header ── */
+/* ── Header ────────────────────────────────────────────────────── */
 .dashboard-header {
-    display: flex;
-    align-items: flex-start;
+    display:         flex;
+    align-items:     center;
     justify-content: space-between;
-    padding: 1.75rem 0 1.75rem;
-    margin-bottom: 0;
-    border-bottom: 0.5px solid #ebebeb;
+    flex-wrap:       wrap;
+    gap:             1rem;
+    padding-bottom:  1.5rem;
+    border-bottom:   1px solid var(--border);
+}
+
+.dashboard-header__left {
+    display:        flex;
+    flex-direction: column;
+    gap:            0.15rem;
 }
 
 .dashboard-label {
-    font-size: 10.5px;
-    letter-spacing: 0.1em;
+    margin: 0;
+    font-family:    var(--font-mono);
+    font-size:      0.65rem;
+    font-weight:    600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-weight: 600;
-    color: #FF6B1A;
-    margin: 0 0 5px;
+    color:          var(--accent);
 }
 
 .dashboard-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #111827;
-    letter-spacing: -0.4px;
-    margin: 0;
+    margin:      0;
+    font-size:   1.75rem;
+    font-weight: 700;
+    color:       var(--text);
+    line-height: 1.15;
 }
 
+/* Live badge */
 .live-badge {
-    display: flex;
+    display:     flex;
     align-items: center;
-    gap: 7px;
-    padding: 5px 13px;
-    border: 0.5px solid #ebebeb;
-    border-radius: 20px;
-    font-size: 12px;
-    color: #6b7280;
-    background: #f9fafb;
-    margin-top: 6px;
-    white-space: nowrap;
+    gap:         0.45rem;
+    padding:     0.35rem 0.85rem;
+    border:      1px solid rgba(34,197,94,0.3);
+    border-radius: 999px;
+    font-size:   0.72rem;
+    font-weight: 600;
+    color:       var(--success);
+    background:  var(--success-dim);
+    letter-spacing: 0.04em;
 }
 
 .live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #22c55e;
-    flex-shrink: 0;
-    animation: livePulse 2s ease-in-out infinite;
+    width:            7px;
+    height:           7px;
+    border-radius:    50%;
+    background:       var(--success);
+    box-shadow:       0 0 6px var(--success);
+    animation:        pulse-dot 2s ease-in-out infinite;
 }
 
-@keyframes livePulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
+@keyframes pulse-dot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.75); }
 }
 
-/* ── Stat cards ── */
+/* ── Sections ──────────────────────────────────────────────────── */
+.analytics-section {
+    display:        flex;
+    flex-direction: column;
+    gap:            1.1rem;
+}
+
+.section-eyebrow {
+    margin:         0;
+    font-family:    var(--font-mono);
+    font-size:      0.63rem;
+    font-weight:    600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color:          var(--accent);
+}
+
+/* ── Flight stats grid ─────────────────────────────────────────── */
 .stats-grid {
-    display: grid;
+    display:               grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 12px;
+    gap:                   1rem;
+}
+
+@media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
 }
 
 .stat-card {
-    background: #f9fafb;
-    border: 0.5px solid #ebebeb;
-    border-radius: 12px;
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
-    transition: box-shadow 0.2s ease;
+    background:    var(--surface);
+    border:        1px solid var(--border);
+    border-radius: var(--radius);
+    padding:       1.25rem 1.4rem;
+    display:       flex;
+    flex-direction: column;
+    gap:           0.35rem;
+    transition:    border-color 0.2s, box-shadow 0.2s;
 }
 
 .stat-card:hover {
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-color: var(--accent-glow);
+    box-shadow:   0 0 0 1px var(--accent-glow);
 }
 
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2.5px;
-    border-radius: 12px 12px 0 0;
-}
-
-.stat-card--total::before   { background: #FF6B1A; }
-.stat-card--ontime::before  { background: #22c55e; }
-.stat-card--delayed::before { background: #f59e0b; }
+.stat-card--total  { border-left: 3px solid var(--accent); }
+.stat-card--ontime { border-left: 3px solid var(--success); }
+.stat-card--delayed{ border-left: 3px solid var(--warning); }
 
 .stat-card__header {
-    display: flex;
+    display:     flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
+    gap:         0.5rem;
 }
 
 .stat-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
+    font-size: 0.95rem;
 }
 
-.stat-icon--accent  { background: rgba(255,107,26,0.1);  color: #FF6B1A; }
-.stat-icon--success { background: rgba(34,197,94,0.1);   color: #22c55e; }
-.stat-icon--warning { background: rgba(245,158,11,0.1);  color: #f59e0b; }
+.stat-icon--accent  { color: var(--accent); }
+.stat-icon--success { color: var(--success); }
+.stat-icon--warning { color: var(--warning); }
 
 .stat-label {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 400;
+    font-size:   0.72rem;
+    font-weight: 500;
+    color:       var(--label);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .stat-value {
-    font-size: 32px;
+    margin:      0;
+    font-family: var(--font-mono);
+    font-size:   2.2rem;
     font-weight: 600;
-    color: #111827;
-    letter-spacing: -0.6px;
+    color:       var(--text);
     line-height: 1;
-    margin: 0 0 6px;
 }
 
-.stat-value--success { color: #16a34a; }
-.stat-value--warning { color: #d97706; }
+.stat-value--success { color: var(--success); }
+.stat-value--warning { color: var(--warning); }
 
 .stat-sub {
-    font-size: 12px;
-    color: #9ca3af;
-    margin: 0;
+    margin:    0;
+    font-size: 0.72rem;
+    color:     var(--muted);
 }
 
-/* ── Performance + Breakdown row ── */
+/* ── Performance + Breakdown row ───────────────────────────────── */
 .section-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 1rem;
 }
 
-.performance-bar-card,
-.breakdown-card {
-    background: #f9fafb;
-    border: 0.5px solid #ebebeb;
-    border-radius: 12px;
-    padding: 1.25rem;
+@media (max-width: 640px) {
+    .section-row { grid-template-columns: 1fr; }
+}
+
+/* Performance bar card */
+.performance-bar-card {
+    background:    var(--surface);
+    border:        1px solid var(--border);
+    border-radius: var(--radius);
+    padding:       1.25rem 1.4rem;
+    display:       flex;
+    flex-direction: column;
+    gap:           0.6rem;
 }
 
 .performance-bar-card__header {
-    display: flex;
+    display:         flex;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 14px;
+    align-items:     baseline;
 }
 
 .performance-bar-card__label {
-    font-size: 12px;
-    color: #6b7280;
+    font-size:   0.78rem;
+    font-weight: 600;
+    color:       var(--label);
 }
 
 .performance-bar-card__pct {
-    font-size: 22px;
+    font-family: var(--font-mono);
+    font-size:   1.4rem;
     font-weight: 600;
-    color: #111827;
-    letter-spacing: -0.4px;
+    color:       var(--success);
 }
 
 .performance-track {
-    height: 5px;
-    background: #ebebeb;
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 8px;
+    height:        8px;
+    border-radius: 999px;
+    background:    var(--surface-3);
+    overflow:      hidden;
 }
 
 .performance-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, #1A6BFF, #FF6B1A);
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    height:     100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--success), #16A34A);
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
 }
 
 .performance-bar-card__footer {
-    display: flex;
+    display:         flex;
     justify-content: space-between;
-    font-size: 10.5px;
-    color: #9ca3af;
+    font-size:       0.62rem;
+    color:           var(--muted);
+    font-family:     var(--font-mono);
 }
 
-/* ── Breakdown card ── */
+/* Breakdown card */
+.breakdown-card {
+    background:    var(--surface);
+    border:        1px solid var(--border);
+    border-radius: var(--radius);
+    padding:       1.25rem 1.4rem;
+    display:       flex;
+    flex-direction: column;
+    gap:           0.8rem;
+}
+
 .breakdown-card__title {
-    font-size: 12px;
-    color: #6b7280;
-    margin: 0 0 14px;
+    margin:      0;
+    font-size:   0.78rem;
+    font-weight: 600;
+    color:       var(--label);
 }
 
+/* Segmented bar */
 .seg-bar {
-    height: 8px;
-    border-radius: 4px;
-    overflow: hidden;
-    display: flex;
-    background: #ebebeb;
-    margin-bottom: 12px;
+    display:       flex;
+    height:        10px;
+    border-radius: 999px;
+    overflow:      hidden;
+    background:    var(--surface-3);
 }
 
-.seg-ontime  { background: #22c55e; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
-.seg-delayed { background: #f59e0b; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.seg-ontime {
+    background:  linear-gradient(90deg, var(--success), #16A34A);
+    transition:  width 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+.seg-delayed {
+    background: linear-gradient(90deg, var(--warning), #CA8A04);
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+}
 
 .seg-legend {
     display: flex;
-    gap: 18px;
+    gap:     1.25rem;
 }
 
 .legend-item {
-    display: flex;
+    display:     flex;
     align-items: center;
-    gap: 7px;
-    font-size: 12px;
-    color: #6b7280;
+    gap:         0.45rem;
+    font-size:   0.75rem;
+    color:       var(--label);
 }
 
 .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    flex-shrink: 0;
+    width:         9px;
+    height:        9px;
+    border-radius: 50%;
+    flex-shrink:   0;
 }
 
-.legend-dot--ontime  { background: #22c55e; }
-.legend-dot--delayed { background: #f59e0b; }
+.legend-dot--ontime  { background: var(--success); }
+.legend-dot--delayed { background: var(--warning); }
 
-/* ── Airport search ── */
+/* ── Airport intelligence ──────────────────────────────────────── */
 .airport-search-section {
-    margin-bottom: 14px;
+    max-width: 480px;
 }
 
 .airport-results {
-    display: flex;
+    display:        flex;
     flex-direction: column;
-    gap: 12px;
+    gap:            1rem;
 }
 
 .airport-details-row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 1rem;
 }
 
-/* ── Fleet section ── */
+/* ── Fleet section ─────────────────────────────────────────────── */
 .fleet-stats-row {
-    margin-top: 12px;
+    display:        flex;
+    flex-direction: column;
+    gap:            1.25rem;
 }
-
-/* ── Fleet Overview card ── */
-.fleet-overview {
-    padding: 1.25rem;
-    background: #f9fafb;
-    border: 0.5px solid #ebebeb;
-    border-radius: 12px;
-}
-
-.fleet-overview__title {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 400;
-    margin: 0 0 14px;
-}
-
-.fleet-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-}
-
-.fleet-card {
-    position: relative;
-    padding: 14px 14px 12px;
-    background: #ffffff;
-    border: 0.5px solid #ebebeb;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.fleet-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 10px 10px 0 0;
-    background: #FF6B1A;
-}
-
-.fleet-card:nth-child(even)::before { background: #1A6BFF; }
-
-.fleet-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.fleet-card__label {
-    font-size: 10.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9ca3af;
-    margin: 0 0 8px;
-}
-
-.fleet-card__value {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.5px;
-    color: #FF6B1A;
-    margin: 0;
-}
-
-.fleet-card:nth-child(even) .fleet-card__value { color: #1A6BFF; }
-
-/* ── Fleet Stats ── */
-.fleet-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-}
-
-.fleet-stat-card {
-    position: relative;
-    padding: 14px 14px 12px;
-    background: #ffffff;
-    border: 0.5px solid #ebebeb;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.fleet-stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 10px 10px 0 0;
-    background: #FF6B1A;
-}
-
-.fleet-stat-card:nth-child(even)::before { background: #1A6BFF; }
-
-.fleet-stat-card:hover {
-    border-color: #d1d5db;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.fleet-stat-card__label {
-    font-size: 10.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9ca3af;
-    margin: 0 0 8px;
-}
-
-.fleet-stat-card__value {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.5px;
-    color: #FF6B1A;
-    margin: 0;
-}
-
-.fleet-stat-card:nth-child(even) .fleet-stat-card__value { color: #1A6BFF; }
-
-/* ── Status messages ── */
-.fleet-status {
-    font-size: 12px;
-    color: #9ca3af;
-    text-align: center;
-    padding: 12px 0;
-    margin: 0;
-}
-
-.fleet-status--error { color: #ef4444; }
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-    .stats-grid   { grid-template-columns: 1fr; }
-    .section-row  { grid-template-columns: 1fr; }
-    .fleet-cards,
-    .fleet-stats  { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 480px) {
-    .dashboard-title           { font-size: 20px; }
-    .stat-value                { font-size: 26px; }
-    .fleet-cards,
-    .fleet-stats               { grid-template-columns: 1fr 1fr; }
-    .fleet-card__value,
-    .fleet-stat-card__value    { font-size: 22px; }
-}
-/* ── Fleet Table Row ── */
 
 .fleet-table-row {
-    margin-top: 12px;
-    border-radius: 12px;
-    overflow: hidden;
+    width: 100%;
+}
+
+.demand-forecast {
+    width: 100%;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .live-dot,
+    .performance-fill,
+    .seg-ontime,
+    .seg-delayed { animation: none; transition: none; }
 }

@@ -6,13 +6,14 @@ import AirportWeather from "../components/Airport/AirportWeather";
 import FleetOverview from "../components/Fleet/FleetOverview";
 import FleetStats from "../components/Fleet/FleetStats";
 import FleetTable from "../components/Fleet/FleetTable";
+import DemandIntelligence from "../components/Demand Intelligence/DemandIntelligence";
 
 function Analytics() {
     const [airportData, setAirportData] = useState(null);
     const [stats, setStats]             = useState(null);
     const [fleet, setFleet]             = useState(null);
     const[demandForecast, setDemandForecast] = useState(null);
-    const[setdemandLoading, setDemandLoading] = useState(false);
+    const[demandLoading, setDemandLoading] = useState(false);
     const[demandError, setDemandError] = useState(null);
 
     useEffect(() => {
@@ -163,6 +164,11 @@ function Analytics() {
         <div className="fleet-table-row">
             <FleetTable aircraft={fleet.aircraft} />
         </div>
+
+        <div className="demand-forecast">
+            <DemandIntelligence demandForecast={demandForecast} />
+        </div>
+        <br></br>
     </div>
 )}
             </section>

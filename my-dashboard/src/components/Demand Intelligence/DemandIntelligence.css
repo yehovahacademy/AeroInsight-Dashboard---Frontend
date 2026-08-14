@@ -1,0 +1,621 @@
+/* ═══════════════════════════════════════════════════════════════
+   DemandIntelligence.css  ·  AeroInsight
+   Tokens: navy base / amber accent / slate labels / mono data
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap");
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+.di-section {
+    --di-bg:         #0B1629;
+    --di-surface:    #112240;
+    --di-surface-2:  #1B3358;
+    --di-border:     rgba(255,255,255,0.07);
+    --di-accent:     #F97316;
+    --di-accent-dim: rgba(249,115,22,0.10);
+    --di-accent-glow:rgba(249,115,22,0.22);
+    --di-text:       #E2E8F0;
+    --di-muted:      #64748B;
+    --di-label:      #94A3B8;
+    --di-high:       #F97316;
+    --di-medium:     #FACC15;
+    --di-low:        #22C55E;
+    --di-up:         #22C55E;
+    --di-down:       #EF4444;
+    --di-radius:     10px;
+    --di-radius-sm:  6px;
+    --di-font-ui:    "Inter", system-ui, sans-serif;
+    --di-font-mono:  "JetBrains Mono", monospace;
+
+    font-family:    var(--di-font-ui);
+    background:     var(--di-bg);
+    border:         1px solid var(--di-border);
+    border-radius:  var(--di-radius);
+    padding:        2rem;
+    display:        flex;
+    flex-direction: column;
+    gap:            1.75rem;
+    color:          var(--di-text);
+}
+
+/* ── Header ────────────────────────────────────────────────────── */
+.di-header {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: space-between;
+    gap:             1rem;
+    flex-wrap:       wrap;
+}
+
+.di-eyebrow {
+    display:        block;
+    font-family:    var(--di-font-mono);
+    font-size:      0.65rem;
+    font-weight:    600;
+    letter-spacing: 0.15em;
+    color:          var(--di-accent);
+    margin-bottom:  0.4rem;
+}
+
+.di-title {
+    margin:      0 0 0.25rem;
+    font-size:   1.5rem;
+    font-weight: 700;
+    color:       var(--di-text);
+    line-height: 1.2;
+}
+
+.di-subtitle {
+    margin:    0;
+    font-size: 0.8rem;
+    color:     var(--di-muted);
+}
+
+/* Route badge (header + recommendation) */
+.di-route-badge {
+    display:        flex;
+    flex-direction: column;
+    align-items:    flex-end;
+    gap:            0.2rem;
+    padding:        0.6rem 1rem;
+    background:     var(--di-surface);
+    border:         1px solid var(--di-border);
+    border-radius:  var(--di-radius-sm);
+    white-space:    nowrap;
+}
+
+.di-route-badge--accent {
+    border-color: var(--di-accent);
+    background:   var(--di-accent-dim);
+}
+
+.di-route-label {
+    font-family:    var(--di-font-mono);
+    font-size:      0.6rem;
+    letter-spacing: 0.12em;
+    color:          var(--di-muted);
+}
+
+.di-route-code {
+    font-family:    var(--di-font-mono);
+    font-size:      1.1rem;
+    font-weight:    600;
+    color:          var(--di-text);
+    letter-spacing: 0.05em;
+}
+
+/* ── Route Search Panel ────────────────────────────────────────── */
+.di-search-panel {
+    background:    var(--di-surface);
+    border:        1px solid var(--di-border);
+    border-radius: var(--di-radius);
+    padding:       1.25rem 1.4rem;
+    display:       flex;
+    flex-direction: column;
+    gap:           0.9rem;
+}
+
+.di-search-row {
+    display:     flex;
+    align-items: flex-end;
+    gap:         0.75rem;
+    flex-wrap:   wrap;
+}
+
+/* Input group */
+.di-input-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            0.3rem;
+    flex:           1;
+    min-width:      140px;
+}
+
+.di-input-group--narrow {
+    flex:      0 0 100px;
+    min-width: 90px;
+}
+
+.di-input-label {
+    font-size:      0.65rem;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color:          var(--di-label);
+}
+
+.di-select {
+    background:    var(--di-surface-2);
+    border:        1px solid var(--di-border);
+    border-radius: var(--di-radius-sm);
+    color:         var(--di-text);
+    font-family:   var(--di-font-ui);
+    font-size:     0.85rem;
+    padding:       0.5rem 0.75rem;
+    outline:       none;
+    cursor:        pointer;
+    transition:    border-color 0.2s;
+    width:         100%;
+}
+
+.di-select:focus {
+    border-color: var(--di-accent);
+    box-shadow:   0 0 0 2px var(--di-accent-dim);
+}
+
+.di-select option {
+    background: #1B3358;
+    color:      var(--di-text);
+}
+
+/* Swap button */
+.di-swap-btn {
+    flex-shrink:   0;
+    align-self:    flex-end;
+    background:    var(--di-surface-2);
+    border:        1px solid var(--di-border);
+    border-radius: var(--di-radius-sm);
+    color:         var(--di-label);
+    font-size:     1.1rem;
+    padding:       0.45rem 0.7rem;
+    cursor:        pointer;
+    transition:    color 0.2s, border-color 0.2s;
+    line-height:   1;
+}
+
+.di-swap-btn:hover {
+    color:        var(--di-accent);
+    border-color: var(--di-accent-glow);
+}
+
+/* Analyse button */
+.di-analyse-btn {
+    flex-shrink:   0;
+    align-self:    flex-end;
+    background:    var(--di-accent);
+    border:        none;
+    border-radius: var(--di-radius-sm);
+    color:         #fff;
+    font-family:   var(--di-font-ui);
+    font-size:     0.85rem;
+    font-weight:   600;
+    padding:       0.55rem 1.25rem;
+    cursor:        pointer;
+    transition:    opacity 0.2s, transform 0.15s;
+    white-space:   nowrap;
+}
+
+.di-analyse-btn:hover:not(:disabled) {
+    opacity:   0.88;
+    transform: translateY(-1px);
+}
+
+.di-analyse-btn:disabled {
+    opacity: 0.4;
+    cursor:  not-allowed;
+}
+
+/* Quick route chips */
+.di-quick-routes {
+    display:     flex;
+    align-items: center;
+    gap:         0.5rem;
+    flex-wrap:   wrap;
+}
+
+.di-quick-label {
+    font-size:   0.7rem;
+    color:       var(--di-muted);
+    font-weight: 500;
+}
+
+.di-quick-btn {
+    background:    transparent;
+    border:        1px solid var(--di-border);
+    border-radius: 999px;
+    color:         var(--di-label);
+    font-family:   var(--di-font-mono);
+    font-size:     0.68rem;
+    font-weight:   600;
+    padding:       0.22rem 0.65rem;
+    cursor:        pointer;
+    transition:    color 0.2s, border-color 0.2s, background 0.2s;
+    letter-spacing: 0.04em;
+}
+
+.di-quick-btn:hover {
+    color:        var(--di-accent);
+    border-color: var(--di-accent-glow);
+}
+
+.di-quick-btn--active {
+    background:   var(--di-accent-dim);
+    border-color: var(--di-accent);
+    color:        var(--di-accent);
+}
+
+/* ── KPI Strip ─────────────────────────────────────────────────── */
+.di-kpi-strip {
+    display:               grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:                   1rem;
+}
+
+@media (max-width: 700px) {
+    .di-kpi-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+.di-kpi-card {
+    background:     var(--di-surface);
+    border:         1px solid var(--di-border);
+    border-radius:  var(--di-radius);
+    padding:        1.1rem 1.2rem;
+    display:        flex;
+    flex-direction: column;
+    gap:            0.45rem;
+    transition:     border-color 0.2s;
+}
+
+.di-kpi-card:hover { border-color: var(--di-accent-glow); }
+
+.di-kpi-label {
+    font-size:      0.72rem;
+    color:          var(--di-label);
+    font-weight:    500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.di-kpi-value {
+    font-family: var(--di-font-mono);
+    font-size:   2rem;
+    font-weight: 600;
+    color:       var(--di-text);
+    line-height: 1;
+}
+
+.di-kpi-day { font-size: 1.3rem; }
+
+/* Trend icons */
+.di-trend-icon {
+    font-family: var(--di-font-mono);
+    font-size:   2rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.di-trend-up   { color: var(--di-up);    }
+.di-trend-down { color: var(--di-down);  }
+.di-trend-flat { color: var(--di-label); }
+
+/* Badges */
+.di-kpi-badge {
+    display:        inline-block;
+    font-size:      0.65rem;
+    font-weight:    600;
+    letter-spacing: 0.08em;
+    padding:        0.2rem 0.55rem;
+    border-radius:  999px;
+    width:          fit-content;
+    text-transform: uppercase;
+}
+
+.di-badge-neutral { background: var(--di-surface-2); color: var(--di-label); }
+.di-level-high    { background: rgba(249,115,22,0.15); color: var(--di-high);   }
+.di-level-medium  { background: rgba(250,204,21,0.12); color: var(--di-medium); }
+.di-level-low     { background: rgba(34,197,94,0.12);  color: var(--di-low);    }
+
+/* ── Forecast Panel ────────────────────────────────────────────── */
+.di-forecast-panel {
+    background:    var(--di-surface);
+    border:        1px solid var(--di-border);
+    border-radius: var(--di-radius);
+    padding:       1.4rem 1.6rem;
+}
+
+.di-forecast-header    { margin-bottom: 1.4rem; }
+.di-forecast-title     { margin: 0 0 0.2rem; font-size: 0.95rem; font-weight: 600; color: var(--di-text); }
+.di-forecast-sub       { margin: 0; font-size: 0.75rem; color: var(--di-muted); }
+
+.di-forecast-row {
+    display:               grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:                   0.75rem;
+}
+
+@media (max-width: 700px) {
+    .di-forecast-row { grid-template-columns: repeat(4, 1fr); }
+}
+
+.di-forecast-day {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            0.4rem;
+}
+
+.di-day-name {
+    font-family:    var(--di-font-mono);
+    font-size:      0.65rem;
+    font-weight:    600;
+    letter-spacing: 0.1em;
+    color:          var(--di-label);
+}
+
+/* Runway bars — signature visual */
+.di-runway-track {
+    position:      relative;
+    width:         28px;
+    height:        80px;
+    border-radius: 4px;
+    background:    var(--di-surface-2);
+    overflow:      hidden;
+    border:        1px solid var(--di-border);
+    display:       flex;
+    align-items:   flex-end;
+}
+
+.di-runway-fill {
+    width:         100%;
+    height:        0%;
+    border-radius: 3px 3px 0 0;
+    transition:    height 0.7s cubic-bezier(0.16,1,0.3,1);
+    background:    var(--di-accent);
+}
+
+.di-runway-track.di-level-high   .di-runway-fill { background: var(--di-high);   box-shadow: 0 0 8px rgba(249,115,22,0.5); }
+.di-runway-track.di-level-medium .di-runway-fill { background: var(--di-medium); box-shadow: 0 0 8px rgba(250,204,21,0.35); }
+.di-runway-track.di-level-low    .di-runway-fill { background: var(--di-low);    box-shadow: 0 0 8px rgba(34,197,94,0.35); }
+
+.di-day-score { font-family: var(--di-font-mono); font-size: 0.85rem; font-weight: 600; color: var(--di-text); }
+.di-day-level { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.di-day-load  { font-size: 0.62rem; color: var(--di-muted); font-family: var(--di-font-mono); }
+
+/* ── Capacity Recommendation Banner ───────────────────────────── */
+.di-recommendation {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             1rem;
+    flex-wrap:       wrap;
+    background:      var(--di-accent-dim);
+    border:          1px solid rgba(249,115,22,0.25);
+    border-radius:   var(--di-radius);
+    padding:         1.2rem 1.5rem;
+}
+
+.di-rec-left    { display: flex; flex-direction: column; gap: 0.35rem; }
+.di-rec-eyebrow { font-family: var(--di-font-mono); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em; color: var(--di-accent); }
+.di-rec-text    { margin: 0; font-size: 0.9rem; font-weight: 500; color: var(--di-text); max-width: 60ch; line-height: 1.5; }
+
+/* ── Divider rule between sections ────────────────────────────── */
+.di-divider-rule {
+    display:     flex;
+    align-items: center;
+    gap:         0.75rem;
+    color:       var(--di-muted);
+    font-size:   0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.di-divider-rule::before,
+.di-divider-rule::after {
+    content:    "";
+    flex:       1;
+    height:     1px;
+    background: var(--di-border);
+}
+
+/* ── Route Analysis Panel ──────────────────────────────────────── */
+.di-ra-panel {
+    background:     var(--di-surface);
+    border:         1px solid var(--di-border);
+    border-radius:  var(--di-radius);
+    padding:        1.4rem 1.6rem;
+    display:        flex;
+    flex-direction: column;
+    gap:            1.25rem;
+}
+
+.di-ra-header {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: space-between;
+    gap:             1rem;
+    flex-wrap:       wrap;
+}
+
+.di-ra-title {
+    margin:      0;
+    font-family: var(--di-font-mono);
+    font-size:   1.15rem;
+    font-weight: 600;
+    color:       var(--di-text);
+    letter-spacing: 0.04em;
+}
+
+/* Viability badge */
+.di-viability-badge {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            0.15rem;
+    padding:        0.6rem 1rem;
+    border:         2px solid;
+    border-radius:  var(--di-radius-sm);
+    background:     rgba(255,255,255,0.03);
+    min-width:      72px;
+}
+
+.di-viability-label {
+    font-size:      0.6rem;
+    font-weight:    600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color:          var(--di-muted);
+}
+
+.di-viability-score {
+    font-family: var(--di-font-mono);
+    font-size:   1.6rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.di-viability-score small {
+    font-size:   0.7rem;
+    font-weight: 400;
+    color:       var(--di-muted);
+}
+
+/* Route analysis metric grid */
+.di-ra-grid {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   0.75rem;
+}
+
+@media (max-width: 600px) {
+    .di-ra-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.di-ra-card {
+    background:     var(--di-surface-2);
+    border:         1px solid var(--di-border);
+    border-radius:  var(--di-radius-sm);
+    padding:        0.9rem 1rem;
+    display:        flex;
+    flex-direction: column;
+    gap:            0.3rem;
+    transition:     border-color 0.2s;
+}
+
+.di-ra-card:hover { border-color: var(--di-accent-glow); }
+
+.di-ra-card-label {
+    font-size:      0.68rem;
+    font-weight:    500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color:          var(--di-label);
+}
+
+.di-ra-card-value {
+    font-family: var(--di-font-mono);
+    font-size:   1.5rem;
+    font-weight: 600;
+    color:       var(--di-text);
+    line-height: 1;
+}
+
+.di-ra-card-value small {
+    font-size:   0.75rem;
+    font-weight: 400;
+    color:       var(--di-muted);
+    margin-left: 1px;
+}
+
+/* AI Recommendation inside route analysis */
+.di-ra-recommendation {
+    background:    var(--di-accent-dim);
+    border:        1px solid rgba(249,115,22,0.2);
+    border-radius: var(--di-radius-sm);
+    padding:       1rem 1.2rem;
+    display:       flex;
+    flex-direction: column;
+    gap:           0.35rem;
+}
+
+/* ── Empty hint ────────────────────────────────────────────────── */
+.di-empty-hint {
+    margin:     0;
+    font-size:  0.82rem;
+    color:      var(--di-muted);
+    text-align: center;
+    padding:    1rem 0;
+}
+
+.di-empty-hint strong { color: var(--di-label); }
+
+/* ── Skeleton / shimmer ────────────────────────────────────────── */
+@keyframes di-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+}
+
+.di-skeleton-grid {
+    display:               grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:                   1rem;
+}
+
+.di-skeleton-card {
+    height:        96px;
+    border-radius: var(--di-radius);
+    background:    linear-gradient(
+        90deg,
+        var(--di-surface)   25%,
+        var(--di-surface-2) 50%,
+        var(--di-surface)   75%
+    );
+    background-size: 800px 100%;
+    animation:       di-shimmer 1.4s infinite linear;
+}
+
+.di-skeleton-card--sm { height: 72px; }
+
+.di-skeleton-label {
+    margin:      0;
+    font-size:   0.8rem;
+    color:       var(--di-muted);
+    text-align:  center;
+    padding-bottom: 0.25rem;
+}
+
+/* ── Error box ─────────────────────────────────────────────────── */
+.di-error-box {
+    display:       flex;
+    align-items:   center;
+    gap:           0.75rem;
+    background:    rgba(239,68,68,0.08);
+    border:        1px solid rgba(239,68,68,0.25);
+    border-radius: var(--di-radius-sm);
+    padding:       1rem 1.2rem;
+    font-size:     0.85rem;
+    color:         #FCA5A5;
+}
+
+.di-error-icon {
+    font-size:  1.2rem;
+    color:      #EF4444;
+    flex-shrink: 0;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .di-runway-fill   { transition: none; }
+    .di-skeleton-card { animation: none; }
+    .di-analyse-btn   { transition: none; }
+}
