@@ -11,6 +11,9 @@ function Analytics() {
     const [airportData, setAirportData] = useState(null);
     const [stats, setStats]             = useState(null);
     const [fleet, setFleet]             = useState(null);
+    const[demandForecast, setDemandForecast] = useState(null);
+    const[setdemandLoading, setDemandLoading] = useState(false);
+    const[demandError, setDemandError] = useState(null);
 
     useEffect(() => {
         fetch("https://aeroinsight-dashboard-backend.onrender.com/analytics/")
@@ -34,6 +37,13 @@ function Analytics() {
             .then((data) => setAirportData(data))
             .catch((err) => console.error(err));
     };
+
+    useEffect(() => {
+        fetch("https://aeroinsight-dashboard-backend.onrender.com/demand-forecast/demand/forecast/DEL/DXB?days=7")
+            .then((res) => res.json())
+            .then((data) => setDemandForecast(data))
+            .catch((err) => console.error(err));
+    }, []);
 
     const onTimeRate  = stats ? Math.round((stats.on_time_flights / stats.total_flights) * 100) : 0;
     const delayRate   = stats ? Math.round((stats.delayed_flights  / stats.total_flights) * 100) : 0;
