@@ -6,7 +6,7 @@ import "./DemandIntelligence.css";
    ═══════════════════════════════════════════════════════════════ */
 const BASE_URL = "https://aeroinsight-dashboard-backend.onrender.com";
 
-const DAYS_OPTIONS = ["7", "14", "30"];
+const DAYS_OPTIONS = ["7","12","14","21","30","35"];
 
 /* Popular routes as quick-pick pairs — fallback if airports haven't
    loaded yet, or the user just wants a one-click start. */

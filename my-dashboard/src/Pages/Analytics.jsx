@@ -15,6 +15,12 @@ function Analytics() {
     const[demandForecast, setDemandForecast] = useState(null);
     const[demandLoading, setDemandLoading] = useState(false);
     const[demandError, setDemandError] = useState(null);
+    const [origin,        setOrigin       ] = useState("");
+    const [destination,   setDestination  ] = useState("");
+    const [airports,      setAirports     ] = useState([]);
+    const [airportsLoading, setAirportsLoading] = useState(true);
+    const [selectedRoute, setSelectedRoute] = useState(null);
+    const [routeData,     setRouteData    ] = useState(null);
 
     useEffect(() => {
         fetch("https://aeroinsight-dashboard-backend.onrender.com/analytics/")
@@ -45,6 +51,23 @@ function Analytics() {
             .then((data) => setDemandForecast(data))
             .catch((err) => console.error(err));
     }, []);
+
+    useEffect(() => {
+        Promise.all(
+          AIRPORT_CODES.map(code =>
+            fetch(`${BASE_URL}/airports/api/airports/search/${code}`)
+              .then(res => res.ok ? res.json() : [])
+              .then(results => results.find(a => a.iata === code) ?? null)
+              .catch(() => null)
+          )
+        ).then(results => {
+          const valid = results
+            .filter(Boolean)
+            .sort((a, b) => a.city.localeCompare(b.city));
+          setAirports(valid);
+          setAirportsLoading(false);
+        });
+      }, []);
 
     const onTimeRate  = stats ? Math.round((stats.on_time_flights / stats.total_flights) * 100) : 0;
     const delayRate   = stats ? Math.round((stats.delayed_flights  / stats.total_flights) * 100) : 0;
