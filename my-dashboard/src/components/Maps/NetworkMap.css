@@ -1,0 +1,43 @@
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Leaflet icon fix — required or markers won't show */
+.leaflet-default-icon-path {
+  background-image: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png");
+}
+
+/* Map container */
+.leaflet-container {
+  height: 600px;
+  width: 100%;
+  border-radius: 12px;
+  z-index: 0; /* prevents map from overlapping modals/navbars */
+}
+
+/* Popup */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-tip {
+  background: #ffffff;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+
+/* Attribution */
+.leaflet-control-attribution {
+  font-size: 10px;
+  opacity: 0.6;
+}
