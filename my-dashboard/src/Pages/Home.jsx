@@ -1,4 +1,4 @@
-import "../styles/Dashboard.css"
+import "../styles/Home.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCloud,faChartBar,faBuilding,faClock,faArrowTrendUp,faArrowTrendDown} from "@fortawesome/free-solid-svg-icons";
 import {faPlane} from "@fortawesome/free-solid-svg-icons";
@@ -7,7 +7,7 @@ import {useEffect} from "react";
 
 function Dashboard() {
     useEffect(() => {
-    document.title = "Dashboard Page";
+    document.title = "Home";
   }, []);
 
   return (
