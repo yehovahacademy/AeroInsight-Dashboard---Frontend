@@ -1,359 +1,839 @@
-/* ═══════════════════════════════════════════════════════════════
-   Analytics.css  ·  AeroInsight
-   Consistent with DemandIntelligence token system:
-   navy base / amber accent / slate labels / JetBrains Mono data
-   ═══════════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────
+   Analytics.css — Light & Welcoming Design
+   Akasa Air inspired with warm, friendly aesthetic
+   ───────────────────────────────────────────────────────────── */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap");
-
-/* ── Page-level tokens ─────────────────────────────────────────── */
+/* ── CSS Variables ─────────────────────────────────────────── */
 .analytics-dashboard {
-    --bg:          #080F1E;
-    --surface:     #0B1629;
-    --surface-2:   #112240;
-    --surface-3:   #1B3358;
-    --border:      rgba(255,255,255,0.07);
-    --accent:      #F97316;
-    --accent-dim:  rgba(249,115,22,0.10);
-    --accent-glow: rgba(249,115,22,0.25);
-    --success:     #22C55E;
-    --success-dim: rgba(34,197,94,0.10);
-    --warning:     #FACC15;
-    --warning-dim: rgba(250,204,21,0.10);
-    --danger:      #EF4444;
-    --text:        #E2E8F0;
-    --muted:       #64748B;
-    --label:       #94A3B8;
-    --radius:      10px;
-    --radius-sm:   6px;
-    --font-ui:     "Inter", system-ui, sans-serif;
-    --font-mono:   "JetBrains Mono", monospace;
-
-    font-family: var(--font-ui);
-    background:  var(--bg);
-    color:       var(--text);
-    min-height:  100vh;
-    padding:     2rem 2.5rem;
-    display:     flex;
-    flex-direction: column;
-    gap:         2rem;
+  --akasa-orange: #F97316;
+  --akasa-orange-light: #FF8C32;
+  --akasa-orange-glow: rgba(249, 115, 22, 0.12);
+  --akasa-orange-soft: #FFF7ED;
+  
+  --green: #10B981;
+  --green-light: #D1FAE5;
+  --green-soft: #ECFDF5;
+  
+  --yellow: #F59E0B;
+  --yellow-light: #FEF3C7;
+  --yellow-soft: #FFFBEB;
+  
+  --bg-primary: #FAFBFC;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F8FAFC;
+  --bg-warm: #FFF9F5;
+  
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-light: #64748B;
+  
+  --border-light: #F1F5F9;
+  --border-soft: #E2E8F0;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.10);
+  --shadow-warm: 0 8px 32px rgba(249, 115, 22, 0.10);
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (max-width: 768px) {
-    .analytics-dashboard { padding: 1.25rem 1rem; }
+/* ── Base ───────────────────────────────────────────────────── */
+.analytics-dashboard {
+  font-family: var(--font-family);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  line-height: 1.6;
 }
 
-/* ── Header ────────────────────────────────────────────────────── */
+.analytics-dashboard * {
+  box-sizing: border-box;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+.analytics-dashboard::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.analytics-dashboard::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+.analytics-dashboard::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: var(--radius-full);
+}
+.analytics-dashboard::-webkit-scrollbar-thumb:hover {
+  background: var(--akasa-orange);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER — Welcoming & Clean
+   ───────────────────────────────────────────────────────────── */
 .dashboard-header {
-    display:         flex;
-    align-items:     center;
-    justify-content: space-between;
-    flex-wrap:       wrap;
-    gap:             1rem;
-    padding-bottom:  1.5rem;
-    border-bottom:   1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
 }
 
-.dashboard-header__left {
-    display:        flex;
-    flex-direction: column;
-    gap:            0.15rem;
+.dashboard-header:hover {
+  box-shadow: var(--shadow-md);
 }
 
-.dashboard-label {
-    margin: 0;
-    font-family:    var(--font-mono);
-    font-size:      0.65rem;
-    font-weight:    600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color:          var(--accent);
+.dashboard-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.dashboard-title {
-    margin:      0;
-    font-size:   1.75rem;
-    font-weight: 700;
-    color:       var(--text);
-    line-height: 1.15;
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--akasa-orange-soft);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--akasa-orange);
 }
 
-/* Live badge */
-.live-badge {
-    display:     flex;
-    align-items: center;
-    gap:         0.45rem;
-    padding:     0.35rem 0.85rem;
-    border:      1px solid rgba(34,197,94,0.3);
-    border-radius: 999px;
-    font-size:   0.72rem;
-    font-weight: 600;
-    color:       var(--success);
-    background:  var(--success-dim);
-    letter-spacing: 0.04em;
+.brand-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--akasa-orange);
+  display: block;
 }
 
-.live-dot {
-    width:            7px;
-    height:           7px;
-    border-radius:    50%;
-    background:       var(--success);
-    box-shadow:       0 0 6px var(--success);
-    animation:        pulse-dot 2s ease-in-out infinite;
+.brand-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.dashboard-header__status {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: var(--green-soft);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.5; transform: scale(0.75); }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-/* ── Sections ──────────────────────────────────────────────────── */
-.analytics-section {
-    display:        flex;
-    flex-direction: column;
-    gap:            1.1rem;
+.status-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--green);
 }
 
-.section-eyebrow {
-    margin:         0;
-    font-family:    var(--font-mono);
-    font-size:      0.63rem;
-    font-weight:    600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color:          var(--accent);
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-/* ── Flight stats grid ─────────────────────────────────────────── */
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.meta-label {
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.meta-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION HEADERS
+   ───────────────────────────────────────────────────────────── */
+.dashboard-section {
+  margin-bottom: 2.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-icon {
+  font-size: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.section-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.period-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-soft);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-soft);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   STATS GRID — Clean Cards
+   ───────────────────────────────────────────────────────────── */
 .stats-grid {
-    display:               grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:                   1rem;
-}
-
-@media (max-width: 640px) {
-    .stats-grid { grid-template-columns: 1fr; }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .stat-card {
-    background:    var(--surface);
-    border:        1px solid var(--border);
-    border-radius: var(--radius);
-    padding:       1.25rem 1.4rem;
-    display:       flex;
-    flex-direction: column;
-    gap:           0.35rem;
-    transition:    border-color 0.2s, box-shadow 0.2s;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: var(--transition);
 }
 
 .stat-card:hover {
-    border-color: var(--accent-glow);
-    box-shadow:   0 0 0 1px var(--accent-glow);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--akasa-orange);
 }
 
-.stat-card--total  { border-left: 3px solid var(--accent); }
-.stat-card--ontime { border-left: 3px solid var(--success); }
-.stat-card--delayed{ border-left: 3px solid var(--warning); }
-
-.stat-card__header {
-    display:     flex;
-    align-items: center;
-    gap:         0.5rem;
+.stat-card__icon {
+  flex-shrink: 0;
 }
 
-.stat-icon {
-    font-size: 0.95rem;
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
 }
 
-.stat-icon--accent  { color: var(--accent); }
-.stat-icon--success { color: var(--success); }
-.stat-icon--warning { color: var(--warning); }
-
-.stat-label {
-    font-size:   0.72rem;
-    font-weight: 500;
-    color:       var(--label);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.icon-circle--orange {
+  background: var(--akasa-orange-soft);
+  color: var(--akasa-orange);
 }
 
-.stat-value {
-    margin:      0;
-    font-family: var(--font-mono);
-    font-size:   2.2rem;
-    font-weight: 600;
-    color:       var(--text);
-    line-height: 1;
+.icon-circle--green {
+  background: var(--green-soft);
+  color: var(--green);
 }
 
-.stat-value--success { color: var(--success); }
-.stat-value--warning { color: var(--warning); }
-
-.stat-sub {
-    margin:    0;
-    font-size: 0.72rem;
-    color:     var(--muted);
+.icon-circle--yellow {
+  background: var(--yellow-soft);
+  color: var(--yellow);
 }
 
-/* ── Performance + Breakdown row ───────────────────────────────── */
-.section-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+.stat-card__content {
+  flex: 1;
 }
 
-@media (max-width: 640px) {
-    .section-row { grid-template-columns: 1fr; }
+.stat-card__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  display: block;
 }
 
-/* Performance bar card */
-.performance-bar-card {
-    background:    var(--surface);
-    border:        1px solid var(--border);
-    border-radius: var(--radius);
-    padding:       1.25rem 1.4rem;
-    display:       flex;
-    flex-direction: column;
-    gap:           0.6rem;
+.stat-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.1rem 0 0.2rem 0;
+  line-height: 1.2;
 }
 
-.performance-bar-card__header {
-    display:         flex;
-    justify-content: space-between;
-    align-items:     baseline;
+.stat-card__trend {
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.performance-bar-card__label {
-    font-size:   0.78rem;
-    font-weight: 600;
-    color:       var(--label);
+.trend-up {
+  color: var(--green);
 }
 
-.performance-bar-card__pct {
-    font-family: var(--font-mono);
-    font-size:   1.4rem;
-    font-weight: 600;
-    color:       var(--success);
+.trend-down {
+  color: var(--yellow);
 }
 
-.performance-track {
-    height:        8px;
-    border-radius: 999px;
-    background:    var(--surface-3);
-    overflow:      hidden;
+/* ─────────────────────────────────────────────────────────────
+   CHARTS ROW
+   ───────────────────────────────────────────────────────────── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
 }
 
-.performance-fill {
-    height:     100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--success), #16A34A);
-    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+.chart-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
 }
 
-.performance-bar-card__footer {
-    display:         flex;
-    justify-content: space-between;
-    font-size:       0.62rem;
-    color:           var(--muted);
-    font-family:     var(--font-mono);
+.chart-card:hover {
+  box-shadow: var(--shadow-md);
 }
 
-/* Breakdown card */
-.breakdown-card {
-    background:    var(--surface);
-    border:        1px solid var(--border);
-    border-radius: var(--radius);
-    padding:       1.25rem 1.4rem;
-    display:       flex;
-    flex-direction: column;
-    gap:           0.8rem;
+.chart-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
-.breakdown-card__title {
-    margin:      0;
-    font-size:   0.78rem;
-    font-weight: 600;
-    color:       var(--label);
+.chart-card__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-/* Segmented bar */
-.seg-bar {
-    display:       flex;
-    height:        10px;
-    border-radius: 999px;
-    overflow:      hidden;
-    background:    var(--surface-3);
+.chart-card__percentage {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--akasa-orange);
 }
 
-.seg-ontime {
-    background:  linear-gradient(90deg, var(--success), #16A34A);
-    transition:  width 0.8s cubic-bezier(0.16,1,0.3,1);
+/* Progress Track */
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
 }
 
-.seg-delayed {
-    background: linear-gradient(90deg, var(--warning), #CA8A04);
-    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-orange-light));
+  border-radius: var(--radius-full);
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
 }
 
-.seg-legend {
-    display: flex;
-    gap:     1.25rem;
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* Breakdown Bar */
+.breakdown-bar {
+  display: flex;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 0.75rem 0 1rem 0;
+}
+
+.breakdown-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+.breakdown-segment--ontime {
+  background: linear-gradient(90deg, var(--green), #34D399);
+}
+
+.breakdown-segment--delayed {
+  background: linear-gradient(90deg, var(--yellow), #FBBF24);
+}
+
+.segment-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+}
+
+.breakdown-legend {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .legend-item {
-    display:     flex;
-    align-items: center;
-    gap:         0.45rem;
-    font-size:   0.75rem;
-    color:       var(--label);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
 }
 
 .legend-dot {
-    width:         9px;
-    height:        9px;
-    border-radius: 50%;
-    flex-shrink:   0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
-.legend-dot--ontime  { background: var(--success); }
-.legend-dot--delayed { background: var(--warning); }
-
-/* ── Airport intelligence ──────────────────────────────────────── */
-.airport-search-section {
-    max-width: 480px;
+.legend-dot--green {
+  background: var(--green);
 }
 
-.airport-results {
-    display:        flex;
-    flex-direction: column;
-    gap:            1rem;
+.legend-dot--yellow {
+  background: var(--yellow);
 }
 
-.airport-details-row {
-    display: grid;
+/* ─────────────────────────────────────────────────────────────
+   AIRPORT SECTION
+   ───────────────────────────────────────────────────────────── */
+.airport-search-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.airport-results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  animation: fadeInUp 0.5s ease;
+}
+
+.airport-weather-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FLEET SECTION
+   ───────────────────────────────────────────────────────────── */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.fleet-table-wrapper {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  overflow-x: auto;
+  transition: var(--transition);
+}
+
+.fleet-table-wrapper:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--akasa-orange);
+}
+
+.demand-forecast-wrapper {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.demand-forecast-wrapper:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--akasa-orange);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CHILD COMPONENT STYLES
+   ───────────────────────────────────────────────────────────── */
+
+/* Airport Search */
+.airport-search {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.airport-search input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.airport-search input:focus {
+  outline: none;
+  border-color: var(--akasa-orange);
+  box-shadow: 0 0 0 3px var(--akasa-orange-glow);
+}
+
+.airport-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.airport-search button {
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(135deg, var(--akasa-orange), var(--akasa-orange-light));
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.airport-search button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-warm);
+}
+
+.airport-search button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Airport Overview */
+.airport-overview {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.airport-overview__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.airport-overview__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.airport-overview__iata {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--akasa-orange);
+  background: var(--akasa-orange-soft);
+  padding: 0.25rem 1rem;
+  border-radius: var(--radius-full);
+}
+
+.airport-overview__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.airport-overview__detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.airport-overview__detail-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.airport-overview__detail-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Airport Weather */
+.airport-weather {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.airport-weather__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.airport-weather__temp {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--akasa-orange);
+}
+
+.airport-weather__condition {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.airport-weather__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.5rem;
+}
+
+/* Fleet Overview */
+.fleet-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.fleet-stat-mini {
+  background: var(--bg-secondary);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.fleet-stat-mini:hover {
+  border-color: var(--akasa-orange);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.fleet-stat-mini .number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--akasa-orange);
+}
+
+.fleet-stat-mini .label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Fleet Table */
+.fleet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.fleet-table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.fleet-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.fleet-table tr:hover td {
+  background: var(--bg-soft);
+}
+
+.fleet-table .aircraft-type {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Demand Intelligence */
+.demand-intelligence {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.demand-intelligence__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.demand-intelligence .metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.demand-intelligence .metric:last-child {
+  border-bottom: none;
+}
+
+.demand-intelligence .metric .label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.demand-intelligence .metric .value {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.demand-intelligence .metric .value.high {
+  color: var(--green);
+}
+
+.demand-intelligence .metric .value.medium {
+  color: var(--yellow);
+}
+
+.demand-intelligence .metric .value.low {
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE DESIGN
+   ───────────────────────────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .analytics-dashboard {
+    padding: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .charts-row {
     grid-template-columns: 1fr;
-    gap: 1rem;
+  }
+
+  .fleet-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ── Fleet section ─────────────────────────────────────────────── */
-.fleet-stats-row {
-    display:        flex;
+/* Mobile */
+@media (max-width: 768px) {
+  .analytics-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
     flex-direction: column;
-    gap:            1.25rem;
-}
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
 
-.fleet-table-row {
-    width: 100%;
-}
-
-.demand-forecast {
-    width: 100%;
-}
-
-/* ── Reduced motion ────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-    .live-dot,
-    .performance-fill,
-    .seg-ontime,
-    .seg-delayed { animation: none; transition: none; }
-}
+  .dashboard-header__brand {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
