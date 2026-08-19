@@ -65,23 +65,53 @@ function NetworkPlanner() {
   const [airports,      setAirports     ] = useState([]);
   const [airportsLoading, setAirportsLoading] = useState(true);
 
-  // ── Fetch all airports in parallel on mount ──
   useEffect(() => {
-    Promise.all(
-      AIRPORT_CODES.map(code =>
-        fetch(`${BASE_URL}/airports/api/airports/search/${code}`)
-          .then(res => res.ok ? res.json() : [])
-          .then(results => results.find(a => a.iata === code) ?? null)
-          .catch(() => null)
-      )
-    ).then(results => {
-      const valid = results
-        .filter(Boolean)
-        .sort((a, b) => a.city.localeCompare(b.city));
-      setAirports(valid);
-      setAirportsLoading(false);
-    });
-  }, []);
+  Promise.all(
+    AIRPORT_CODES.map(async (code) => {
+      try {
+        const url = `${BASE_URL}/airports/api/airports/search/${code}`;
+
+        console.log("🔎 Fetching:", url);
+
+        const res = await fetch(url);
+
+        console.log(`📡 ${code} status:`, res.status);
+
+        if (!res.ok) {
+          console.error(`❌ ${code} failed:`, res.status);
+          return null;
+        }
+
+        const results = await res.json();
+
+        console.log(`📦 ${code} response:`, JSON.stringify(results, null, 2));
+
+        const airport = results.find(
+          a => a.iata?.toUpperCase() === code.toUpperCase()
+        );
+
+        console.log(`✈️ ${code} matched airport:`, airport);
+
+        return airport ?? null;
+
+      } catch (error) {
+        console.error(`💥 ${code} error:`, error);
+        return null;
+      }
+    })
+  ).then(results => {
+    console.log("🏁 ALL AIRPORT RESULTS:", results);
+
+    const valid = results
+      .filter(Boolean)
+      .sort((a, b) => a.city.localeCompare(b.city));
+
+    console.log("✅ VALID AIRPORTS:", valid);
+
+    setAirports(valid);
+    setAirportsLoading(false);
+  });
+}, []);
 
   const formReady = origin && destination && origin !== destination;
 
