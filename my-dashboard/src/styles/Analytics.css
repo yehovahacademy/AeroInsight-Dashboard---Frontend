@@ -1,281 +1,338 @@
-/* ─────────────────────────────────────────────────────────────
-   Analytics.css — Light & Welcoming Design
-   Akasa Air inspired with warm, friendly aesthetic
-   ───────────────────────────────────────────────────────────── */
+/* ═════════════════════════════════════════════════════════════
+   AeroInsight Analytics Dashboard
+   Akasa Air Corporate Theme
+   Primary: Sunrise Orange #FF6300
+   Secondary: Passionate Purple #5C0FD9
+   Accent: Deep Navy #0A1628
+   ═════════════════════════════════════════════════════════════ */
 
-/* ── CSS Variables ─────────────────────────────────────────── */
-.analytics-dashboard {
-  --akasa-orange: #F97316;
-  --akasa-orange-light: #FF8C32;
-  --akasa-orange-glow: rgba(249, 115, 22, 0.12);
-  --akasa-orange-soft: #FFF7ED;
-  
-  --green: #10B981;
-  --green-light: #D1FAE5;
-  --green-soft: #ECFDF5;
-  
-  --yellow: #F59E0B;
-  --yellow-light: #FEF3C7;
-  --yellow-soft: #FFFBEB;
-  
-  --bg-primary: #FAFBFC;
-  --bg-secondary: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-soft: #F8FAFC;
-  --bg-warm: #FFF9F5;
-  
-  --text-primary: #1E293B;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
-  --text-light: #64748B;
-  
-  --border-light: #F1F5F9;
-  --border-soft: #E2E8F0;
-  
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.10);
-  --shadow-warm: 0 8px 32px rgba(249, 115, 22, 0.10);
-  
+/* ── CSS Variables ────────────────────────────────────────── */
+:root {
+  --akasa-orange: #FF6300;
+  --akasa-orange-light: #FF8C42;
+  --akasa-orange-pale: #FFF0E6;
+  --akasa-purple: #5C0FD9;
+  --akasa-purple-light: #8B5CF6;
+  --akasa-purple-pale: #F3E8FF;
+  --akasa-navy: #0A1628;
+  --akasa-navy-light: #1E3A5F;
+  --akasa-navy-muted: #4A5568;
+  --akasa-white: #FFFFFF;
+  --akasa-offwhite: #F8FAFC;
+  --akasa-grey-50: #F1F5F9;
+  --akasa-grey-100: #E2E8F0;
+  --akasa-grey-200: #CBD5E1;
+  --akasa-success: #10B981;
+  --akasa-success-light: #D1FAE5;
+  --akasa-warning: #F59E0B;
+  --akasa-warning-light: #FEF3C7;
+  --akasa-danger: #EF4444;
+  --akasa-danger-light: #FEE2E2;
+
+  --shadow-sm: 0 1px 2px 0 rgba(10, 22, 40, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(10, 22, 40, 0.07), 0 2px 4px -2px rgba(10, 22, 40, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(10, 22, 40, 0.08), 0 4px 6px -4px rgba(10, 22, 40, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(10, 22, 40, 0.1), 0 8px 10px -6px rgba(10, 22, 40, 0.05);
+  --shadow-glow: 0 0 20px rgba(255, 99, 0, 0.15);
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
-  
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-xl: 24px;
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Base ───────────────────────────────────────────────────── */
-.analytics-dashboard {
-  font-family: var(--font-family);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  min-height: 100vh;
-  line-height: 1.6;
-}
-
-.analytics-dashboard * {
+/* ── Global Reset & Base ─────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────── */
-.analytics-dashboard::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-.analytics-dashboard::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-.analytics-dashboard::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: var(--radius-full);
-}
-.analytics-dashboard::-webkit-scrollbar-thumb:hover {
-  background: var(--akasa-orange);
+.analytics-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--akasa-offwhite) 0%, var(--akasa-grey-50) 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--akasa-navy);
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   HEADER — Welcoming & Clean
-   ───────────────────────────────────────────────────────────── */
+/* ── Header ──────────────────────────────────────────────── */
 .dashboard-header {
+  background: linear-gradient(135deg, var(--akasa-navy) 0%, var(--akasa-navy-light) 100%);
+  padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 2.5rem;
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--akasa-orange);
 }
 
-.dashboard-header:hover {
-  box-shadow: var(--shadow-md);
+.dashboard-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 99, 0, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.dashboard-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 99, 0, 0.5), transparent);
 }
 
 .dashboard-header__brand {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .brand-icon {
-  width: 48px;
-  height: 48px;
-  background: var(--akasa-orange-soft);
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--akasa-orange) 0%, var(--akasa-orange-light) 100%);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  color: var(--akasa-orange);
+  font-size: 28px;
+  color: var(--akasa-white);
+  box-shadow: var(--shadow-glow);
+  transform: rotate(-5deg);
+  transition: transform var(--transition-base);
+}
+
+.brand-icon:hover {
+  transform: rotate(0deg) scale(1.05);
 }
 
 .brand-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--akasa-orange);
-  display: block;
+  margin-bottom: 2px;
 }
 
 .brand-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--akasa-white);
+  letter-spacing: -0.5px;
   line-height: 1.2;
 }
 
 .dashboard-header__status {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .status-indicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  background: var(--green-soft);
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
+  background: var(--akasa-success);
   border-radius: 50%;
-  background: var(--green);
-  animation: pulse-dot 2s ease-in-out infinite;
+  position: relative;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-live 2s infinite;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+@keyframes pulse-live {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 .status-text {
-  font-size: 0.8rem;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--green);
+  color: var(--akasa-success);
+  letter-spacing: 0.5px;
 }
 
 .header-meta {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 20px;
 }
 
 .meta-item {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 2px;
 }
 
 .meta-label {
-  font-size: 0.6rem;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .meta-value {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   SECTION HEADERS
-   ───────────────────────────────────────────────────────────── */
+/* ── Dashboard Sections ──────────────────────────────────── */
 .dashboard-section {
-  margin-bottom: 2.5rem;
+  padding: 32px 40px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
+.dashboard-section + .dashboard-section {
+  border-top: 1px solid var(--akasa-grey-100);
+}
+
+/* ── Section Header ──────────────────────────────────────── */
 .section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 28px;
 }
 
 .section-header__left {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  align-items: flex-start;
+  gap: 14px;
 }
 
 .section-icon {
-  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--akasa-orange-pale) 0%, var(--akasa-purple-pale) 100%);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 1px solid var(--akasa-grey-100);
+  flex-shrink: 0;
 }
 
 .section-title {
-  font-size: 1.25rem;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
+  color: var(--akasa-navy);
+  letter-spacing: -0.3px;
   line-height: 1.3;
 }
 
 .section-subtitle {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  margin: 0;
-}
-
-.section-header__right {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  font-size: 14px;
+  color: var(--akasa-navy-muted);
+  margin-top: 2px;
+  font-weight: 400;
 }
 
 .period-badge {
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--akasa-white);
+  border: 1px solid var(--akasa-grey-100);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--text-secondary);
-  background: var(--bg-soft);
-  padding: 0.3rem 0.75rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-soft);
+  color: var(--akasa-navy-muted);
+  box-shadow: var(--shadow-sm);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   STATS GRID — Clean Cards
-   ───────────────────────────────────────────────────────────── */
+.period-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--akasa-orange);
+  border-radius: 50%;
+}
+
+/* ── Stats Grid ──────────────────────────────────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
+  gap: 24px;
+  margin-bottom: 28px;
 }
 
+/* ── Stat Cards ──────────────────────────────────────────── */
 .stat-card {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-light);
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: var(--transition);
+  align-items: flex-start;
+  gap: 20px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--akasa-grey-200);
+  transition: all var(--transition-base);
 }
 
 .stat-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-  border-color: var(--akasa-orange);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.stat-card--total::before {
+  background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-orange-light));
+}
+
+.stat-card--ontime::before {
+  background: linear-gradient(90deg, var(--akasa-success), #34D399);
+}
+
+.stat-card--delayed::before {
+  background: linear-gradient(90deg, var(--akasa-warning), #FBBF24);
 }
 
 .stat-card__icon {
@@ -283,557 +340,417 @@
 }
 
 .icon-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
 }
 
 .icon-circle--orange {
-  background: var(--akasa-orange-soft);
-  color: var(--akasa-orange);
+  background: linear-gradient(135deg, var(--akasa-orange) 0%, var(--akasa-orange-light) 100%);
+  color: var(--akasa-white);
 }
 
 .icon-circle--green {
-  background: var(--green-soft);
-  color: var(--green);
+  background: linear-gradient(135deg, var(--akasa-success) 0%, #34D399 100%);
+  color: var(--akasa-white);
 }
 
 .icon-circle--yellow {
-  background: var(--yellow-soft);
-  color: var(--yellow);
+  background: linear-gradient(135deg, var(--akasa-warning) 0%, #FBBF24 100%);
+  color: var(--akasa-white);
 }
 
 .stat-card__content {
   flex: 1;
+  min-width: 0;
 }
 
 .stat-card__label {
-  font-size: 0.7rem;
+  display: block;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  display: block;
+  letter-spacing: 1.5px;
+  color: var(--akasa-navy-muted);
+  margin-bottom: 8px;
 }
 
 .stat-card__value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0.1rem 0 0.2rem 0;
-  line-height: 1.2;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--akasa-navy);
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
 }
 
 .stat-card__trend {
-  font-size: 0.75rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
 }
 
 .trend-up {
-  color: var(--green);
+  background: var(--akasa-success-light);
+  color: var(--akasa-success);
 }
 
 .trend-down {
-  color: var(--yellow);
+  background: var(--akasa-warning-light);
+  color: #B45309;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   CHARTS ROW
-   ───────────────────────────────────────────────────────────── */
+/* ── Charts Row ──────────────────────────────────────────── */
 .charts-row {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.25rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
+/* ── Chart Cards ─────────────────────────────────────────── */
 .chart-card {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
 .chart-card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 .chart-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 24px;
 }
 
 .chart-card__title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--akasa-navy);
+  letter-spacing: -0.2px;
 }
 
 .chart-card__percentage {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   color: var(--akasa-orange);
+  background: var(--akasa-orange-pale);
+  padding: 6px 14px;
+  border-radius: 100px;
 }
 
-/* Progress Track */
+/* ── Progress Track ──────────────────────────────────────── */
 .progress-track {
   width: 100%;
-  height: 8px;
-  background: var(--bg-soft);
-  border-radius: var(--radius-full);
+  height: 12px;
+  background: var(--akasa-grey-100);
+  border-radius: 100px;
   overflow: hidden;
+  margin-bottom: 12px;
   position: relative;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-orange-light));
-  border-radius: var(--radius-full);
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 0%;
+  background: linear-gradient(90deg, var(--akasa-orange) 0%, var(--akasa-orange-light) 50%, var(--akasa-purple-light) 100%);
+  border-radius: 100px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .progress-labels {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.4rem;
-  font-size: 0.65rem;
-  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--akasa-navy-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Breakdown Bar */
+/* ── Breakdown Bar ───────────────────────────────────────── */
 .breakdown-bar {
   display: flex;
-  height: 32px;
-  border-radius: var(--radius-sm);
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  margin: 0.75rem 0 1rem 0;
+  margin-bottom: 20px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .breakdown-segment {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 0%;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  min-width: 60px;
 }
 
 .breakdown-segment--ontime {
-  background: linear-gradient(90deg, var(--green), #34D399);
+  background: linear-gradient(135deg, var(--akasa-success) 0%, #34D399 100%);
 }
 
 .breakdown-segment--delayed {
-  background: linear-gradient(90deg, var(--yellow), #FBBF24);
+  background: linear-gradient(135deg, var(--akasa-warning) 0%, #FBBF24 100%);
 }
 
 .segment-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--akasa-white);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  padding: 0 8px;
 }
 
+/* ── Breakdown Legend ────────────────────────────────────── */
 .breakdown-legend {
   display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  gap: 24px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--akasa-navy-muted);
 }
 
 .legend-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  display: inline-block;
 }
 
 .legend-dot--green {
-  background: var(--green);
+  background: var(--akasa-success);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .legend-dot--yellow {
-  background: var(--yellow);
+  background: var(--akasa-warning);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   AIRPORT SECTION
-   ───────────────────────────────────────────────────────────── */
+/* ── Airport Section ─────────────────────────────────────── */
 .airport-search-wrapper {
-  margin-bottom: 1.5rem;
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 24px;
+  transition: all var(--transition-base);
+}
+
+.airport-search-wrapper:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .airport-results-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  animation: fadeInUp 0.5s ease;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
 }
 
 .airport-weather-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.airport-weather-wrapper:hover {
+  box-shadow: var(--shadow-lg);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   FLEET SECTION
-   ───────────────────────────────────────────────────────────── */
+/* ── Fleet Section ───────────────────────────────────────── */
 .fleet-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.25rem;
-  margin-top: 1.25rem;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
 }
 
 .fleet-table-wrapper {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  overflow-x: auto;
-  transition: var(--transition);
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  overflow: hidden;
 }
 
 .fleet-table-wrapper:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--akasa-orange);
+  box-shadow: var(--shadow-lg);
 }
 
 .demand-forecast-wrapper {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-light);
-  transition: var(--transition);
+  background: var(--akasa-white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--akasa-grey-100);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
 .demand-forecast-wrapper:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--akasa-orange);
+  box-shadow: var(--shadow-lg);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   CHILD COMPONENT STYLES
-   ───────────────────────────────────────────────────────────── */
-
-/* Airport Search */
-.airport-search {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.airport-search input {
-  flex: 1;
-  min-width: 220px;
-  padding: 0.7rem 1rem;
-  border: 2px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  transition: var(--transition);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-.airport-search input:focus {
-  outline: none;
-  border-color: var(--akasa-orange);
-  box-shadow: 0 0 0 3px var(--akasa-orange-glow);
-}
-
-.airport-search input::placeholder {
-  color: var(--text-muted);
-}
-
-.airport-search button {
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, var(--akasa-orange), var(--akasa-orange-light));
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.airport-search button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-warm);
-}
-
-.airport-search button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Airport Overview */
-.airport-overview {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem 2rem;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-}
-
-.airport-overview__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.airport-overview__name {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.airport-overview__iata {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--akasa-orange);
-  background: var(--akasa-orange-soft);
-  padding: 0.25rem 1rem;
-  border-radius: var(--radius-full);
-}
-
-.airport-overview__details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
-}
-
-.airport-overview__detail {
-  display: flex;
-  flex-direction: column;
-}
-
-.airport-overview__detail-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-}
-
-.airport-overview__detail-value {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-/* Airport Weather */
-.airport-weather {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: 1.5rem 2rem;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-}
-
-.airport-weather__header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.airport-weather__temp {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--akasa-orange);
-}
-
-.airport-weather__condition {
-  font-size: 1rem;
-  color: var(--text-secondary);
-}
-
-.airport-weather__details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 0.5rem;
-}
-
-/* Fleet Overview */
-.fleet-overview {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-.fleet-stat-mini {
-  background: var(--bg-secondary);
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
-  text-align: center;
-  transition: var(--transition);
-}
-
-.fleet-stat-mini:hover {
-  border-color: var(--akasa-orange);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.fleet-stat-mini .number {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--akasa-orange);
-}
-
-.fleet-stat-mini .label {
-  font-size: 0.7rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-/* Fleet Table */
-.fleet-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-
-.fleet-table th {
-  text-align: left;
-  padding: 0.6rem 0.75rem;
-  background: var(--bg-soft);
-  color: var(--text-secondary);
-  font-weight: 600;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-bottom: 2px solid var(--border-light);
-}
-
-.fleet-table td {
-  padding: 0.6rem 0.75rem;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.fleet-table tr:hover td {
-  background: var(--bg-soft);
-}
-
-.fleet-table .aircraft-type {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-/* Demand Intelligence */
-.demand-intelligence {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-}
-
-.demand-intelligence__title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.demand-intelligence .metric {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.demand-intelligence .metric:last-child {
-  border-bottom: none;
-}
-
-.demand-intelligence .metric .label {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-}
-
-.demand-intelligence .metric .value {
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-.demand-intelligence .metric .value.high {
-  color: var(--green);
-}
-
-.demand-intelligence .metric .value.medium {
-  color: var(--yellow);
-}
-
-.demand-intelligence .metric .value.low {
-  color: var(--text-muted);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   RESPONSIVE DESIGN
-   ───────────────────────────────────────────────────────────── */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .analytics-dashboard {
-    padding: 1.5rem;
-  }
-
+/* ── Responsive Design ───────────────────────────────────── */
+@media (max-width: 1200px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .charts-row {
     grid-template-columns: 1fr;
   }
-
+  .airport-results-grid {
+    grid-template-columns: 1fr;
+  }
   .fleet-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .analytics-dashboard {
-    padding: 1rem;
-  }
-
   .dashboard-header {
     flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-    padding: 1.25rem;
+    gap: 20px;
+    padding: 20px 24px;
+    text-align: center;
   }
-
   .dashboard-header__brand {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    text-align: center;
   }
+  .dashboard-header__status {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .header-meta {
+    justify-content: center;
+  }
+  .meta-item {
+    align-items: center;
+  }
+  .dashboard-section {
+    padding: 20px 24px;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .section-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .stat-card {
+    padding: 20px;
+  }
+  .stat-card__value {
+    font-size: 28px;
+  }
+  .chart-card {
+    padding: 20px;
+  }
+}
+
+/* ── Scrollbar Styling ───────────────────────────────────── */
+.analytics-dashboard ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.analytics-dashboard ::-webkit-scrollbar-track {
+  background: var(--akasa-grey-50);
+  border-radius: 4px;
+}
+
+.analytics-dashboard ::-webkit-scrollbar-thumb {
+  background: var(--akasa-grey-200);
+  border-radius: 4px;
+}
+
+.analytics-dashboard ::-webkit-scrollbar-thumb:hover {
+  background: var(--akasa-orange);
+}
+
+/* ── Loading States ──────────────────────────────────────── */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--akasa-grey-100) 25%, var(--akasa-grey-50) 50%, var(--akasa-grey-100) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Print Styles ────────────────────────────────────────── */
+@media print {
+  .analytics-dashboard {
+    background: white;
+  }
+  .dashboard-header {
+    background: var(--akasa-navy);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .stat-card,
+  .chart-card,
+  .airport-search-wrapper,
+  .airport-weather-wrapper,
+  .fleet-table-wrapper,
+  .demand-forecast-wrapper {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+}
