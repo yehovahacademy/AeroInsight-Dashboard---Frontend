@@ -1,18 +1,16 @@
-import NetworkPlanner from "../components/Network/NetworkPlanner";
-import { Route,Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+import NetworkPlanner from "../components/Network/NetworkPlanner";
 import NetworkMap from "../components/Maps/NetworkMap";
 
+// ─────────────────────────────────────────────
+// Page
+// ─────────────────────────────────────────────
 
-function RoutePlanner(){ 
+function RoutePlanner() {
   return (
-    <>
     <NetworkPlanner />
-    <NetworkMap />
-
-   
-    </>
-
   );
 }
 
