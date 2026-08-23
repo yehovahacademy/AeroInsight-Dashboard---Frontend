@@ -39,26 +39,8 @@ const SEASONS = [
   "Monsoon (Jul–Oct)",
 ];
 
-const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6+"];
+const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6","7","8","9","10"];
 
-const AIRPORT_CODES = [
-  // India
-  "BOM","DEL","BLR","MAA","CCU","HYD","GOI","PNQ","AMD","JAI",
-  "COK","TRV","IXC","PAT","BHO","NAG","IXB","GAU","VNS","IXR",
-  "SXR","LKO","IDR","IXE","IXM","VTZ","BDQ","ATQ","JDH","UDR",
-  // Middle East
-  "DXB","AUH","DOH","KWI","BAH","MCT","RUH","JED","AMM","BEY",
-  // Europe
-  "LHR","CDG","AMS","FRA","IST","MAD","BCN","FCO","MUC","ZRH",
-  "VIE","BRU","ARN","CPH","HEL","OSL","WAW","PRG","BUD","ATH",
-  // Asia Pacific
-  "SIN","BKK","KUL","CGK","MNL","HKG","ICN","NRT","PVG","PEK",
-  "SYD","MEL","AKL","KIX","TPE","SGN","HAN","DAD","CMB","KTM",
-  // Americas
-  "JFK","LAX","ORD","MIA","SFO","YYZ","GRU","EZE","BOG","LIM",
-  // Africa
-  "JNB","NBO","CAI","CMN","ADD","LOS","ACC","DAR",
-];
 
 // ─────────────────────────────────────────────────────────────
 // Component
