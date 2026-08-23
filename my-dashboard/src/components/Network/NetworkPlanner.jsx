@@ -29,7 +29,7 @@ import RouteCards from "./RouteCards";
 // Static configuration
 // ─────────────────────────────────────────────────────────────
 
-const BASE_URL = "https://aeroinsight-dashboard-backend.onrender.com";
+
 
 const AIRCRAFT_TYPES = ["A320", "A321neo", "B737 MAX", "B777", "ATR 72"];
 
@@ -67,39 +67,18 @@ function NetworkPlanner() {
   const analysisRef = useRef(null);
 
   // ── Fetch airports ─────────────────────────────────────────
-
-  useEffect(() => {
-    let mounted = true;
-
-    Promise.all(
-      AIRPORT_CODES.map(async (code) => {
-        try {
-          const res = await fetch(
-            `${BASE_URL}/airports/api/airports/search/${code}`
-          );
-          if (!res.ok) return null;
-          const results = await res.json();
-          return (
-            results.find(
-              (a) => a.iata?.toUpperCase() === code.toUpperCase()
-            ) ?? null
-          );
-        } catch {
-          return null;
-        }
-      })
-    ).then((results) => {
-      if (!mounted) return;
-      const valid = results
-        .filter(Boolean)
-        .sort((a, b) => a.city.localeCompare(b.city));
-      setAirports(valid);
+useEffect(() => {
+  fetch("https://aeroinsight-dashboard-backend.onrender.com/airports")
+    .then((res) => res.json())
+    .then((data) => {
+      setAirports(data);
+      setAirportsLoading(false);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch airports:", error);
       setAirportsLoading(false);
     });
-
-    return () => { mounted = false; };
-  }, []);
-
+}, []);
   // ── Derived ────────────────────────────────────────────────
 
   const formReady = origin && destination && origin !== destination;
