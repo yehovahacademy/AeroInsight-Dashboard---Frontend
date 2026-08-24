@@ -104,21 +104,43 @@ function NetworkPlanner() {
 
   // ── Fetch airports ─────────────────────────────────────────
   useEffect(() => {
-    fetch("https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/")
-      .then((res) => res.json())
-      .then((data) => {
-        const list = Array.isArray(data)          ? data
-                   : Array.isArray(data.results)  ? data.results
-                   : Array.isArray(data.airports) ? data.airports
-                   : [];
-        setAirports(list);
-        setAirportsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch airports:", err);
-        setAirportsLoading(false);
-      });
-  }, []);
+  const fetchAirports = async () => {
+    try {
+      setAirportsLoading(true);
+
+      const res = await fetch(
+        "https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/"
+      );
+
+      if (!res.ok) {
+        throw new Error(`Airport API returned ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data.results)
+        ? data.results
+        : Array.isArray(data.airports)
+        ? data.airports
+        : [];
+
+      if (!Array.isArray(list)) {
+        throw new Error("Airport API did not return an array");
+      }
+
+      setAirports(list);
+    } catch (err) {
+      console.error("Failed to fetch airports:", err);
+      setAirports([]);
+    } finally {
+      setAirportsLoading(false);
+    }
+  };
+
+  fetchAirports();
+}, []);
 
   // ── Seed What-If fields from baseline when baseline changes ─
   useEffect(() => {
@@ -132,8 +154,13 @@ function NetworkPlanner() {
   // ── Derived ────────────────────────────────────────────────
   const formReady = origin && destination && origin !== destination;
 
-  const selectedOrigin      = airports.find((a) => a.iata === origin);
-  const selectedDestination = airports.find((a) => a.iata === destination);
+  const selectedOrigin = Array.isArray(airports)
+  ? airports.find((a) => a.iata === origin)
+  : null;
+
+  const selectedDestination = Array.isArray(airports)
+  ? airports.find((a) => a.iata === destination)
+  : null;
 
   const routeCoordinates =
     selectedOrigin && selectedDestination
@@ -160,9 +187,7 @@ function NetworkPlanner() {
 
     try {
       const params = new URLSearchParams({ origin, destination });
-      if (aircraft)  params.append("aircraft_type", aircraft);
-      if (season)    params.append("season", season);
-      if (flightsDay) params.append("flights_per_day", flightsDay);
+
 
       const res = await fetch(
         `https://aeroinsight-dashboard-backend.onrender.com/routes/${origin}/${destination}`
