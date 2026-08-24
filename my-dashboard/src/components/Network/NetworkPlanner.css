@@ -1018,3 +1018,202 @@
     break-inside: avoid;
   }
 }
+* ─────────────────────────────────────────────────────────────
+   WHAT-IF — additions to NetworkPlanner.css
+   Append these rules to the bottom of NetworkPlanner.css
+   ───────────────────────────────────────────────────────────── */
+ 
+/* Locked state for proposed card when no baseline exists */
+.np-scenario-card--locked {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.4);
+}
+ 
+/* Editable params inside the proposed card */
+.np-whatif__params {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+ 
+/* Change summary list */
+.np-whatif__changes {
+  background: rgba(249, 115, 22, 0.08);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+.np-whatif__changes-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--np-text-muted, #94a3b8);
+  margin-bottom: 0.4rem;
+}
+.np-whatif__changes ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.np-whatif__changes li {
+  color: var(--np-text, #e2e8f0);
+}
+.np-whatif__changes s {
+  color: var(--np-text-muted, #64748b);
+}
+.np-whatif__changes strong {
+  color: #f97316;
+}
+ 
+/* Baseline metrics inside baseline card */
+.np-scenario-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.np-scenario-metric {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+.np-scenario-metric span {
+  color: var(--np-text-muted, #94a3b8);
+}
+.np-scenario-metric strong {
+  color: var(--np-text, #e2e8f0);
+}
+ 
+/* ── What-If button (enabled) ─── */
+.np-whatif-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: linear-gradient(135deg, #7c3aed, #f97316);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  width: 100%;
+  justify-content: center;
+}
+.np-whatif-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+.np-whatif-btn:not(:disabled):hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+ 
+/* ── Delta results section ─── */
+.np-whatif__delta {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+ 
+.np-delta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+ 
+.np-delta-card {
+  background: var(--np-card-bg, rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+ 
+.np-delta-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--np-text-muted, #94a3b8);
+}
+ 
+.np-delta-values {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+ 
+.np-delta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+.np-delta-col span {
+  font-size: 0.7rem;
+  color: var(--np-text-muted, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.np-delta-col strong {
+  font-size: 1rem;
+  color: var(--np-text, #e2e8f0);
+}
+ 
+.np-delta-arrow {
+  color: var(--np-text-muted, #64748b);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+ 
+/* Delta badges */
+.np-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+.np-delta--up {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+}
+.np-delta--down {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+}
+.np-delta--neutral {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+}
+ 
+/* Proposed cards section header */
+.np-whatif__cards-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #f97316;
+  margin-bottom: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+}
+ 
