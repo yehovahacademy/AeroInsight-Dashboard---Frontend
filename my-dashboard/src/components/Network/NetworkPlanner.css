@@ -1018,7 +1018,6 @@
     break-inside: avoid;
   }
 }
-//What-if analysis CSS
  
 /* Locked state for proposed card when no baseline exists */
 .np-scenario-card--locked {
