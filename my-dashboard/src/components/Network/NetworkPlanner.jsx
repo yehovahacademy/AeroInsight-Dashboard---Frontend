@@ -42,8 +42,6 @@ const SEASONS = [
 
 const FLIGHTS_PER_DAY = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
-const BASE_URL = "https://aeroinsight-dashboard-backend.onrender.com";
-
 // ─────────────────────────────────────────────────────────────
 // Delta badge helper
 // ─────────────────────────────────────────────────────────────
@@ -83,10 +81,9 @@ function NetworkPlanner() {
   const [loading, setLoading]             = useState(false);
   const [error, setError]                 = useState(null);
 
-  // ── Airport + Routes state ─────────────────────────────────
+  // ── Airport state ──────────────────────────────────────────
   const [airports, setAirports]               = useState([]);
   const [airportsLoading, setAirportsLoading] = useState(true);
-  const [routes, setRoutes]                   = useState([]);
 
   // ── What-If scenario state ─────────────────────────────────
   const [whatIfAircraft, setWhatIfAircraft]     = useState("");
@@ -105,9 +102,9 @@ function NetworkPlanner() {
   const analysisRef = useRef(null);
   const whatIfRef   = useRef(null);
 
-  // ── Fetch airports + routes in parallel ───────────────────
+  // ── Fetch airports ─────────────────────────────────────────
   useEffect(() => {
-    const airportsReq = fetch(`${BASE_URL}/airports/api/airports/`)
+    fetch("https://aeroinsight-dashboard-backend.onrender.com/airports/api/airports/")
       .then((res) => res.json())
       .then((data) => {
         const list = Array.isArray(data)          ? data
@@ -115,22 +112,12 @@ function NetworkPlanner() {
                    : Array.isArray(data.airports) ? data.airports
                    : [];
         setAirports(list);
+        setAirportsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch airports:", err);
+        setAirportsLoading(false);
       });
-
-    const routesReq = fetch(`${BASE_URL}/routes/api/routes/`)
-      .then((res) => res.json())
-      .then((data) => {
-        // backend returns { count, routes: [...] }
-        const list = Array.isArray(data)         ? data
-                   : Array.isArray(data.routes)  ? data.routes
-                   : Array.isArray(data.results) ? data.results
-                   : [];
-        setRoutes(list);
-      });
-
-    Promise.allSettled([airportsReq, routesReq]).finally(() => {
-      setAirportsLoading(false);
-    });
   }, []);
 
   // ── Seed What-If fields from baseline when baseline changes ─
@@ -142,27 +129,7 @@ function NetworkPlanner() {
     setWhatIfError(null);
   }, [aircraft, flightsDay, season]);
 
-  // ── Derived — filter dropdowns from routes data ────────────
-
-  // Origins: every unique origin_iata that has at least one route
-  const validOriginCodes = [...new Set(routes.map((r) => r.origin_iata))];
-
-  // Destinations: only iata codes reachable from the selected origin
-  const validDestinationCodes = origin
-    ? routes
-        .filter((r) => r.origin_iata === origin)
-        .map((r) => r.destination_iata)
-    : [...new Set(routes.map((r) => r.destination_iata))];
-
-  // Filter the full airports list down to only valid options
-  const originOptions = airports.filter((a) =>
-    validOriginCodes.includes(a.iata)
-  );
-
-  const destinationOptions = airports.filter((a) =>
-    validDestinationCodes.includes(a.iata)
-  );
-
+  // ── Derived ────────────────────────────────────────────────
   const formReady = origin && destination && origin !== destination;
 
   const selectedOrigin      = airports.find((a) => a.iata === origin);
@@ -177,27 +144,9 @@ function NetworkPlanner() {
       : [];
 
   // ── Handlers ───────────────────────────────────────────────
-
-  const handleOriginChange = (e) => {
-    setOrigin(e.target.value);
-    // Clear destination if it's no longer reachable from new origin
-    setDestination("");
-    setRouteData(null);
-    setWhatIfResult(null);
-  };
-
   const handleSwap = () => {
-    // Only swap if the reverse route exists
-    const reverseExists = routes.some(
-      (r) => r.origin_iata === destination && r.destination_iata === origin
-    );
-    if (reverseExists) {
-      setOrigin(destination);
-      setDestination(origin);
-    } else {
-      setOrigin(destination);
-      setDestination("");
-    }
+    setOrigin(destination);
+    setDestination(origin);
     setRouteData(null);
     setWhatIfResult(null);
   };
@@ -210,7 +159,14 @@ function NetworkPlanner() {
     setWhatIfResult(null);
 
     try {
-      const res = await fetch(`${BASE_URL}/routes/${origin}/${destination}`);
+      const params = new URLSearchParams({ origin, destination });
+      if (aircraft)  params.append("aircraft_type", aircraft);
+      if (season)    params.append("season", season);
+      if (flightsDay) params.append("flights_per_day", flightsDay);
+
+      const res = await fetch(
+        `https://aeroinsight-dashboard-backend.onrender.com/routes/${origin}/${destination}`
+      );
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       const data = await res.json();
       setRouteData(data);
@@ -226,13 +182,20 @@ function NetworkPlanner() {
   };
 
   const handleWhatIf = async () => {
-    if (!formReady || !routeData) return;
+    if (!formReady) return;
     setWhatIfLoading(true);
     setWhatIfError(null);
     setWhatIfResult(null);
 
     try {
-      const res = await fetch(`${BASE_URL}/routes/${origin}/${destination}`);
+      const params = new URLSearchParams({ origin, destination });
+      if (whatIfAircraft)  params.append("aircraft_type", whatIfAircraft);
+      if (whatIfSeason)    params.append("season", whatIfSeason);
+      if (whatIfFlightsDay) params.append("flights_per_day", whatIfFlightsDay);
+
+      const res = await fetch(
+        `https://aeroinsight-dashboard-backend.onrender.com/network/network/what-if`
+      );
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       const data = await res.json();
       setWhatIfResult(data);
@@ -283,12 +246,7 @@ function NetworkPlanner() {
           <div className="np-meta-divider" />
           <div className="np-meta-item">
             <span>AIRPORTS</span>
-            <strong>{airportsLoading ? "—" : validOriginCodes.length}</strong>
-          </div>
-          <div className="np-meta-divider" />
-          <div className="np-meta-item">
-            <span>ROUTES</span>
-            <strong>{airportsLoading ? "—" : routes.length}</strong>
+            <strong>{airportsLoading ? "—" : airports.length}</strong>
           </div>
           <div className="np-meta-divider" />
           <div className="np-meta-item">
@@ -308,8 +266,8 @@ function NetworkPlanner() {
         <div className="np-kpi">
           <div className="np-kpi__icon"><FontAwesomeIcon icon={faRoute} /></div>
           <div className="np-kpi__body">
-            <span>ACTIVE ROUTES</span>
-            <strong>{airportsLoading ? "—" : routes.length}</strong>
+            <span>ACTIVE AIRPORTS</span>
+            <strong>{airportsLoading ? "—" : airports.length}</strong>
             <small>In planning dataset</small>
           </div>
         </div>
@@ -361,15 +319,15 @@ function NetworkPlanner() {
                 <label>ORIGIN</label>
                 <select
                   value={origin}
-                  onChange={handleOriginChange}
+                  onChange={(e) => setOrigin(e.target.value)}
                   disabled={airportsLoading}
                   className={origin ? "np-select--active" : ""}
                 >
                   <option value="">
                     {airportsLoading ? "Loading airports…" : "Select origin"}
                   </option>
-                  {originOptions.map((a) => (
-                    <option key={a.iata} value={a.iata}>
+                  {airports.map((a) => (
+                    <option key={a.iata} value={a.iata} disabled={a.iata === destination}>
                       {a.city} ({a.iata})
                     </option>
                   ))}
@@ -389,23 +347,15 @@ function NetworkPlanner() {
                 <label>DESTINATION</label>
                 <select
                   value={destination}
-                  onChange={(e) => {
-                    setDestination(e.target.value);
-                    setRouteData(null);
-                    setWhatIfResult(null);
-                  }}
-                  disabled={airportsLoading || !origin}
+                  onChange={(e) => setDestination(e.target.value)}
+                  disabled={airportsLoading}
                   className={destination ? "np-select--active" : ""}
                 >
                   <option value="">
-                    {!origin
-                      ? "Select origin first"
-                      : airportsLoading
-                      ? "Loading airports…"
-                      : "Select destination"}
+                    {airportsLoading ? "Loading airports…" : "Select destination"}
                   </option>
-                  {destinationOptions.map((a) => (
-                    <option key={a.iata} value={a.iata}>
+                  {airports.map((a) => (
+                    <option key={a.iata} value={a.iata} disabled={a.iata === origin}>
                       {a.city} ({a.iata})
                     </option>
                   ))}
@@ -602,20 +552,9 @@ function NetworkPlanner() {
               </div>
             </div>
 
+            {/* Baseline key metrics (when available) */}
             {routeData && (
               <div className="np-scenario-metrics">
-                {routeData.distance_km != null && (
-                  <div className="np-scenario-metric">
-                    <span>Distance</span>
-                    <strong>{routeData.distance_km.toLocaleString()} km</strong>
-                  </div>
-                )}
-                {routeData.region != null && (
-                  <div className="np-scenario-metric">
-                    <span>Region</span>
-                    <strong>{routeData.region}</strong>
-                  </div>
-                )}
                 {routeData.estimated_revenue != null && (
                   <div className="np-scenario-metric">
                     <span>Est. Revenue</span>
@@ -659,6 +598,7 @@ function NetworkPlanner() {
               </p>
             ) : (
               <>
+                {/* Editable params */}
                 <div className="np-whatif__params">
                   <div className="np-field">
                     <label>AIRCRAFT</label>
@@ -692,18 +632,25 @@ function NetworkPlanner() {
                   </div>
                 </div>
 
+                {/* Change summary */}
                 {whatIfConfigured && (
                   <div className="np-whatif__changes">
                     <p className="np-whatif__changes-label">Changes vs baseline:</p>
                     <ul>
                       {whatIfAircraft !== aircraft && (
-                        <li>Aircraft: <s>{aircraft || "Any"}</s> → <strong>{whatIfAircraft || "Any"}</strong></li>
+                        <li>
+                          Aircraft: <s>{aircraft || "Any"}</s> → <strong>{whatIfAircraft || "Any"}</strong>
+                        </li>
                       )}
                       {whatIfSeason !== season && (
-                        <li>Season: <s>{season || "Any"}</s> → <strong>{whatIfSeason || "Any"}</strong></li>
+                        <li>
+                          Season: <s>{season || "Any"}</s> → <strong>{whatIfSeason || "Any"}</strong>
+                        </li>
                       )}
                       {whatIfFlightsDay !== flightsDay && (
-                        <li>Flights/day: <s>{flightsDay || "—"}</s> → <strong>{whatIfFlightsDay || "—"}</strong></li>
+                        <li>
+                          Flights/day: <s>{flightsDay || "—"}</s> → <strong>{whatIfFlightsDay || "—"}</strong>
+                        </li>
                       )}
                     </ul>
                   </div>
@@ -749,24 +696,7 @@ function NetworkPlanner() {
             </div>
 
             <div className="np-delta-grid">
-              {(routeData.distance_km != null || whatIfResult.distance_km != null) && (
-                <div className="np-delta-card">
-                  <span className="np-delta-label">Distance</span>
-                  <div className="np-delta-values">
-                    <div className="np-delta-col">
-                      <span>Baseline</span>
-                      <strong>{(routeData.distance_km ?? 0).toLocaleString()} km</strong>
-                    </div>
-                    <div className="np-delta-arrow">→</div>
-                    <div className="np-delta-col">
-                      <span>Proposed</span>
-                      <strong>{(whatIfResult.distance_km ?? 0).toLocaleString()} km</strong>
-                    </div>
-                  </div>
-                  <DeltaBadge baseline={routeData} proposed={whatIfResult} field="distance_km" suffix=" km" />
-                </div>
-              )}
-
+              {/* Revenue */}
               {(routeData.estimated_revenue != null || whatIfResult.estimated_revenue != null) && (
                 <div className="np-delta-card">
                   <span className="np-delta-label">Est. Revenue</span>
@@ -781,10 +711,16 @@ function NetworkPlanner() {
                       <strong>₹{(whatIfResult.estimated_revenue ?? 0).toLocaleString()}</strong>
                     </div>
                   </div>
-                  <DeltaBadge baseline={routeData} proposed={whatIfResult} field="estimated_revenue" prefix="₹" />
+                  <DeltaBadge
+                    baseline={routeData}
+                    proposed={whatIfResult}
+                    field="estimated_revenue"
+                    prefix="₹"
+                  />
                 </div>
               )}
 
+              {/* Load factor */}
               {(routeData.load_factor != null || whatIfResult.load_factor != null) && (
                 <div className="np-delta-card">
                   <span className="np-delta-label">Load Factor</span>
@@ -799,10 +735,16 @@ function NetworkPlanner() {
                       <strong>{whatIfResult.load_factor ?? "—"}%</strong>
                     </div>
                   </div>
-                  <DeltaBadge baseline={routeData} proposed={whatIfResult} field="load_factor" suffix="%" />
+                  <DeltaBadge
+                    baseline={routeData}
+                    proposed={whatIfResult}
+                    field="load_factor"
+                    suffix="%"
+                  />
                 </div>
               )}
 
+              {/* Profitability score */}
               {(routeData.profitability_score != null || whatIfResult.profitability_score != null) && (
                 <div className="np-delta-card">
                   <span className="np-delta-label">Profitability Score</span>
@@ -817,11 +759,16 @@ function NetworkPlanner() {
                       <strong>{whatIfResult.profitability_score ?? "—"}</strong>
                     </div>
                   </div>
-                  <DeltaBadge baseline={routeData} proposed={whatIfResult} field="profitability_score" />
+                  <DeltaBadge
+                    baseline={routeData}
+                    proposed={whatIfResult}
+                    field="profitability_score"
+                  />
                 </div>
               )}
             </div>
 
+            {/* Proposed RouteCards */}
             <div className="np-whatif__cards-header">
               <FontAwesomeIcon icon={faFlask} />
               <span>Proposed scenario — full intelligence</span>
