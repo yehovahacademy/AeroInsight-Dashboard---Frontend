@@ -19,7 +19,6 @@ function Navbar() {
       <Link to="/Predictions">Predictions</Link>
       <Link to="/Reports">Reports</Link>
     </div>
-    <br></br>
     </>
   );
 }
