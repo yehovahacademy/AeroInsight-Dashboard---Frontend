@@ -6,6 +6,7 @@ export default function Predictions() {
     <div>
       <h1>Predictions Page</h1>
       <NetworkMap />
+      <h1>Market Demand</h1>
     </div>
   );
 }
