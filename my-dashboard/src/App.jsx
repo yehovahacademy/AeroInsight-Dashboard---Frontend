@@ -5,8 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import RoutePlanner from "./Pages/RoutePlanner";
 import Predictions from "./Pages/Predictions";
 import Reports from "./Pages/Reports";
-import Login from "./Pages/Login";
-import Register from "./Pages/Register";
+import AuthPage from "./Pages/AuthPage";
 
 function App() {
   return (
@@ -14,13 +13,14 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/"            element={<Home />} />
-        <Route path="/home"        element={<Home />} />
+        <Route path="/"             element={<Home />} />
+        <Route path="/home"         element={<Home />} />
         <Route path="/routeplanner" element={<RoutePlanner />} />
-        <Route path="/predictions" element={<Predictions />} />
-        <Route path="/reports"     element={<Reports />} />
-        <Route path="/login"       element={<Login />} />
-        <Route path="/register"    element={<Register />} />
+        <Route path="/predictions"  element={<Predictions />} />
+        <Route path="/reports"      element={<Reports />} />
+        {/* Both routes render the same AuthPage — it reads the path internally */}
+        <Route path="/login"        element={<AuthPage />} />
+        <Route path="/register"     element={<AuthPage />} />
       </Routes>
 
       <Footer />
