@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
-import Akasaair from "../assets/Akasaair.mp4";
+import airplane from "../assets/airplane.mp4";
 
 export default function AuthPage() {
   const location = useLocation();
@@ -69,7 +69,7 @@ export default function AuthPage() {
           playsInline
         >
           {/* Free stock aviation video from Pexels CDN */}
-          <source src={Akasaair} type="video/mp4"
+          <source src={airplane} type="video/mp4"
           />
         </video>
 
