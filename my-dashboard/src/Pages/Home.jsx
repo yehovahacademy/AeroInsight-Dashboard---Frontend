@@ -16,12 +16,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import airportvideo from "../assets/airportvideo.mp4";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [counters, setCounters] = useState({ s1: 0, s2: 0, s3: 0, s4: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const statsRef = useRef(null);
   const heroRef = useRef(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     document.title = "AeroInsight | Home";
@@ -111,7 +113,7 @@ function Home() {
           </p>
 
           <div className="hero-buttons">
-            <button className="btn btn-primary">
+            <button className="btn btn-primary" onClick = {() => navigate('/register')}>
               <FontAwesomeIcon icon={faPlane} />
               Get Started
             </button>
