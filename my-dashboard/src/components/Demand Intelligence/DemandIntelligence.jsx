@@ -1,15 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./DemandIntelligence.css";
 
-/* ═══════════════════════════════════════════════════════════════
-   Constants
-   ═══════════════════════════════════════════════════════════════ */
 const BASE_URL = "https://aeroinsight-dashboard-backend.onrender.com";
 
-const DAYS_OPTIONS = ["7","12","14","21","30","35"];
-
-/* Popular routes as quick-pick pairs — fallback if airports haven't
-   loaded yet, or the user just wants a one-click start. */
 const QUICK_ROUTES = [
     { label: "DEL → DXB", origin: "DEL", dest: "DXB" },
     { label: "BOM → LHR", origin: "BOM", dest: "LHR" },
@@ -17,197 +10,15 @@ const QUICK_ROUTES = [
     { label: "DEL → JFK", origin: "DEL", dest: "JFK" },
 ];
 
+const MONTH_ABBR = [
+    "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+
 /* ═══════════════════════════════════════════════════════════════
-   Sub-components — visual building blocks
+   Error
    ═══════════════════════════════════════════════════════════════ */
-
-function TrendIcon({ trend }) {
-    if (trend === "INCREASING")
-        return <span className="di-trend-icon di-trend-up">↗</span>;
-    if (trend === "DECREASING")
-        return <span className="di-trend-icon di-trend-down">↘</span>;
-    return <span className="di-trend-icon di-trend-flat">→</span>;
-}
-
-function RunwayBar({ score, level }) {
-    const fillRef = useRef(null);
-
-    useEffect(() => {
-        const el = fillRef.current;
-        if (!el) return;
-        // Double-rAF ensures the transition fires after the element paints
-        requestAnimationFrame(() =>
-            requestAnimationFrame(() => {
-                el.style.height = `${score}%`;
-            })
-        );
-    }, [score]);
-
-    const levelClass =
-        level === "HIGH"   ? "di-level-high"
-        : level === "MEDIUM" ? "di-level-medium"
-        : "di-level-low";
-
-    return (
-        <div className={`di-runway-track ${levelClass}`}>
-            <div className="di-runway-fill" ref={fillRef} />
-        </div>
-    );
-}
-
-function ForecastDay({ day }) {
-    const levelClass =
-        day.demand_level === "HIGH"   ? "di-level-high"
-        : day.demand_level === "MEDIUM" ? "di-level-medium"
-        : "di-level-low";
-
-    return (
-        <div className="di-forecast-day">
-            <span className="di-day-name">{day.day.slice(0, 3).toUpperCase()}</span>
-            <RunwayBar score={day.demand_score} level={day.demand_level} />
-            <span className="di-day-score">{day.demand_score}</span>
-            <span className={`di-day-level ${levelClass}`}>{day.demand_level}</span>
-            <small className="di-day-load">LF {day.estimated_load_factor}%</small>
-        </div>
-    );
-}
-
-/* Route Analysis result card */
-function RouteAnalysisResult({ data }) {
-    if (!data) return null;
-
-    /* Normalise — backend shape may vary; fall back gracefully */
-    const summary     = data.route_summary     ?? data.summary     ?? {};
-    const demand      = data.demand_analysis   ?? data.demand      ?? {};
-    const financials  = data.financial_analysis ?? data.financials  ?? {};
-    const competition = data.competition_analysis ?? data.competition ?? {};
-    const rec         = data.recommendation    ?? data.ai_recommendation ?? "";
-
-    /* Viability score — try several known keys */
-    const viability =
-        data.viability_score ??
-        summary.viability_score ??
-        demand.viability_score ??
-        null;
-
-    const viabilityColor =
-        viability >= 70 ? "var(--di-low)"
-        : viability >= 40 ? "var(--di-medium)"
-        : "var(--di-down)";
-
-    return (
-        <div className="di-ra-panel">
-            <div className="di-ra-header">
-                <div>
-                    <span className="di-eyebrow">ROUTE ANALYSIS</span>
-                    <h3 className="di-ra-title">
-                        {summary.origin ?? data.origin ?? "—"} → {summary.destination ?? data.destination ?? "—"}
-                    </h3>
-                </div>
-
-                {viability !== null && (
-                    <div className="di-viability-badge" style={{ borderColor: viabilityColor }}>
-                        <span className="di-viability-label">Viability</span>
-                        <span className="di-viability-score" style={{ color: viabilityColor }}>
-                            {viability}
-                            <small>/100</small>
-                        </span>
-                    </div>
-                )}
-            </div>
-
-            {/* Metric grid */}
-            <div className="di-ra-grid">
-
-                {summary.distance_km && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Distance</span>
-                        <strong className="di-ra-card-value">
-                            {Number(summary.distance_km).toLocaleString()}
-                            <small> km</small>
-                        </strong>
-                    </div>
-                )}
-
-                {summary.flight_duration_hours && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Flight Time</span>
-                        <strong className="di-ra-card-value">
-                            {summary.flight_duration_hours}
-                            <small> hrs</small>
-                        </strong>
-                    </div>
-                )}
-
-                {(demand.demand_score ?? demand.score) && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Demand Score</span>
-                        <strong className="di-ra-card-value">
-                            {demand.demand_score ?? demand.score}
-                        </strong>
-                    </div>
-                )}
-
-                {(financials.estimated_revenue_usd ?? financials.revenue) && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Est. Revenue</span>
-                        <strong className="di-ra-card-value">
-                            ${Number(
-                                financials.estimated_revenue_usd ?? financials.revenue
-                            ).toLocaleString()}
-                        </strong>
-                    </div>
-                )}
-
-                {(financials.load_factor_pct ?? financials.load_factor) && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Load Factor</span>
-                        <strong className="di-ra-card-value">
-                            {financials.load_factor_pct ?? financials.load_factor}
-                            <small>%</small>
-                        </strong>
-                    </div>
-                )}
-
-                {(competition.competitor_count ?? competition.competitors) && (
-                    <div className="di-ra-card">
-                        <span className="di-ra-card-label">Competitors</span>
-                        <strong className="di-ra-card-value">
-                            {competition.competitor_count ?? competition.competitors}
-                        </strong>
-                    </div>
-                )}
-
-            </div>
-
-            {/* AI recommendation */}
-            {rec && (
-                <div className="di-ra-recommendation">
-                    <span className="di-rec-eyebrow">AI RECOMMENDATION</span>
-                    <p className="di-rec-text">{rec}</p>
-                </div>
-            )}
-        </div>
-    );
-}
-
-/* Skeleton rows */
-function SkeletonState({ title = "Demand Intelligence", label = "Loading…" }) {
-    return (
-        <section className="di-section">
-            <div className="di-header">
-                <div>
-                    <span className="di-eyebrow">NETWORK ANALYTICS</span>
-                    <h2 className="di-title">{title}</h2>
-                </div>
-            </div>
-            <div className="di-skeleton-grid">
-                {[...Array(4)].map((_, i) => <div key={i} className="di-skeleton-card" />)}
-            </div>
-            <p className="di-skeleton-label">{label}</p>
-        </section>
-    );
-}
 
 function ErrorBox({ error }) {
     return (
@@ -218,32 +29,217 @@ function ErrorBox({ error }) {
     );
 }
 
+
 /* ═══════════════════════════════════════════════════════════════
-   Main component
+   Loading
+   ═══════════════════════════════════════════════════════════════ */
+
+function LoadingState({ label = "Loading historical traffic…" }) {
+    return (
+        <div className="di-history-loading">
+            <div className="di-skeleton-card" />
+            <div className="di-skeleton-card" style={{ opacity: 0.6 }} />
+            <p>{label}</p>
+        </div>
+    );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Syntax-highlighted JSON viewer
+   ═══════════════════════════════════════════════════════════════ */
+
+function JsonViewer({ data }) {
+    const raw = JSON.stringify(data, null, 2);
+
+    const highlighted = raw.replace(
+        /("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(\.\d+)?([eE][+-]?\d+)?)/g,
+        (match) => {
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    return `<span class="di-json-key">${match}</span>`;
+                }
+                return `<span class="di-json-string">${match}</span>`;
+            }
+            if (/true|false/.test(match)) {
+                return `<span class="di-json-bool">${match}</span>`;
+            }
+            if (/null/.test(match)) {
+                return `<span class="di-json-null">${match}</span>`;
+            }
+            return `<span class="di-json-num">${match}</span>`;
+        }
+    );
+
+    return (
+        <pre
+            className="di-ra-json"
+            dangerouslySetInnerHTML={{ __html: highlighted }}
+        />
+    );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Historical Traffic Chart
+   ═══════════════════════════════════════════════════════════════ */
+
+function TrafficChart({ data, selectedYear }) {
+
+    if (!data.length) {
+        return (
+            <div className="di-empty-hint">
+                No historical traffic data available for this route.
+            </div>
+        );
+    }
+
+    const width         = 900;
+    const height        = 320;
+    const paddingLeft   = 75;
+    const paddingRight  = 24;
+    const paddingTop    = 24;
+    const paddingBottom = 50;
+    const chartWidth    = width - paddingLeft - paddingRight;
+    const chartHeight   = height - paddingTop - paddingBottom;
+
+    const maxPassengers = Math.max(
+        ...data.map(item => Number(item.passengers) || 0),
+        1
+    );
+
+    const points = data.map((item, index) => {
+        const x = paddingLeft + (index / Math.max(data.length - 1, 1)) * chartWidth;
+        const y = paddingTop + chartHeight - ((Number(item.passengers) || 0) / maxPassengers) * chartHeight;
+        return { ...item, x, y };
+    });
+
+    const linePath = points
+        .map((pt, i) => `${i === 0 ? "M" : "L"} ${pt.x} ${pt.y}`)
+        .join(" ");
+
+    const first = points[0];
+    const last  = points[points.length - 1];
+    const fillPath = `${linePath} L ${last.x} ${paddingTop + chartHeight} L ${first.x} ${paddingTop + chartHeight} Z`;
+
+    const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => ({
+        value: maxPassengers * (1 - t),
+        y:     paddingTop + t * chartHeight,
+    }));
+
+    return (
+        <div className="di-history-chart">
+
+            <div className="di-history-chart-header">
+                <div>
+                    <span className="di-eyebrow">Traffic Timeline</span>
+                    <h3 className="di-history-chart-title">Monthly Passenger Traffic</h3>
+                </div>
+                <span className="di-history-year-badge">{selectedYear}</span>
+            </div>
+
+            <div className="di-chart-wrapper">
+                <svg
+                    viewBox={`0 0 ${width} ${height}`}
+                    className="di-traffic-svg"
+                    preserveAspectRatio="none"
+                >
+                    <defs>
+                        <linearGradient id="trafficGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%"   stopColor="#00C8FF" stopOpacity="0.22" />
+                            <stop offset="100%" stopColor="#00C8FF" stopOpacity="0" />
+                        </linearGradient>
+                    </defs>
+
+                    {/* Grid lines */}
+                    {yTicks.map((tick, i) => (
+                        <g key={i}>
+                            <line
+                                x1={paddingLeft} x2={width - paddingRight}
+                                y1={tick.y}      y2={tick.y}
+                                className="di-chart-grid"
+                            />
+                            <text
+                                x={paddingLeft - 10}
+                                y={tick.y + 4}
+                                textAnchor="end"
+                                className="di-chart-label"
+                            >
+                                {Math.round(tick.value).toLocaleString()}
+                            </text>
+                        </g>
+                    ))}
+
+                    {/* Gradient fill */}
+                    <path d={fillPath} fill="url(#trafficGrad)" />
+
+                    {/* Traffic line */}
+                    <path d={linePath} className="di-traffic-line" fill="none" />
+
+                    {/* Points + month labels */}
+                    {points.map(pt => {
+                        const monthNum = Number(pt.month);
+                        const label    = MONTH_ABBR[monthNum] ?? pt.month;
+                        const isActive = Number(pt.year) === selectedYear;
+                        return (
+                            <g key={pt.month}>
+                                <circle
+                                    cx={pt.x} cy={pt.y}
+                                    r={isActive ? 6 : 4}
+                                    className={
+                                        isActive
+                                            ? "di-traffic-point di-traffic-point-active"
+                                            : "di-traffic-point"
+                                    }
+                                />
+                                <text
+                                    x={pt.x}
+                                    y={height - 16}
+                                    textAnchor="middle"
+                                    className="di-chart-label"
+                                >
+                                    {label}
+                                </text>
+                            </g>
+                        );
+                    })}
+
+                </svg>
+            </div>
+
+            <div className="di-chart-caption">
+                Monthly passenger traffic for {selectedYear}
+            </div>
+
+        </div>
+    );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Main Component
    ═══════════════════════════════════════════════════════════════ */
 
 function DemandIntelligence() {
 
-    /* ── Route search state ─── */
-    const [origin,      setOrigin     ] = useState("DEL");
+    const [origin,      setOrigin]      = useState("DEL");
     const [destination, setDestination] = useState("DXB");
-    const [days,        setDays       ] = useState("7");
 
-    /* ── Airports dropdown ─── */
-    const [airports,        setAirports       ] = useState([]);
+    const [airports,        setAirports]        = useState([]);
     const [airportsLoading, setAirportsLoading] = useState(true);
 
-    /* ── Demand forecast state ─── */
-    const [demandForecast, setDemandForecast] = useState(null);
-    const [demandLoading,  setDemandLoading ] = useState(false);
-    const [demandError,    setDemandError   ] = useState(null);
+    const [historicalTraffic, setHistoricalTraffic] = useState([]);
+    const [historyLoading,    setHistoryLoading]    = useState(false);
+    const [historyError,      setHistoryError]      = useState(null);
+    const [selectedYear,      setSelectedYear]      = useState(null);
 
-    /* ── Route analysis state ─── */
-    const [routeData,    setRouteData   ] = useState(null);
+    const [routeData,    setRouteData]    = useState(null);
     const [routeLoading, setRouteLoading] = useState(false);
-    const [routeError,   setRouteError  ] = useState(null);
+    const [routeError,   setRouteError]   = useState(null);
 
-    /* ── Load airports on mount ─── */
+
+    /* ── Load airports ───────────────────────────────────────── */
+
     useEffect(() => {
         const CODES = [
             "BOM","DEL","BLR","MAA","CCU","HYD","GOI","PNQ","AMD","JAI",
@@ -263,112 +259,150 @@ function DemandIntelligence() {
                     .catch(() => null)
             )
         ).then(results => {
-            const valid = results
-                .filter(Boolean)
-                .sort((a, b) => a.city.localeCompare(b.city));
+            const valid = results.filter(Boolean).sort((a, b) => a.city.localeCompare(b.city));
             setAirports(valid);
             setAirportsLoading(false);
         });
     }, []);
 
-    /* ── Fetch demand forecast ─── */
-    const fetchDemand = (orig, dest, d) => {
+
+    /* ── Historical traffic ──────────────────────────────────── */
+
+    const fetchHistoricalTraffic = (orig, dest) => {
         if (!orig || !dest || orig === dest) return;
+        setHistoryLoading(true);
+        setHistoryError(null);
+        setHistoricalTraffic([]);
 
-        setDemandLoading(true);
-        setDemandError(null);
-        setDemandForecast(null);
-
-        fetch(`${BASE_URL}/demand-forecast/demand/forecast/${orig}/${dest}?days=${d}`)
-            .then(r => { if (!r.ok) throw new Error(`${r.status}`); return r.json(); })
-            .then(data => setDemandForecast(data))
-            .catch(err => setDemandError("Could not load demand forecast. " + err.message))
-            .finally(() => setDemandLoading(false));
+        fetch(`${BASE_URL}/historical-traffic/route/${orig}/${dest}`)
+            .then(r => {
+                if (!r.ok) throw new Error(`${r.status}`);
+                return r.json();
+            })
+            .then(data => {
+                const traffic = data.traffic ?? [];
+                setHistoricalTraffic(traffic);
+                if (traffic.length > 0) {
+                    const years = [...new Set(traffic.map(item => Number(item.year)))].sort((a, b) => a - b);
+                    setSelectedYear(years[years.length - 1]);
+                }
+            })
+            .catch(err => setHistoryError("Could not load historical traffic. " + err.message))
+            .finally(() => setHistoryLoading(false));
     };
 
-    /* ── Fetch route analysis ─── */
+
+    /* ── Route analysis ──────────────────────────────────────── */
+
     const fetchRoute = (orig, dest) => {
         if (!orig || !dest || orig === dest) return;
-
         setRouteLoading(true);
         setRouteError(null);
         setRouteData(null);
 
         fetch(`${BASE_URL}/api/network/analyze_route`, {
-            method: "POST",
+            method:  "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ origin: orig, destination: dest }),
+            body:    JSON.stringify({ origin: orig, destination: dest }),
         })
-            .then(r => { if (!r.ok) throw new Error(`${r.status}`); return r.json(); })
+            .then(r => {
+                if (!r.ok) throw new Error(`${r.status}`);
+                return r.json();
+            })
             .then(data => setRouteData(data))
             .catch(err => setRouteError("Route analysis failed. " + err.message))
             .finally(() => setRouteLoading(false));
     };
 
-    /* ── Auto-fetch on mount with defaults ─── */
+
+    /* ── Handlers ────────────────────────────────────────────── */
+
+    const handleAnalyse = () => {
+        fetchHistoricalTraffic(origin, destination);
+        fetchRoute(origin, destination);
+    };
+
+    const handleQuickRoute = ({ origin: o, dest: d }) => {
+        setOrigin(o);
+        setDestination(d);
+        fetchHistoricalTraffic(o, d);
+        fetchRoute(o, d);
+    };
+
+    const handleSwap = () => {
+        setOrigin(destination);
+        setDestination(origin);
+    };
+
+
+    /* ── Derived state ───────────────────────────────────────── */
+
+    const years = useMemo(() => (
+        [...new Set(historicalTraffic.map(item => Number(item.year)))].sort((a, b) => a - b)
+    ), [historicalTraffic]);
+
+    const selectedYearData = useMemo(() => {
+        if (!selectedYear) return [];
+        return historicalTraffic
+            .filter(item => Number(item.year) === selectedYear)
+            .sort((a, b) => Number(a.month) - Number(b.month));
+    }, [historicalTraffic, selectedYear]);
+
+    const metrics = useMemo(() => {
+        if (!selectedYearData.length) return { passengers: 0, flights: 0, seats: 0, loadFactor: 0 };
+        const passengers = selectedYearData.reduce((s, i) => s + Number(i.passengers || 0), 0);
+        const flights    = selectedYearData.reduce((s, i) => s + Number(i.flights || 0), 0);
+        const seats      = selectedYearData.reduce((s, i) => s + Number(i.available_seats || 0), 0);
+        const loadFactor = seats > 0 ? (passengers / seats) * 100 : 0;
+        return { passengers, flights, seats, loadFactor };
+    }, [selectedYearData]);
+
+    const trafficGrowth = useMemo(() => {
+        if (!selectedYear) return null;
+        const prev = historicalTraffic.filter(i => Number(i.year) === selectedYear - 1);
+        if (!prev.length) return null;
+        const prevPass = prev.reduce((s, i) => s + Number(i.passengers || 0), 0);
+        if (!prevPass) return null;
+        return ((metrics.passengers - prevPass) / prevPass) * 100;
+    }, [historicalTraffic, selectedYear, metrics.passengers]);
+
+    const chartData = useMemo(() => (
+        selectedYearData.map(item => ({ ...item, month: Number(item.month) }))
+    ), [selectedYearData]);
+
+    const formReady = origin && destination && origin !== destination;
+
+
+    /* ── Initial fetch ───────────────────────────────────────── */
+
     useEffect(() => {
-        fetchDemand(origin, destination, days);
+        fetchHistoricalTraffic(origin, destination);
         fetchRoute(origin, destination);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* ── Handle Analyse click ─── */
-    const handleAnalyse = () => {
-        fetchDemand(origin, destination, days);
-        fetchRoute(origin, destination);
-    };
-
-    /* ── Quick route pick ─── */
-    const handleQuickRoute = ({ origin: o, dest: d }) => {
-        setOrigin(o);
-        setDestination(d);
-        fetchDemand(o, d, days);
-        fetchRoute(o, d);
-    };
-
-    const formReady = origin && destination && origin !== destination;
-
-    /* ── Destructure forecast for rendering ─── */
-    const {
-        route,
-        average_demand_score,
-        demand_level,
-        average_load_factor,
-        trend,
-        peak_day,
-        recommendation,
-        forecast,
-    } = demandForecast ?? {};
 
     return (
         <section className="di-section">
 
-            {/* ════════════════════════════════════════════════════
-                Header
-            ════════════════════════════════════════════════════ */}
+            {/* Header */}
             <div className="di-header">
                 <div>
-                    <span className="di-eyebrow">NETWORK ANALYTICS</span>
+                    <span className="di-eyebrow">Network Analytics</span>
                     <h2 className="di-title">Demand Intelligence</h2>
-                    <p className="di-subtitle">Demand forecast &amp; route analysis</p>
+                    <p className="di-subtitle">Historical route traffic &amp; network performance</p>
                 </div>
-
-                {route && (
-                    <div className="di-route-badge">
-                        <span className="di-route-label">ROUTE</span>
-                        <span className="di-route-code">{route}</span>
-                    </div>
-                )}
+                <div className="di-route-badge">
+                    <span className="di-route-label">Route</span>
+                    <span className="di-route-code">{origin} → {destination}</span>
+                </div>
             </div>
 
-            {/* ════════════════════════════════════════════════════
-                Route Search Bar
-            ════════════════════════════════════════════════════ */}
-            <div className="di-search-panel">
 
+            {/* Route search */}
+            <div className="di-search-panel">
                 <div className="di-search-row">
 
-                    {/* Origin */}
                     <div className="di-input-group">
                         <label className="di-input-label">Origin</label>
                         <select
@@ -388,16 +422,10 @@ function DemandIntelligence() {
                         </select>
                     </div>
 
-                    {/* Swap */}
-                    <button
-                        className="di-swap-btn"
-                        aria-label="Swap origin and destination"
-                        onClick={() => { setOrigin(destination); setDestination(origin); }}
-                    >
+                    <button className="di-swap-btn" aria-label="Swap origin and destination" onClick={handleSwap}>
                         ⇄
                     </button>
 
-                    {/* Destination */}
                     <div className="di-input-group">
                         <label className="di-input-label">Destination</label>
                         <select
@@ -417,32 +445,16 @@ function DemandIntelligence() {
                         </select>
                     </div>
 
-                    {/* Days */}
-                    <div className="di-input-group di-input-group--narrow">
-                        <label className="di-input-label">Days</label>
-                        <select
-                            className="di-select"
-                            value={days}
-                            onChange={e => setDays(e.target.value)}
-                        >
-                            {DAYS_OPTIONS.map(d => (
-                                <option key={d} value={d}>{d} days</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Analyse */}
                     <button
                         className="di-analyse-btn"
                         onClick={handleAnalyse}
-                        disabled={!formReady || demandLoading || routeLoading}
+                        disabled={!formReady || historyLoading || routeLoading}
                     >
-                        {(demandLoading || routeLoading) ? "Analysing…" : "Analyse Route"}
+                        {historyLoading || routeLoading ? "Analysing…" : "Analyse Route"}
                     </button>
 
                 </div>
 
-                {/* Quick routes */}
                 <div className="di-quick-routes">
                     <span className="di-quick-label">Quick:</span>
                     {QUICK_ROUTES.map(qr => (
@@ -459,117 +471,124 @@ function DemandIntelligence() {
                         </button>
                     ))}
                 </div>
-
             </div>
 
-            {/* ════════════════════════════════════════════════════
-                Demand Forecast
-            ════════════════════════════════════════════════════ */}
 
-            {demandLoading && (
+            {/* Historical traffic */}
+            {historyLoading && <LoadingState />}
+            {historyError   && <ErrorBox error={historyError} />}
+
+            {historicalTraffic.length > 0 && !historyLoading && (
                 <>
-                    <div className="di-skeleton-grid">
-                        {[...Array(4)].map((_, i) => <div key={i} className="di-skeleton-card" />)}
+                    {/* Year timeline */}
+                    <div className="di-timeline-panel">
+                        <div className="di-timeline-header">
+                            <div>
+                                <span className="di-eyebrow">Historical Period</span>
+                                <h3 className="di-history-title">{origin} → {destination}</h3>
+                            </div>
+                            <strong className="di-selected-year">{selectedYear}</strong>
+                        </div>
+
+                        {years.length > 1 && (
+                            <div className="di-slider-wrapper">
+                                <div className="di-slider-years">
+                                    {years.map(year => (
+                                        <button
+                                            key={year}
+                                            className={
+                                                Number(year) === Number(selectedYear)
+                                                    ? "di-slider-year di-slider-year-active"
+                                                    : "di-slider-year"
+                                            }
+                                            onClick={() => setSelectedYear(year)}
+                                        >
+                                            {year}
+                                        </button>
+                                    ))}
+                                </div>
+                                <input
+                                    type="range"
+                                    className="di-year-slider"
+                                    min={0}
+                                    max={years.length - 1}
+                                    step={1}
+                                    value={Math.max(0, years.indexOf(selectedYear))}
+                                    onChange={e => setSelectedYear(years[Number(e.target.value)])}
+                                />
+                            </div>
+                        )}
                     </div>
-                    <p className="di-skeleton-label">Analysing demand…</p>
-                </>
-            )}
 
-            {demandError && <ErrorBox error={demandError} />}
-
-            {demandForecast && !demandLoading && (
-                <>
-                    {/* KPI Strip */}
+                    {/* KPI cards */}
                     <div className="di-kpi-strip">
-
                         <div className="di-kpi-card">
-                            <span className="di-kpi-label">Avg. Demand Score</span>
-                            <strong className="di-kpi-value">{average_demand_score}</strong>
+                            <span className="di-kpi-label">Passengers</span>
+                            <strong className="di-kpi-value">{metrics.passengers.toLocaleString()}</strong>
+                            <span className="di-kpi-badge di-badge-neutral">{selectedYear}</span>
+                        </div>
+                        <div className="di-kpi-card">
+                            <span className="di-kpi-label">Flights</span>
+                            <strong className="di-kpi-value">{metrics.flights.toLocaleString()}</strong>
+                            <span className="di-kpi-badge di-badge-neutral">Annual</span>
+                        </div>
+                        <div className="di-kpi-card">
+                            <span className="di-kpi-label">Available Seats</span>
+                            <strong className="di-kpi-value">{metrics.seats.toLocaleString()}</strong>
+                            <span className="di-kpi-badge di-badge-neutral">Capacity</span>
+                        </div>
+                        <div className="di-kpi-card">
+                            <span className="di-kpi-label">Load Factor</span>
+                            <strong className="di-kpi-value">{metrics.loadFactor.toFixed(1)}%</strong>
                             <span className={`di-kpi-badge ${
-                                demand_level === "HIGH"   ? "di-level-high"
-                                : demand_level === "MEDIUM" ? "di-level-medium"
-                                : "di-level-low"
+                                metrics.loadFactor >= 75 ? "di-badge-positive"
+                                : metrics.loadFactor >= 50 ? "di-badge-neutral"
+                                : "di-badge-negative"
                             }`}>
-                                {demand_level}
+                                {metrics.loadFactor >= 75 ? "Healthy" : metrics.loadFactor >= 50 ? "Moderate" : "Low"}
                             </span>
                         </div>
-
-                        <div className="di-kpi-card">
-                            <span className="di-kpi-label">Expected Load Factor</span>
-                            <strong className="di-kpi-value">{average_load_factor}%</strong>
-                            <span className="di-kpi-badge di-badge-neutral">Estimated</span>
-                        </div>
-
-                        <div className="di-kpi-card">
-                            <span className="di-kpi-label">Demand Trend</span>
-                            <TrendIcon trend={trend} />
-                            <span className="di-kpi-badge di-badge-neutral">{trend}</span>
-                        </div>
-
-                        <div className="di-kpi-card">
-                            <span className="di-kpi-label">Peak Day</span>
-                            <strong className="di-kpi-value di-kpi-day">{peak_day?.day}</strong>
-                            <span className="di-kpi-badge di-badge-neutral">
-                                Score {peak_day?.demand_score}
-                            </span>
-                        </div>
-
                     </div>
 
-                    {/* 7-Day Forecast */}
-                    <div className="di-forecast-panel">
-                        <div className="di-forecast-header">
-                            <h3 className="di-forecast-title">{days}-Day Demand Forecast</h3>
-                            <p className="di-forecast-sub">Predicted route demand by day</p>
+                    {/* Year-over-year growth */}
+                    {trafficGrowth !== null && (
+                        <div className="di-recommendation">
+                            <div className="di-rec-left">
+                                <span className="di-rec-eyebrow">Year-over-year traffic</span>
+                                <p className="di-rec-text">
+                                    {trafficGrowth >= 0
+                                        ? `Passenger traffic grew ${trafficGrowth.toFixed(1)}% vs ${selectedYear - 1}.`
+                                        : `Passenger traffic declined ${Math.abs(trafficGrowth).toFixed(1)}% vs ${selectedYear - 1}.`
+                                    }
+                                </p>
+                            </div>
                         </div>
-                        <div className="di-forecast-row">
-                            {forecast?.map((day) => (
-                                <ForecastDay key={day.date} day={day} />
-                            ))}
-                        </div>
-                    </div>
+                    )}
 
-                    {/* Capacity Recommendation */}
-                    <div className="di-recommendation">
-                        <div className="di-rec-left">
-                            <span className="di-rec-eyebrow">CAPACITY RECOMMENDATION</span>
-                            <p className="di-rec-text">{recommendation}</p>
-                        </div>
-                        <div className="di-route-badge di-route-badge--accent">
-                            <span className="di-route-label">ROUTE</span>
-                            <span className="di-route-code">{route}</span>
-                        </div>
-                    </div>
+                    {/* Chart */}
+                    <TrafficChart data={chartData} selectedYear={selectedYear} />
                 </>
             )}
 
-            {/* ════════════════════════════════════════════════════
-                Route Analysis
-            ════════════════════════════════════════════════════ */}
 
+            {/* Route analysis */}
             <div className="di-divider-rule">
                 <span>Route Analysis</span>
             </div>
 
-            {routeLoading && (
-                <>
-                    <div className="di-skeleton-grid">
-                        {[...Array(6)].map((_, i) => <div key={i} className="di-skeleton-card di-skeleton-card--sm" />)}
-                    </div>
-                    <p className="di-skeleton-label">Running route analysis…</p>
-                </>
-            )}
-
-            {routeError && <ErrorBox error={routeError} />}
+            {routeLoading && <LoadingState label="Running route analysis…" />}
+            {routeError   && <ErrorBox error={routeError} />}
 
             {routeData && !routeLoading && (
-                <RouteAnalysisResult data={routeData} />
-            )}
-
-            {!routeData && !routeLoading && !routeError && (
-                <p className="di-empty-hint">
-                    Select a route and click <strong>Analyse Route</strong> to see insights.
-                </p>
+                <div className="di-ra-panel">
+                    <div className="di-ra-header">
+                        <div>
+                            <span className="di-eyebrow">Route Analysis</span>
+                            <h3 className="di-ra-title">{origin} → {destination}</h3>
+                        </div>
+                    </div>
+                    <JsonViewer data={routeData} />
+                </div>
             )}
 
         </section>
