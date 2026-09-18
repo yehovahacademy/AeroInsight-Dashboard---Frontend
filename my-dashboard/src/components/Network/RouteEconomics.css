@@ -1,0 +1,464 @@
+/* RouteEconomics.css */
+
+/* ─────────────────────────────────────────
+   SECTION
+───────────────────────────────────────── */
+
+.re-section {
+  padding: 2rem;
+  background: #0d1117;
+  border: 1px solid #1e2a3a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─────────────────────────────────────────
+   HEADER
+───────────────────────────────────────── */
+
+.re-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.re-section-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3b82f6;
+  margin-bottom: 0.4rem;
+}
+
+.re-section-header h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 0.35rem;
+}
+
+.re-section-header p {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.re-record-badge {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #3b82f6;
+  background: #0f1f35;
+  border: 1px solid #1e3a5f;
+  border-radius: 4px;
+  padding: 0.3rem 0.65rem;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+/* ─────────────────────────────────────────
+   LOADING STATE
+───────────────────────────────────────── */
+
+.re-state {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+@keyframes re-spin {
+  to { transform: rotate(360deg); }
+}
+
+.re-state-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #1e2a3a;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: re-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   ERROR
+───────────────────────────────────────── */
+
+.re-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #1a0f0f;
+  border: 1px solid #7f1d1d;
+  border-radius: 6px;
+  color: #fca5a5;
+  font-size: 0.85rem;
+}
+
+.re-error svg {
+  flex-shrink: 0;
+  color: #ef4444;
+  font-size: 0.8rem;
+}
+
+/* ─────────────────────────────────────────
+   BODY
+───────────────────────────────────────── */
+
+.re-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ─────────────────────────────────────────
+   CARD
+───────────────────────────────────────── */
+
+.re-card {
+  background: #111827;
+  border: 1px solid #1e2a3a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.re-card-header {
+  padding: 1.1rem 1.25rem 0.85rem;
+  border-bottom: 1px solid #1e2a3a;
+}
+
+.re-card-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #475569;
+  margin-bottom: 0.3rem;
+}
+
+.re-card-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   TABLE
+───────────────────────────────────────── */
+
+.re-table-wrapper {
+  overflow-x: auto;
+}
+
+.re-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+
+.re-table thead tr {
+  background: #0d1117;
+}
+
+.re-table th {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+  white-space: nowrap;
+  border-bottom: 1px solid #1e2a3a;
+}
+
+.re-table td {
+  padding: 0.75rem 1rem;
+  color: #94a3b8;
+  border-bottom: 1px solid #111827;
+  white-space: nowrap;
+}
+
+.re-table tbody tr {
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.re-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.re-table tbody tr:hover {
+  background: #0f1f35;
+}
+
+.re-row-active {
+  background: #0f1f35 !important;
+  border-left: 2px solid #3b82f6;
+}
+
+.re-row-active td {
+  color: #cbd5e1;
+}
+
+/* ── Aircraft cell ── */
+
+.re-aircraft-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.re-aircraft-icon {
+  font-size: 0.7rem;
+  color: #3b82f6;
+  transform: rotate(-45deg);
+}
+
+.re-aircraft-cell strong {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.re-cheapest-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #4ade80;
+  background: #052e16;
+  border: 1px solid #14532d;
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+}
+
+.re-cheapest-badge svg {
+  font-size: 0.6rem;
+}
+
+.re-cost-primary {
+  color: #93c5fd;
+  font-size: 0.9rem;
+}
+
+/* ─────────────────────────────────────────
+   DETAIL CARD
+───────────────────────────────────────── */
+
+.re-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem 1rem;
+  border-bottom: 1px solid #1e2a3a;
+}
+
+.re-detail-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0.25rem 0 0.2rem;
+}
+
+.re-detail-header p {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.re-total-cost {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.re-total-cost span {
+  font-size: 0.68rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.re-total-cost strong {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #93c5fd;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────
+   STACKED BAR
+───────────────────────────────────────── */
+
+.re-stacked-bar {
+  display: flex;
+  height: 6px;
+  width: 100%;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.re-stacked-segment {
+  height: 100%;
+  min-width: 2px;
+  transition: opacity 0.15s ease;
+}
+
+.re-stacked-segment:hover {
+  opacity: 0.75;
+}
+
+/* ─────────────────────────────────────────
+   BREAKDOWN
+───────────────────────────────────────── */
+
+.re-breakdown {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.re-breakdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.25rem;
+  border-bottom: 1px solid #0d1117;
+  transition: background 0.12s ease;
+}
+
+.re-breakdown-item:last-child {
+  border-bottom: none;
+}
+
+.re-breakdown-item:hover {
+  background: #0f1f35;
+}
+
+.re-breakdown-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 100px;
+}
+
+.re-breakdown-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.re-breakdown-icon {
+  font-size: 0.75rem;
+  width: 14px;
+  text-align: center;
+}
+
+.re-breakdown-label {
+  font-size: 0.825rem;
+  color: #94a3b8;
+}
+
+.re-breakdown-right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.re-breakdown-bar-track {
+  flex: 1;
+  max-width: 160px;
+  height: 4px;
+  background: #1e2a3a;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.re-breakdown-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.re-breakdown-pct {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+  text-align: right;
+}
+
+.re-breakdown-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+  min-width: 100px;
+  text-align: right;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .re-section {
+    padding: 1.25rem;
+  }
+
+  .re-section-header {
+    flex-direction: column;
+  }
+
+  .re-detail-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .re-total-cost {
+    align-items: flex-start;
+  }
+
+  .re-total-cost strong {
+    font-size: 1.25rem;
+  }
+
+  .re-breakdown-bar-track {
+    display: none;
+  }
+
+  .re-breakdown-right {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .re-cheapest-badge {
+    display: none;
+  }
+
+  .re-breakdown-pct {
+    display: none;
+  }
+}
