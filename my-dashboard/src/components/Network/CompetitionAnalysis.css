@@ -16,7 +16,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #64748b;
+  color: white;
 }
 
 .section-header h2 {
@@ -24,13 +24,13 @@
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.25;
-  color: #0f172a;
+  color: white;
 }
 
 .section-header p {
   margin: 0;
   font-size: 0.9375rem;
-  color: #64748b;
+  color: white;
   line-height: 1.45;
 }
 
