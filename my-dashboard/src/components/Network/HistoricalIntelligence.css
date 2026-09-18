@@ -1,0 +1,317 @@
+/* HistoricalIntelligence.css */
+
+/* ─────────────────────────────────────────
+   SECTION
+───────────────────────────────────────── */
+
+.hi-section {
+  padding: 2rem;
+  background: #0d1117;
+  border: 1px solid #1e2a3a;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ─────────────────────────────────────────
+   HEADER
+───────────────────────────────────────── */
+
+.hi-header {
+  margin-bottom: 1.5rem;
+}
+
+.hi-section-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3b82f6;
+  margin-bottom: 0.4rem;
+}
+
+.hi-header h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 0.35rem;
+}
+
+.hi-header p {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   TABS
+───────────────────────────────────────── */
+
+.hi-tabs {
+  display: flex;
+  border-bottom: 1px solid #1e2a3a;
+  margin-bottom: 1.5rem;
+  gap: 0;
+}
+
+.hi-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: #64748b;
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.hi-tab:hover {
+  color: #94a3b8;
+}
+
+.hi-tab--active {
+  color: #e2e8f0;
+  border-bottom-color: #3b82f6;
+}
+
+.hi-tab-count {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #3b82f6;
+  background: #0f1f35;
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  padding: 0.1rem 0.4rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─────────────────────────────────────────
+   PANEL
+───────────────────────────────────────── */
+
+.hi-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+
+.hi-state {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.hi-state--error {
+  color: #fca5a5;
+}
+
+.hi-state--error svg {
+  color: #ef4444;
+}
+
+@keyframes hi-spin {
+  to { transform: rotate(360deg); }
+}
+
+.hi-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #1e2a3a;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: hi-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   METRICS GRID
+───────────────────────────────────────── */
+
+.hi-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ─────────────────────────────────────────
+   METRIC CARD
+───────────────────────────────────────── */
+
+.hi-metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  background: #111827;
+  border: 1px solid #1e2a3a;
+  border-radius: 6px;
+}
+
+.hi-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.hi-metric-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.hi-metric-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* ─────────────────────────────────────────
+   TREND BADGE
+───────────────────────────────────────── */
+
+.hi-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.hi-trend svg {
+  font-size: 0.6rem;
+}
+
+.hi-trend--up {
+  color: #4ade80;
+  background: #052e1640;
+}
+
+.hi-trend--down {
+  color: #f87171;
+  background: #1a0f0f40;
+}
+
+.hi-trend--flat {
+  color: #64748b;
+  background: #1e2a3a40;
+}
+
+/* ─────────────────────────────────────────
+   SPARKLINE
+───────────────────────────────────────── */
+
+.hi-sparkline {
+  display: block;
+  margin-top: 0.3rem;
+  overflow: visible;
+}
+
+/* ─────────────────────────────────────────
+   TABLE
+───────────────────────────────────────── */
+
+.hi-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #1e2a3a;
+  border-radius: 6px;
+}
+
+.hi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+
+.hi-table thead tr {
+  background: #111827;
+}
+
+.hi-table th {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+  white-space: nowrap;
+  border-bottom: 1px solid #1e2a3a;
+}
+
+.hi-table td {
+  padding: 0.7rem 1rem;
+  color: #94a3b8;
+  border-bottom: 1px solid #111827;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.hi-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hi-table tbody tr:hover {
+  background: #0f1f35;
+}
+
+.hi-table tbody tr:hover td {
+  color: #cbd5e1;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .hi-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hi-section {
+    padding: 1.25rem;
+  }
+
+  .hi-tabs {
+    overflow-x: auto;
+  }
+
+  .hi-tab {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hi-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hi-metric-value {
+    font-size: 1rem;
+  }
+}
