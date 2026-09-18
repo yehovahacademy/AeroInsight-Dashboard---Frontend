@@ -6,6 +6,8 @@ import {
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
+import "./RouteSelector.css";
+
 function RouteSelector({
   airports,
   airportsLoading,
@@ -16,66 +18,38 @@ function RouteSelector({
   onDestinationChange,
   onSwap,
 }) {
-  const airportList = Array.isArray(airports)
-    ? airports
-    : [];
-
-  const validRoute =
-    origin &&
-    destination &&
-    origin !== destination;
+  const airportList = Array.isArray(airports) ? airports : [];
+  const validRoute = origin && destination && origin !== destination;
 
   return (
     <section className="np-section np-route-selection">
-
-      <div className="np-section-header">
-        <span className="np-section-label">
-          ROUTE SELECTION
-        </span>
-
+      <header className="np-section-header">
+        <span className="np-section-label">ROUTE SELECTION</span>
         <h2>Select a Market</h2>
-
-        <p>
-          Choose an origin and destination to begin
-          network analysis.
-        </p>
-      </div>
+        <p>Choose an origin and destination to begin network analysis.</p>
+      </header>
 
       {airportsError && (
-        <div className="np-error">
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-          />
-          {airportsError}
+        <div className="np-error" role="alert">
+          <FontAwesomeIcon icon={faTriangleExclamation} />
+          <span>{airportsError}</span>
         </div>
       )}
 
       <div className="np-route-form">
-
         <div className="np-field">
-          <label htmlFor="origin">
-            Origin
-          </label>
-
+          <label htmlFor="origin">Origin</label>
           <select
             id="origin"
             value={origin}
-            onChange={(event) =>
-              onOriginChange(event.target.value)
-            }
+            onChange={(e) => onOriginChange(e.target.value)}
             disabled={airportsLoading}
           >
             <option value="">
-              {airportsLoading
-                ? "Loading airports..."
-                : "Select origin"}
+              {airportsLoading ? "Loading airports..." : "Select origin"}
             </option>
-
             {airportList.map((airport) => (
-              <option
-                key={airport.iata}
-                value={airport.iata}
-              >
+              <option key={airport.iata} value={airport.iata}>
                 {airport.city
                   ? `${airport.city} (${airport.iata})`
                   : airport.iata}
@@ -89,36 +63,24 @@ function RouteSelector({
           className="np-swap-button"
           onClick={onSwap}
           disabled={!origin && !destination}
+          aria-label="Swap origin and destination"
         >
           <FontAwesomeIcon icon={faRightLeft} />
         </button>
 
         <div className="np-field">
-          <label htmlFor="destination">
-            Destination
-          </label>
-
+          <label htmlFor="destination">Destination</label>
           <select
             id="destination"
             value={destination}
-            onChange={(event) =>
-              onDestinationChange(
-                event.target.value
-              )
-            }
+            onChange={(e) => onDestinationChange(e.target.value)}
             disabled={airportsLoading}
           >
             <option value="">
-              {airportsLoading
-                ? "Loading airports..."
-                : "Select destination"}
+              {airportsLoading ? "Loading airports..." : "Select destination"}
             </option>
-
             {airportList.map((airport) => (
-              <option
-                key={airport.iata}
-                value={airport.iata}
-              >
+              <option key={airport.iata} value={airport.iata}>
                 {airport.city
                   ? `${airport.city} (${airport.iata})`
                   : airport.iata}
@@ -126,31 +88,23 @@ function RouteSelector({
             ))}
           </select>
         </div>
-
       </div>
 
       {validRoute && (
         <div className="np-selected-route">
           <FontAwesomeIcon icon={faRoute} />
-
           <strong>{origin}</strong>
-
           <FontAwesomeIcon icon={faArrowRight} />
-
           <strong>{destination}</strong>
         </div>
       )}
 
       {origin === destination && origin && (
-        <div className="np-warning">
-          <FontAwesomeIcon
-            icon={faTriangleExclamation}
-          />
-
-          Origin and destination must be different.
+        <div className="np-warning" role="alert">
+          <FontAwesomeIcon icon={faTriangleExclamation} />
+          <span>Origin and destination must be different.</span>
         </div>
       )}
-
     </section>
   );
 }

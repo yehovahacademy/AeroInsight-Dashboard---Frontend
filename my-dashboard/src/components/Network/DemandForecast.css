@@ -1,0 +1,380 @@
+.demand-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.section-header > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.section-header p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.forecast-route {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Loading & Error */
+.forecast-loading,
+.forecast-error {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.forecast-loading {
+  color: #64748b;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.forecast-error {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: #991b1b;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.forecast-error strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.forecast-error span {
+  font-size: 0.875rem;
+  color: #b91c1c;
+}
+
+/* Summary Metrics */
+.forecast-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.forecast-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.15rem 1.25rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.metric-value {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.metric-subtext {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Demand Level Colors */
+.metric-value.demand-high,
+.demand-badge--high {
+  color: #b45309;
+}
+
+.metric-value.demand-medium,
+.demand-badge--medium {
+  color: #1e40af;
+}
+
+.metric-value.demand-low,
+.demand-badge--low {
+  color: #64748b;
+}
+
+/* Trend Colors */
+.metric-value.trend-up {
+  color: #15803d;
+}
+
+.metric-value.trend-down {
+  color: #b91c1c;
+}
+
+.metric-value.trend-stable {
+  color: #475569;
+}
+
+/* Peak Day Card */
+.peak-day-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.35rem 1.5rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+  border: 1px solid #dbeafe;
+  border-radius: 0.75rem;
+}
+
+.peak-day-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.peak-day-content h3 {
+  margin: 0.15rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.peak-day-content p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.peak-day-metrics {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.peak-day-metrics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: right;
+}
+
+.peak-day-metrics span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.peak-day-metrics strong {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Daily Forecast Table */
+.forecast-table-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.forecast-table-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.forecast-table-header h3 {
+  margin: 0.2rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.forecast-table-wrapper {
+  overflow-x: auto;
+}
+
+.forecast-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.forecast-table thead {
+  background-color: #f8fafc;
+}
+
+.forecast-table th {
+  padding: 0.85rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.forecast-table td {
+  padding: 0.9rem 1.25rem;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+
+.forecast-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.forecast-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.forecast-table td strong {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Demand Badge */
+.demand-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.demand-badge--high {
+  color: #b45309;
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+.demand-badge--medium {
+  color: #1e40af;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.demand-badge--low {
+  color: #475569;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+/* Recommendation */
+.forecast-recommendation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.75rem;
+}
+
+.recommendation-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #15803d;
+}
+
+.forecast-recommendation p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #166534;
+  line-height: 1.55;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .peak-day-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .peak-day-metrics {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .peak-day-metrics > div {
+    text-align: left;
+  }
+
+  .forecast-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .peak-day-metrics {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .forecast-table th,
+  .forecast-table td {
+    padding: 0.75rem 1rem;
+  }
+}

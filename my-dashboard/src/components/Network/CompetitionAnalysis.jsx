@@ -4,55 +4,48 @@ function CompetitionAnalysis({
   loading,
   error,
 }) {
-  if (
-    !competition.length &&
-    !fares.length &&
-    !loading
-  ) {
+  if (!competition.length && !fares.length && !loading) {
     return null;
   }
 
   return (
-    <section className="np-section">
-
-      <span className="np-section-label">
-        COMPETITION & FARES
-      </span>
-
-      <h2>Competitive Market Analysis</h2>
+    <section className="competition-analysis">
+      <header className="section-header">
+        <span className="section-eyebrow">Competition & Fares</span>
+        <h2>Competitive Market Analysis</h2>
+        <p>
+          Overview of competitive presence and fare records for the selected market.
+        </p>
+      </header>
 
       {loading && (
-        <p>Loading competition data...</p>
+        <div className="competition-loading">
+          Loading competition data...
+        </div>
       )}
 
       {error && (
-        <div className="np-error">
-          {error}
+        <div className="competition-error" role="alert">
+          <strong>Unable to load competition data</strong>
+          <span>{error}</span>
         </div>
       )}
 
-      {!loading && (
-        <div className="np-card-grid">
-
-          <div className="np-info-card">
-            <span>Competition Records</span>
-
-            <strong>
-              {competition.length}
-            </strong>
+      {!loading && !error && (
+        <div className="competition-summary">
+          <div className="competition-metric">
+            <span className="metric-label">Competition Records</span>
+            <strong className="metric-value">{competition.length}</strong>
+            <span className="metric-subtext">Active competitors</span>
           </div>
 
-          <div className="np-info-card">
-            <span>Fare Records</span>
-
-            <strong>
-              {fares.length}
-            </strong>
+          <div className="competition-metric">
+            <span className="metric-label">Fare Records</span>
+            <strong className="metric-value">{fares.length}</strong>
+            <span className="metric-subtext">Available fare points</span>
           </div>
-
         </div>
       )}
-
     </section>
   );
 }
