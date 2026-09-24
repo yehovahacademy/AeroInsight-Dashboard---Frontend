@@ -22,10 +22,6 @@ function Footer() {
     </div>
 
     <div className="footer-links">
-      <h3>Resources</h3>
-      <Link to="/Documentation">Documentation</Link>
-      <Link to="/About">About</Link>
-      <Link to="/Contact">Contact</Link>
     </div>
 
     <div className="footer-links">
